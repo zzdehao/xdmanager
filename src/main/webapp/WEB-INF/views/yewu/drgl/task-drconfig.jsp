@@ -38,7 +38,7 @@
                         action="../file/importUser";
                     }else if (id=="importStore"){
                         excelName="店铺详情表";
-                        action="../file/importStore";
+                        action="/store/import";
                     }else if (id=="importGrid") {
                         excelName="网格数据表";
                         action="../file/importGrid";
@@ -58,10 +58,12 @@
                         excelName="宽带数据表";
                         action="../file/importBroadBand";
                     }
-                    zeroModal.confirm({content:"确定导入"+excelName+"吗？", okFn:function () {
+                    $("#importForm").attr("action",'<%=request.getContextPath()%>' + action).submit();
+                    /*zeroModal.confirm({content:"确定导入"+excelName+"吗？", okFn:function () {
                         zeroModal.loading(4);
+
                         $("#importForm").attr("action",action).submit();
-                    },width:'500px',height:'200px',top:'10px'});
+                    },width:'500px',height:'200px',top:'10px'});*/
                 }
             });
 
@@ -73,7 +75,7 @@
         <div class="panel panel-defalut">
             
             <div class="panel-body">
-                <form id="importForm" action="../file/uploadUserExcel" method="post" enctype="multipart/form-data">
+                <form id="importForm" action="<%=request.getContextPath()%>/file/uploadUserExcel" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="importCount">导入几行几列<h6>(默认为0，表示全部导入)</h6></label>
                         <input type="text" id="importCount" class="form-control" name="rowNumber" value="0" readonly>行

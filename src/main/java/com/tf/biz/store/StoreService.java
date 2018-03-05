@@ -1,9 +1,12 @@
 package com.tf.biz.store;
 
 import com.tf.biz.imp.ImportService;
+import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.mapper.BizStoreMapper;
+import com.tf.tadmin.entity.SessionUser;
+import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.ExcelUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,7 +35,7 @@ public class StoreService {
     private ImportService importService;
 
     void saveMultipartFile(MultipartFile multipartFile, FilePath filePath) throws IOException, InvalidFormatException {
-        Long batchId = this.importService.save(multipartFile, filePath);
+        Long batchId = this.importService.save(multipartFile, filePath, ImportEnum.ImportType.SELF_CHANNEL.getCode());
         InputStream inputStream = multipartFile.getInputStream();
         Workbook wb = WorkbookFactory.create(inputStream);
         Sheet sheet = wb.getSheetAt(0);
@@ -40,8 +44,15 @@ public class StoreService {
     }
 
     void saveBatch(List<BizStore> bizStoreList, Long batchId){
+        final Date now = new Date();
+        final SessionUser sessionUser = ShiroUtils.getSessionUser();
+        final int userId = sessionUser.getId();
+        final String trueName = sessionUser.getTrueName();
         bizStoreList.forEach(s -> {
             s.setBatchId(batchId);
+            s.setCreateTime(now);
+            s.setCreateUserId(userId);
+            s.setCreateUserName(trueName);
             this.save(s);
         });
     }

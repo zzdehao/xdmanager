@@ -3,6 +3,8 @@ package com.tf.biz.imp;
 import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.mapper.BizImportBatchMapper;
 import com.tf.biz.imp.pojo.FilePath;
+import com.tf.tadmin.entity.SessionUser;
+import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.DateUtils;
 import com.tf.tadmin.utils.UUIDGenerator;
 import org.apache.commons.io.FileUtils;
@@ -27,15 +29,17 @@ public class ImportService {
     @Autowired
     private BizImportBatchMapper bizImportBatchMapper;
 
-    public long save(MultipartFile multipartFile, FilePath filePath) throws IOException, InvalidFormatException {
+    public long save(MultipartFile multipartFile, FilePath filePath, Integer type) throws IOException, InvalidFormatException {
         logger.info("文件长度: " + multipartFile.getSize());
         logger.info("文件类型: " + multipartFile.getContentType());
         logger.info("文件名称: " + multipartFile.getName());
         logger.info("文件原名: " + multipartFile.getOriginalFilename());
 
         String fileName = UUIDGenerator.getUUID();
+        String oldName = multipartFile.getOriginalFilename();
         if (multipartFile.getOriginalFilename().lastIndexOf(".") > 0) {
-            fileName += multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+            fileName += oldName.substring(oldName.lastIndexOf("."));
+            oldName = oldName.substring(0, oldName.lastIndexOf("."));
         }
 
         String date = DateUtils.formatDateTime(new Date().getTime(), DateUtils.DATE_FORMAT);
@@ -46,10 +50,17 @@ public class ImportService {
         String webPath = filePath.getWebPath() + File.separator + date + File.separator + fileName;
 
         BizImportBatch bizImportBatch = new BizImportBatch();
-        //TODO 设置保存
-
+        bizImportBatch.setImportType(type);
+        bizImportBatch.setBatchName(oldName);
+        bizImportBatch.setFileName(multipartFile.getOriginalFilename());
+        bizImportBatch.setFilePath(webPath);
+        SessionUser sessionUser = ShiroUtils.getSessionUser();
+        int userId = sessionUser.getId();
+        String trueName = sessionUser.getTrueName();
+        bizImportBatch.setCreateUserId(userId);
+        bizImportBatch.setCreateUserName(trueName);
+        bizImportBatch.setCreateTime(new Date());
         this.bizImportBatchMapper.insertSelective(bizImportBatch);
-
         return bizImportBatch.getId();
 
     }
