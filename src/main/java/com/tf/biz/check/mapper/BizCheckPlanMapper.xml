@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.biz.check.mapper.BizCheckPlanMapper">
+  <resultMap id="BaseResultMap" type="com.tf.biz.check.entity.BizCheckPlan">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="batch_id" jdbcType="BIGINT" property="batchId" />
+    <result column="store_id" jdbcType="BIGINT" property="storeId" />
+    <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+    <result column="check_user_id" jdbcType="INTEGER" property="checkUserId" />
+    <result column="check_user_name" jdbcType="VARCHAR" property="checkUserName" />
+    <result column="check_start_date" jdbcType="TIMESTAMP" property="checkStartDate" />
+    <result column="check_end_date" jdbcType="TIMESTAMP" property="checkEndDate" />
+    <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
+    <result column="check_number" jdbcType="INTEGER" property="checkNumber" />
+    <result column="check_last_time" jdbcType="TIMESTAMP" property="checkLastTime" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
+    <result column="delete_user_name" jdbcType="VARCHAR" property="deleteUserName" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, batch_id, store_id, store_name, check_user_id, check_user_name, check_start_date, 
+    check_end_date, check_status, check_number, check_last_time, is_deleted, delete_user_id, 
+    delete_user_name, delete_time
+  </sql>
+  <select id="selectByExample" parameterType="com.tf.biz.check.entity.BizCheckPlanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_check_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${limit} offset ${offset}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_check_plan
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from biz_check_plan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tf.biz.check.entity.BizCheckPlanExample">
+    delete from biz_check_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.check.entity.BizCheckPlan" useGeneratedKeys="true">
+    insert into biz_check_plan (batch_id, store_id, store_name, 
+      check_user_id, check_user_name, check_start_date, 
+      check_end_date, check_status, check_number, 
+      check_last_time, is_deleted, delete_user_id, 
+      delete_user_name, delete_time)
+    values (#{batchId,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT}, #{storeName,jdbcType=VARCHAR}, 
+      #{checkUserId,jdbcType=INTEGER}, #{checkUserName,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=TIMESTAMP}, 
+      #{checkEndDate,jdbcType=TIMESTAMP}, #{checkStatus,jdbcType=INTEGER}, #{checkNumber,jdbcType=INTEGER}, 
+      #{checkLastTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, 
+      #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.check.entity.BizCheckPlan" useGeneratedKeys="true">
+    insert into biz_check_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="batchId != null">
+        batch_id,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="storeName != null">
+        store_name,
+      </if>
+      <if test="checkUserId != null">
+        check_user_id,
+      </if>
+      <if test="checkUserName != null">
+        check_user_name,
+      </if>
+      <if test="checkStartDate != null">
+        check_start_date,
+      </if>
+      <if test="checkEndDate != null">
+        check_end_date,
+      </if>
+      <if test="checkStatus != null">
+        check_status,
+      </if>
+      <if test="checkNumber != null">
+        check_number,
+      </if>
+      <if test="checkLastTime != null">
+        check_last_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="deleteUserId != null">
+        delete_user_id,
+      </if>
+      <if test="deleteUserName != null">
+        delete_user_name,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="batchId != null">
+        #{batchId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="storeName != null">
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null">
+        #{checkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="checkUserName != null">
+        #{checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStartDate != null">
+        #{checkStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkEndDate != null">
+        #{checkEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="checkNumber != null">
+        #{checkNumber,jdbcType=INTEGER},
+      </if>
+      <if test="checkLastTime != null">
+        #{checkLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserId != null">
+        #{deleteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserName != null">
+        #{deleteUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tf.biz.check.entity.BizCheckPlanExample" resultType="java.lang.Long">
+    select count(*) from biz_check_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biz_check_plan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.batchId != null">
+        batch_id = #{record.batchId,jdbcType=BIGINT},
+      </if>
+      <if test="record.storeId != null">
+        store_id = #{record.storeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.storeName != null">
+        store_name = #{record.storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkUserId != null">
+        check_user_id = #{record.checkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkUserName != null">
+        check_user_name = #{record.checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkStartDate != null">
+        check_start_date = #{record.checkStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkEndDate != null">
+        check_end_date = #{record.checkEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkStatus != null">
+        check_status = #{record.checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkNumber != null">
+        check_number = #{record.checkNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkLastTime != null">
+        check_last_time = #{record.checkLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteUserId != null">
+        delete_user_id = #{record.deleteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteUserName != null">
+        delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biz_check_plan
+    set id = #{record.id,jdbcType=BIGINT},
+      batch_id = #{record.batchId,jdbcType=BIGINT},
+      store_id = #{record.storeId,jdbcType=BIGINT},
+      store_name = #{record.storeName,jdbcType=VARCHAR},
+      check_user_id = #{record.checkUserId,jdbcType=INTEGER},
+      check_user_name = #{record.checkUserName,jdbcType=VARCHAR},
+      check_start_date = #{record.checkStartDate,jdbcType=TIMESTAMP},
+      check_end_date = #{record.checkEndDate,jdbcType=TIMESTAMP},
+      check_status = #{record.checkStatus,jdbcType=INTEGER},
+      check_number = #{record.checkNumber,jdbcType=INTEGER},
+      check_last_time = #{record.checkLastTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      delete_user_id = #{record.deleteUserId,jdbcType=INTEGER},
+      delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tf.biz.check.entity.BizCheckPlan">
+    update biz_check_plan
+    <set>
+      <if test="batchId != null">
+        batch_id = #{batchId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="storeName != null">
+        store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null">
+        check_user_id = #{checkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="checkUserName != null">
+        check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStartDate != null">
+        check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkEndDate != null">
+        check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStatus != null">
+        check_status = #{checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="checkNumber != null">
+        check_number = #{checkNumber,jdbcType=INTEGER},
+      </if>
+      <if test="checkLastTime != null">
+        check_last_time = #{checkLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserId != null">
+        delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserName != null">
+        delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tf.biz.check.entity.BizCheckPlan">
+    update biz_check_plan
+    set batch_id = #{batchId,jdbcType=BIGINT},
+      store_id = #{storeId,jdbcType=BIGINT},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      check_user_id = #{checkUserId,jdbcType=INTEGER},
+      check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
+      check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
+      check_status = #{checkStatus,jdbcType=INTEGER},
+      check_number = #{checkNumber,jdbcType=INTEGER},
+      check_last_time = #{checkLastTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

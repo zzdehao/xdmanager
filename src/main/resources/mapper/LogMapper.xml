@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.LogMapper">
+	<resultMap type="Log" id="logMap">
+		<id column="id" property="id"/>
+		<result column="execute_time" property="executeTime"/>
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<trim suffixOverrides="AND">
+				<if test="minDate != null">
+					create_time &gt;= #{minDate} and
+				</if>
+				<if test="maxDate != null">
+					create_time &lt;= #{maxDate} and
+				</if>
+			</trim>
+		</where>
+	</sql>
+	
+	<select id="queryList" resultMap="logMap" >
+		select * from t_log <include refid="where"/> <include refid="com.tf.tadmin.mapper.BaseMapper.pageHelper"/>
+	</select>
+	
+	<select id="count" resultType="int" >
+		select count(*) from t_log <include refid="where"/>
+	</select>
+	
+	<insert id="insert"  parameterType="Log"  useGeneratedKeys="true" keyProperty="id">
+		insert into t_log(
+			create_time,
+			update_time,
+			create_user,
+			update_user,
+			type,
+			classname,
+			method,
+			params,
+			ip,
+			execute_time,
+			url,
+			agent,
+			remark
+		) values(
+			#{create_time} , 
+			#{update_time} ,
+			#{create_user} , 
+			#{update_user} , 
+			#{type},
+			#{classname},
+			#{method},
+			#{params},
+			#{ip},
+			#{executeTime},
+			#{url},
+			#{agent},
+			#{remark}
+		)
+	</insert>
+	
+	<delete id="delLogForDate" parameterType="string">
+		delete from t_log where create_time &lt; #{date}
+	</delete>
+	
+</mapper>  

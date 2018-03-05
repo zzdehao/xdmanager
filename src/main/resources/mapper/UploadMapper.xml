@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.UploadMapper">
+	<resultMap type="Upload" id="uploadMap">
+		<id column="id" property="id"/>
+	</resultMap>
+	
+	<sql id="fields">
+		create_time,update_time ,create_user , update_user ,type , refid ,path
+	</sql>
+	
+	<select id="queryById" parameterType="int" resultMap="uploadMap">
+		select id ,<include refid="fields"/> from t_upload where id = #{id}
+	</select>
+	<select id="queryByTypeAndrefid" resultMap="uploadMap">
+		select id ,<include refid="fields"/> from t_upload where type = #{type} and  refid = #{refid} 
+	</select>
+		
+	<insert id="insert" parameterType="Upload" useGeneratedKeys="true" keyProperty="id">
+		insert into t_upload(<include refid="fields"/>) values(#{create_time} , #{update_time} , #{create_user} , #{update_user} , 
+			#{type} ,#{refid} ,#{path} 
+		)
+	</insert>
+	
+	<update id="update" parameterType="Upload">
+		update t_upload
+		<set>
+			update_time = #{update_time},
+			update_user = #{update_user},
+			refid = #{refid},
+			<if test="type != null">type = #{type},</if>
+			<if test="path != null">path = #{path},</if>
+		</set>		
+		where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from t_upload where id = #{id}
+	</delete>
+	
+	<delete id="deleteByTypeAndrefid">
+		delete from t_upload  where type = #{type} and  refid = #{refid} 
+	</delete>
+	
+	<update id="updateRefid">
+		update t_upload set refid = NULL where type = #{type} and  refid = #{refid}  
+	</update>
+</mapper>  

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.AdminMapper">
+	<resultMap type="com.tf.tadmin.entity.Admin" id="adminMap">
+		<id column="id" property="id"/>
+		<result column="dept_id" property="deptId"/>
+        <result column="name" property="name"/>
+        <result column="nickname" property="nickname"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="store_name" property="storeName"/>
+        <result column="store_id" property="storeId"/>
+        <result column="province_code" property="provinceCode"/>
+        <result column="city_code" property="cityCode"/>
+        <result column="tel" property="tel"/>
+        <result column="truename" property="trueName"/>
+	</resultMap>
+	
+	<sql id="fields">
+		create_time,
+		create_user,
+		update_time,
+		update_user,
+		name,
+		nickname,
+		password,
+		dept_id,
+		tel,
+		email,
+		status,
+		remark,
+        role_code,
+        blz1,
+        blz2,
+        blz3,
+        store_name,
+        store_id,
+        user_type,
+        province_code,
+        city_code,
+        truename
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<trim suffixOverrides="AND">
+				<if test="status!=null">
+					status = #{status} AND
+				</if>
+				<if test="q!=null and q!=''">
+					(name like '%${q}%' or nickname like '%${q}%' or tel like '%${q}%' or email like '%${q}%') and
+				</if>
+                <if test="isSuper!=null and isSuper!='1'">
+                    (role_code!='admin' AND role_code!='super') AND
+                </if>
+                <if test="provinceCode!=null and provinceCode!='1'">
+                    province_code=#{provinceCode} AND
+                </if>
+                <if test="cityCode!=null and cityCode!='1'">
+                    city_code=#{cityCode} AND
+                </if>
+			</trim>
+		</where>
+	</sql>
+	
+	<select id="queryList" parameterType="map" resultMap="adminMap">
+		select id , <include refid="fields" /> from t_admin
+			<include refid="where"/>
+			order by id desc
+	</select>
+    <select id="queryPageList" parameterType="map" resultMap="adminMap">
+        select id , <include refid="fields" /> from t_admin
+        <include refid="where"/>
+        <include refid="com.tf.tadmin.mapper.BaseMapper.pageHelper"/>
+    </select>
+    <select id="pageCount" resultType="int" parameterType="map">
+        select count(1) from t_admin <include refid="where"/>
+    </select>
+	<select id="count" resultType="int" parameterType="map">
+		select count(1) from t_admin <include refid="where"/>
+	</select>
+	
+	<select id="queryById" parameterType="int" resultMap="adminMap">
+		select id ,<include refid="fields"/> from t_admin where id = #{id}
+	</select>
+	
+	<select id="queryByLogin" parameterType="string" resultMap="adminMap">
+		select id ,<include refid="fields"/> from t_admin where name = #{login} or  tel = #{login} or  email = #{login}
+	</select>
+
+    <select id="getByRoleCode" parameterType="Admin" resultMap="adminMap">
+        select id ,<include refid="fields"/> from
+        t_admin where
+        (name = #{name} or  tel = #{tel} or  email = #{email})
+        and role_code=#{roleCode}
+    </select>
+		
+	<insert id="insert" parameterType="Admin" useGeneratedKeys="true" keyProperty="id">
+		insert into t_admin(<include refid="fields"/>)
+        values(
+        #{create_time},
+        #{create_user},
+        #{update_time},
+        #{update_user},
+		#{name},
+        #{nickname},
+        #{password},
+        #{deptId} ,
+        #{tel},
+        #{email},
+        #{status},
+        #{remark},
+        #{roleCode},
+        #{blz1},
+        #{blz2},
+        #{blz3},
+        #{storeName},
+        #{storeId},
+        #{userType},
+        #{provinceCode},
+        #{cityCode},
+        #{trueName}
+		)
+	</insert>
+	
+	<update id="update" parameterType="Admin">
+		update t_admin
+		<set>
+			update_time = #{update_time},
+			update_user = #{update_user},
+			<if test="name != null">name = #{name},</if>
+			<if test="nickname != null">nickname = #{nickname},</if>
+			<if test="password != null">password = #{password},</if>
+			<if test="deptId != null">dept_id = #{deptId},</if>
+			<if test="tel != null">tel = #{tel},</if>
+			<if test="email != null">email = #{email},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="remark != null">remark = #{remark},</if>
+            <if test="roleCode != null">
+             role_code = #{roleCode},
+            </if>
+            <if test="blz1 != null">
+             blz1=#{blz1},
+            </if>
+            <if test="blz2 != null">
+                blz2=#{blz2},
+            </if>
+            <if test="blz3 != null">
+                blz3=#{blz3},
+            </if>
+            <if test="storeName != null">
+              store_name = #{storeName},
+            </if>
+            <if test="storeId != null">
+              store_id=#{storeId},
+            </if>
+            <if test="userType != null">
+                user_type=#{userType},
+            </if>
+            <if test="provinceCode != null">
+                province_code = #{provinceCode},
+            </if>
+            <if test="cityCode != null">
+                city_code = #{cityCode},
+            </if>
+            <if test="trueName != null">
+                truename = #{trueName}
+            </if>
+		</set>		
+		where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from t_admin where id = #{id}
+	</delete>
+</mapper>  

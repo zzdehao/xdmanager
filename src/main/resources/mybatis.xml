@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC 
+"-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- <plugins>
+		<plugin interceptor="com.tf.basic.interceptor.AutoFillInterceptor">
+			<property name="createTime">create_time</property>
+			<property name="createUser">create_user</property>
+			<property name="updateTime">update_time</property>
+			<property name="updateUser">update_user</property>
+		</plugin>
+	</plugins> -->
+</configuration> 

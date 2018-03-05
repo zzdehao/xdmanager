@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.ResourceMapper">
+	<resultMap type="Resource" id="ResourceMap">
+		<id column="id" property="id"/>
+		<result column="menu_id" property="menuId"/>
+	</resultMap>
+	
+	<sql id="order">
+		order by sort asc
+	</sql>
+	
+	<sql id="fields">
+		create_time,update_time,create_user,update_user,`key`,name,menu_id,sort 
+	</sql>
+	
+	<select id="getResourceByRole" parameterType="int" resultMap="ResourceMap">
+		select r.* from t_resource r inner join t_role_permission p  on p.resource_id = r.id where p.role_id = #{roleId}  <include refid="order"/>
+	</select>
+	
+	<select id="getResourceByMenu" parameterType="string" resultMap="ResourceMap">
+		select * from t_resource where menu_id = #{mid} <include refid="order"/>
+	</select>
+	
+	<select id="list" resultMap="ResourceMap">
+		select * from t_resource  <include refid="order"/>
+	</select>
+	
+	<insert id="insert" parameterType="Resource">
+		insert into t_resource(<include refid="fields"/>) values(#{create_time} , #{update_time} , #{create_user} , #{update_user},#{key},#{name},#{menuId},#{sort})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from t_resource where id = #{id}
+	</delete>
+	
+</mapper>  

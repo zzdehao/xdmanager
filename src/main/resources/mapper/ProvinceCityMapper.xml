@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.ProvinceCityMapper">
+    <resultMap type="com.tf.tadmin.entity.ProvinceCity" id="CityMap">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="level" property="level"/>
+        <result column="first_letter" property="firstLetter"/>
+    </resultMap>
+	<sql id="fields">
+		id,
+		code,
+		name,
+		parent_id,
+		first_letter,
+		level
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<trim suffixOverrides="AND">
+				<if test="parentId!=null">
+					parent_id = #{parentId} AND
+				</if>
+				<if test="level!=null">
+					level = #{level} AND
+				</if>
+                <if test="code!=null and code!=''">
+                    code = #{code} AND
+                </if>
+                <if test="id!=null">
+                    id = #{id} AND
+                </if>
+			</trim>
+		</where>
+	</sql>
+	
+	<select id="queryList" resultMap="CityMap">
+		select <include refid="fields" /> from t_province_city
+			<include refid="where"/>
+			order by code asc
+	</select>
+    <select id="getCityProvinceByCode" resultMap="CityMap">
+        select <include refid="fields" /> from t_province_city where 1=1 and code = #{code} limit 1
+    </select>
+	
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.RoleMapper">
+	<resultMap type="Role" id="RoleMap">
+		<id column="id" property="id"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+        <result column="order_flag" property="orderFlag" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="fields">
+		create_time,update_time,create_user,update_user ,name, status,remark,role_code,order_flag
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<trim suffixOverrides="AND">
+				<if test="name!=null and name != ''">
+					name = #{name} AND
+				</if>
+				<if test="status!=null and status!=''">
+					status = #{status} AND
+				</if>
+			</trim>
+		</where>
+	</sql>
+	
+	<select id="getRoleByUser" parameterType="int" resultMap="RoleMap">
+		select r.* from t_role r inner join t_user_role ur on r.id = ur.role_id where r.status=1 and ur.user_id = #{userid}
+	</select>
+	
+	<select id="queryList" resultMap="RoleMap" parameterType="map">
+		select id , <include refid="fields"></include> from t_role <include refid="where"></include>
+	</select>
+	
+	<select id="queryById" resultMap="RoleMap" parameterType="int">
+		select id , <include refid="fields"></include> from t_role where id = #{id}
+	</select>
+
+    <select id="getByRoleCode" resultMap="RoleMap" parameterType="String">
+        select id , <include refid="fields"></include> from t_role where role_code = #{code}
+    </select>
+	
+	<insert id="insert" parameterType="Role" keyProperty="id" useGeneratedKeys="true">
+		insert into t_role(<include refid="fields"></include>) values(#{createTime} , #{updateTime} , #{createUser} , #{updateUser} ,#{name},#{status},#{remark},#{roleCode},#{orderFlag})
+	</insert>
+	
+	<update id="update" parameterType="Role">
+		update t_role
+		<set>
+			update_time = #{update_time},
+			update_user = #{update_user},
+			<if test="name != null">name = #{name},</if>
+			<if test="status != null">status = #{status},</if>
+            <if test="roleCode != null">role_code = #{roleCode},</if>
+            <if test="orderFlag != null">order_flag = #{orderFlag},</if>
+			<if test="remark != null">remark = #{remark}</if>
+		</set>		
+		where id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from t_role where id = #{id}
+	</delete>
+	
+	<!-- 角色权限部分 -->
+	<resultMap type="RolePermission" id="RolePermissionMap">
+		<id column="id" property="id"/>
+		<result property="roleId" column="role_id"/>
+		<result property="resourceId" column="resource_id"/>
+	</resultMap>
+	
+	<select id="rolePermissionList" resultMap="RolePermissionMap" parameterType="int">
+		select id,create_time,update_time,create_user,update_user,role_id,resource_id from t_role_permission where role_id = #{roleId}
+	</select>
+	
+	<insert id="rolePermissionInsert" parameterType="RolePermission">
+		insert into t_role_permission(create_time,update_time,create_user,update_user,role_id,resource_id)
+			values(#{create_time} , #{update_time} , #{create_user} , #{update_user} ,#{roleId},#{resourceId})
+	</insert>
+	
+	<delete id="rolePermissionDelete" parameterType="int">
+		delete from t_role_permission where id=#{id}
+	</delete>
+	
+	<delete id="rolePermissionDeleteForRole" parameterType="int">
+		delete from t_role_permission where role_id=#{roleId}
+	</delete>
+	<delete id="rolePermissionDeleteForResource" parameterType="int">
+		delete from t_role_permission where resource_id=#{rid}
+	</delete>
+	
+	
+	<!-- 用户角色部分 -->
+	<resultMap type="UserRole" id="UserRoleMap">
+		<id column="id" property="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="roleId" column="role_id"/>
+        <result property="roleCode" column="role_code"/>
+	</resultMap>
+	<select id="getUserRole" parameterType="int" resultMap="UserRoleMap">
+		select role_id,user_id,(select role_code from t_role r where r.id=role_id) as role_code from t_user_role where user_id = #{uid}
+	</select>
+	
+	<insert id="userRoleInsert" parameterType="UserRole">
+		insert into t_user_role(create_time,update_time,create_user,update_user,user_id,role_id)
+			values(#{create_time} , #{update_time} , #{create_user} , #{update_user} ,#{userId},#{roleId})
+	</insert>
+	
+	<delete id="userRoleDelete" parameterType="int">
+		delete from t_user_role where id = #{id}
+	</delete>
+	
+	<delete id="userRoleDeleteForUser" parameterType="int">
+		delete from t_user_role where user_id = #{uid}
+	</delete>
+	
+	<delete id="userRoleDeleteForRole" parameterType="int">
+		delete from t_user_role where role_id = #{rid}
+	</delete>
+	
+</mapper>  

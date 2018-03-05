@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="xdmanager:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="xdmanager.war">
+      <element id="artifact" artifact-name="xdmanager:war exploded" />
+    </root>
+  </artifact>
+</component>

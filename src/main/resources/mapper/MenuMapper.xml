@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.MenuMapper">
+	<resultMap type="Menu" id="menuMap">
+		<id column="id" property="id"/>
+	</resultMap>
+	<sql id="fields">
+		id,create_time, update_time, create_user,update_user,name , type , sort , enable , pid , url ,path ,icon,`key`, remark
+	</sql>
+	<select id="queryList" resultMap="menuMap">
+		select <include refid="fields"></include> from t_menu order by sort asc
+	</select>
+	
+	<select id="queryListByUser" resultMap="menuMap">
+		select  m.* from t_menu m where EXISTS (
+			select rs.menu_id from  t_resource rs 
+			inner join t_role_permission  p on p.resource_id = rs.id 
+			inner join t_user_role u on u.role_id = p.role_id
+			where m.id =rs.menu_id and u.user_id =#{userid} ) 
+			order by m.sort asc
+	</select>
+	
+	<select id="combotree" parameterType="string" resultMap="menuMap">
+		select <include refid="fields"/> from t_menu
+			<where>
+				<if test="path != null">path not like '${path}%'</if>
+			</where>
+			 order by sort asc
+	</select>
+	
+	<select id="queryById" parameterType="string" resultMap="menuMap">
+		select <include refid="fields"/> from t_menu where id = #{id}
+	</select>
+	
+	<select id="queryByPid" parameterType="string" resultMap="menuMap">
+		select <include refid="fields"/> from t_menu where pid = #{pid}  order by sort asc
+	</select>
+	
+	<insert id="insert" parameterType="Menu">
+	insert into t_menu(<include refid="fields"></include>) 
+	 values(#{id} ,#{create_time}, #{update_time}, #{create_user},#{update_user},#{name} ,#{type} ,#{sort} ,#{enable} ,#{pid} ,#{url} ,#{path} ,#{icon},#{key} ,#{remark})
+	</insert>
+	
+	<update id="update"  parameterType="Menu">
+	update t_menu 
+	<set>
+		<if test="update_time!=null and update_time!=''">
+			update_time = #{update_time} ,
+		</if>
+		<if test="update_user!=null and update_user!=''">
+			update_user = #{update_user} ,
+		</if>
+		<if test="name!=null and name!=''">
+			name = #{name} ,
+		</if>
+		<if test="type != null">
+			type = #{type} ,
+		</if>
+		<if test="sort != null">
+			sort = #{sort} ,
+		</if>
+		<if test="enable != null">
+			enable = #{enable} ,
+		</if>
+		<if test="pid != null">
+			pid = #{pid} ,
+		</if>
+		<if test="url != null">
+			url = #{url} ,
+		</if>
+		<if test="path != null">
+			path = #{path} ,
+		</if>
+		<if test="icon != null">
+			icon = #{icon} ,
+		</if>
+		<if test="key != null">
+			`key` = #{key} ,
+		</if>
+		<if test="remark != null">
+			remark = #{remark} ,
+		</if>
+	</set> 
+	where id = #{id}
+	</update>
+	<delete id="delete" parameterType="string">
+		delete from t_menu where id = #{id}
+	</delete>
+</mapper>  

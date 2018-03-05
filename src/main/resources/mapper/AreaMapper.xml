@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.tadmin.mapper.AreaMapper">
+	<resultMap type="Area" id="AreaMap">
+		<id column="id" property="id"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="short_name" property="shortName"/>
+	</resultMap>
+	
+	<sql id="fields">
+		id,
+		parent_id,
+		name,
+		short_name,
+		longitude,
+		latitude,
+		level,
+		sort,
+		status
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<trim suffixOverrides="AND">
+				<if test="status!=null">
+					status = #{status} AND
+				</if>
+				<if test="parentId!=null">
+					parent_id = #{parentId} AND
+				</if>
+				<if test="level!=null">
+					level = #{level}
+				</if>
+			</trim>
+		</where>
+	</sql>
+	
+	<select id="queryList" resultMap="AreaMap">
+		select <include refid="fields" /> from t_area
+			<include refid="where"/>
+			order by sort
+	</select>
+	
+	<update id="updateStatus">
+		update t_area set status = #{status} where id = #{id}
+	</update>
+	
+</mapper>  
