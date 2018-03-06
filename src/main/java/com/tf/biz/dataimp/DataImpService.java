@@ -3,6 +3,7 @@ import com.tf.biz.dataimp.entity.BizImportUser;
 import com.tf.biz.dataimp.entity.BizImportUserExpress;
 import com.tf.biz.dataimp.mapper.BizImportUserMapper;
 import com.tf.tadmin.entity.Pager;
+import com.tf.tadmin.service.BaseService;
 import com.tf.tadmin.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class DataImpService {
+public class DataImpService extends BaseService {
   @Autowired
   private BizImportUserMapper bizImportUserMapper;
 

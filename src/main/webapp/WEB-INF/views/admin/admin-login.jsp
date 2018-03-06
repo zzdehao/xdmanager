@@ -188,15 +188,15 @@
 </head>
 <body>
 <div class="jumbotron">
-    <div class="container">
-        <div style="float: left;margin-top: 20px;">
-            <h1><font class="title" style="margin-left: 50px;">巡店管理</font><font class="welcome"> 欢迎您！</font></h1>
-            <p>
-            <li class="little_title" style="margin-left: 260px;">———互联网化运营转型支撑系统v1.0</li>
-            <p>
-        </div>
-        <img src="images/yewu/yewu.png" style="float: right;margin-right: 80px;" class="icon">
-    </div>
+    <%--<div class="container">--%>
+        <%--<div style="float: left;margin-top: 20px;">--%>
+            <%--<h1><font class="title" style="margin-left: 50px;">巡店管理</font><font class="welcome"> 欢迎您！</font></h1>--%>
+            <%--<p>--%>
+            <%--<li class="little_title" style="margin-left: 260px;">———互联网化运营转型支撑系统v1.0</li>--%>
+            <%--<p>--%>
+        <%--</div>--%>
+        <%--<img src="images/yewu/yewu.png" style="float: right;margin-right: 80px;" class="icon">--%>
+    <%--</div>--%>
 </div>
 <div  style="background: rgb(255, 255, 255); margin: -10px auto auto; border: 1px solid rgb(231, 231, 231); border-image: none; width: 400px; height: 240px; text-align: center;">
     <p style="padding: 30px 0px 10px; position: relative;">

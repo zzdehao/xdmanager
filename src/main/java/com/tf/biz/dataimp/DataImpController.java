@@ -19,7 +19,6 @@ import java.util.Map;
  * 1）导入人员
  * 2) 导入店铺(社会渠道、自有渠道、小微渠道)
  * 3) 导入计划
- *
  */
 @Controller
 @RequestMapping(value = "${adminPath}/import")

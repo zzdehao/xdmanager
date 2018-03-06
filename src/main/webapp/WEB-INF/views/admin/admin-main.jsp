@@ -31,9 +31,9 @@
 </head>
 <body>
 <header class="Hui-header cl" style="border-bottom:2px solid #890800;height: 58px;">
-    <a class="Hui-logo l" title="巡店管理" href="/" style="margin-top: 10px;">&nbsp;&nbsp;巡店管理&nbsp;V1.0</a>
+    <%--<a class="Hui-logo l" title="巡店管理" href="/" style="margin-top: 10px;">&nbsp;&nbsp;巡店管理&nbsp;V1.0</a>--%>
     <span class="Hui-subtitle l" style="margin-right: 6px;">
-        <img src="images/yewu/yewu.png" class="icon" style="width:30px;height: 32px;margin-left: 6px;">
+        <%--<img src="images/yewu/yewu.png" class="icon" style="width:30px;height: 32px;margin-left: 6px;">--%>
     </span>
     <nav class="mainnav cl" id="Hui-nav" style="height: 32px;margin-top: 10px;width: 12px;">
         <ul>
