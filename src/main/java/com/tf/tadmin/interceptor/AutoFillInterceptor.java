@@ -51,11 +51,6 @@ public class AutoFillInterceptor implements Interceptor {
 					Entity entity = (Entity)parameter ;
 					String userid = "";
 					try{
-//						 HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//					     HttpSession session = request.getSession();
-//					     SessionUser sessionUser = (SessionUser)session.getAttribute("sessionUser") ;
-//					     userid = sessionUser.getName() ;
-						
 						SessionUser sessionUser = ShiroUtils.getSessionUser() ;
 						if(sessionUser != null){
 							userid = sessionUser.getName() ;

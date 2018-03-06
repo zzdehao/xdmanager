@@ -4,6 +4,9 @@ import com.tf.biz.dataimp.entity.BizImportUserExpress;
 import com.tf.biz.dataimp.mapper.BizImportUserMapper;
 import com.tf.biz.imp.ImportService;
 import com.tf.biz.imp.constant.ImportEnum;
+import com.tf.biz.imp.entity.BizImportBatch;
+import com.tf.biz.imp.entity.BizImportBatchExample;
+import com.tf.biz.imp.mapper.BizImportBatchMapper;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.common.utils.ObjectExcelRead;
 import com.tf.tadmin.entity.Pager;
@@ -11,6 +14,7 @@ import com.tf.tadmin.entity.SessionUser;
 import com.tf.tadmin.service.BaseService;
 import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.Constants;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +34,12 @@ import java.util.Map;
 @Transactional
 public class DataImpService extends BaseService {
     @Autowired
-    private BizImportUserMapper bizImportUserMapper;
+    private BizImportUserMapper importUserMapper;
     @Autowired
     private ImportService importService;
+
+    @Autowired
+    private BizImportBatchMapper batchMapper;
 
     public Pager<BizImportUser> queryUserList(Integer start, Map<String, Object> param) {
         //limit ${start},${rows}
@@ -44,10 +51,10 @@ public class DataImpService extends BaseService {
         express.setOffset(start);
         // limit 4 offset 9 4表示返回4行，9表示从表的第十行开始
         express.setOrderByClause(" create_time desc ");
+        //增加查询条件
         BizImportUserExpress.Criteria queryExpress = express.createCriteria();
-
-        List<BizImportUser> list = bizImportUserMapper.selectByExpress(express);
-        Long count = bizImportUserMapper.countByExpress(express);
+        List<BizImportUser> list = importUserMapper.selectByExpress(express);
+        Long count = importUserMapper.countByExpress(express);
         pager.setRows(list);
         pager.setTotal(count.intValue());
         return pager;
@@ -61,7 +68,6 @@ public class DataImpService extends BaseService {
     public boolean saveImpUserData(MultipartFile multipartFile,
                                    FilePath filePath, Map<String, Object> param)
             throws IOException, InvalidFormatException {
-
         Long batchId = this.importService.save(multipartFile, filePath, ImportEnum.ImportType.USER.getCode());
         //解析文件
         InputStream inputStream = multipartFile.getInputStream();
@@ -114,10 +120,34 @@ public class DataImpService extends BaseService {
                 s.setCreateTime(now);
                 s.setCreateUserId(userId);
                 s.setCreateUserName(trueName);
-                this.bizImportUserMapper.insertSelective(s);
+                this.importUserMapper.insertSelective(s);
             });
         }
         return true;
+    }
 
+    /**
+     * 上传文件列表
+     * @param start
+     * @param param
+     * @return
+     */
+    public Pager<BizImportBatch> queryUpLoadFileList(Integer start, Map<String, Object> param) {
+        //limit ${start},${rows}
+        int rows = Constants.PAGE_SIZE;
+        Pager<BizImportBatch> pager = new Pager<BizImportBatch>();
+        //组件查询条件
+        BizImportBatchExample express = new BizImportBatchExample();
+        express.setLimit(rows);
+        express.setOffset(start);
+        // limit 4 offset 9 4表示返回4行，9表示从表的第十行开始
+        express.setOrderByClause(" create_time desc ");
+        //增加查询条件
+        BizImportBatchExample.Criteria queryExpress = express.createCriteria();
+        List<BizImportBatch> list = batchMapper.selectByExample(express);
+        Long count = batchMapper.countByExample(express);
+        pager.setRows(list);
+        pager.setTotal(count.intValue());
+        return pager;
     }
 }

@@ -1,5 +1,6 @@
 package com.tf.biz.dataimp;
 import com.tf.biz.dataimp.entity.BizImportUser;
+import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.tadmin.controller.BaseController;
 import com.tf.tadmin.entity.Pager;
@@ -29,16 +30,39 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "${adminPath}/import")
 public class DataImpController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Value("${upload.dir}")
     private String uploadDir;
 
     @Autowired
     private DataImpService impService;
 
+    /**************************1-上传所有文件列表****************************************/
+    @RequestMapping(value = "/upfileIndex")
+    public ModelAndView upfileIndex(){
+        ModelAndView mav = new ModelAndView() ;
+        this.setBizView(mav, "import/upfile-index");
+        return mav ;
+    }
+
+    /**
+     * 分页查询
+     * @param page 当前页码
+     * @return
+     */
+    @RequestMapping(value = "/upfileList")
+    public @ResponseBody Pager<BizImportBatch> upfileList(
+            @RequestParam(required=true)  Integer page){
+        int start = (page - 1)*Constants.PAGE_SIZE ;
+        Map<String,Object> param = new HashMap<String,Object>();
+        Pager<BizImportBatch> pager = this.impService.queryUpLoadFileList(start,param) ;
+        return pager;
+    }
 
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    /******************************导入人员*****************************/
+    /******************************2-导入人员*****************************/
     @RequestMapping(value = "/userIndex")
     public ModelAndView userIndex(){
         ModelAndView mav = new ModelAndView() ;
@@ -94,6 +118,8 @@ public class DataImpController extends BaseController {
         }
         return mav;
     }
+    /******************************3-导入计划*****************************/
+
 
 
 }

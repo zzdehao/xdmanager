@@ -84,6 +84,7 @@
 	<!-- scan for mappers and let them be autowired -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.tf.*.mapper, com.tf.biz.*.mapper" />
+
 	</bean>
 
 	<!-- JDBC配置 -->
