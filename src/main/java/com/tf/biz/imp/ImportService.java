@@ -3,6 +3,7 @@ package com.tf.biz.imp;
 import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.mapper.BizImportBatchMapper;
 import com.tf.biz.imp.pojo.FilePath;
+import com.tf.common.utils.Tools;
 import com.tf.tadmin.entity.SessionUser;
 import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.DateUtils;
@@ -29,7 +30,9 @@ public class ImportService {
     @Autowired
     private BizImportBatchMapper bizImportBatchMapper;
 
-    public long save(MultipartFile multipartFile, FilePath filePath, Integer type) throws IOException, InvalidFormatException {
+    public long save(MultipartFile multipartFile,
+                     FilePath filePath,
+                     Integer type) throws IOException, InvalidFormatException {
         logger.info("文件长度: " + multipartFile.getSize());
         logger.info("文件类型: " + multipartFile.getContentType());
         logger.info("文件名称: " + multipartFile.getName());
@@ -51,7 +54,9 @@ public class ImportService {
 
         BizImportBatch bizImportBatch = new BizImportBatch();
         bizImportBatch.setImportType(type);
-        bizImportBatch.setBatchName(oldName);
+        //bizImportBatch.setBatchName(oldName);
+
+        bizImportBatch.setBatchName(createBatchId(type.toString()));
         bizImportBatch.setFileName(multipartFile.getOriginalFilename());
         bizImportBatch.setFilePath(webPath);
         SessionUser sessionUser = ShiroUtils.getSessionUser();
@@ -64,6 +69,14 @@ public class ImportService {
         return bizImportBatch.getId();
 
     }
-
+    /**
+     * 生成批次号
+     * @return
+     */
+    private   String createBatchId(String type){
+        StringBuffer batchStr= new StringBuffer();
+        batchStr.append("批-"+type+"-"+ Tools.getCurrentDateStr()+"--"+Tools.getRandomNum());
+        return batchStr.toString();
+    }
 
 }

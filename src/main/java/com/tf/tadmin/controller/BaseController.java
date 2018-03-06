@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.net.URLEncoder;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.tf.common.utils.Tools;
 import com.tf.tadmin.entity.SessionUser;
+import com.tf.tadmin.utils.DateUtils;
 import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -36,7 +39,7 @@ public class BaseController {
 	protected String redirect(String url){
 		return "redirect:" + url ;
 	}
-	
+
 	/**
 	 * 
 	 * @param url

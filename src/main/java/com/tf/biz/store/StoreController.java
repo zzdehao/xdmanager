@@ -37,7 +37,9 @@ public class StoreController extends BaseController {
     private String uploadDir;
 
     @RequestMapping(value = "/store/import", method = {RequestMethod.POST})
-    public @ResponseBody Upload importStore(@RequestParam MultipartFile multipartFile, HttpServletRequest req, Upload upload) throws Exception {
+    public @ResponseBody Upload importStore(@RequestParam MultipartFile multipartFile,
+                                            HttpServletRequest req, Upload upload) throws Exception {
+        //todo路径修改
         String realPath = req.getSession().getServletContext().getRealPath(this.uploadDir);
         String webPath = req.getContextPath() + this.uploadDir;
         this.storeService.saveMultipartFile(multipartFile, new FilePath(realPath, webPath));

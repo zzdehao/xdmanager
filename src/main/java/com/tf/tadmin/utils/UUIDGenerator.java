@@ -1,12 +1,9 @@
 package com.tf.tadmin.utils;
-
 import org.springframework.util.AlternativeJdkIdGenerator;
 import org.springframework.util.IdGenerator;
-
 /**
  * 
  * 生成UUID
- * 
  * @author MoXiaoFeng
  *
  */

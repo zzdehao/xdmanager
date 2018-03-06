@@ -24,6 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <button type="submit" class="btn btn-success" id="search" name="" onclick="loadData() ;">
             <i class="Hui-iconfont">&#xe665;</i>查询
         </button>
+        <button type="submit" class="btn btn-success" id="importbtn" name="" onclick="javascript:toImpPage();">
+            <i class="Hui-iconfont">&#xe665;</i>导入人员
+        </button>
     </div>
     <table class="table table-border table-bordered table-bg">
         <thead>
@@ -42,7 +45,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </tr>
         </thead>
         <tbody id = "user-list">
-
         </tbody>
     </table>
     <div class="mt-10">
@@ -76,7 +78,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $.getJSON("import/userList",{page:page,minDate:$("#minDate").val(),maxDate:$("#maxDate").val()} ,function(data){
             //$("#total strong").text(data.length) ;
             $('#user-list').html(logTemplate(data));
-
             laypage({
                 cont: 'pager', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                 pages: data.pages, //通过后台拿到的总页数
@@ -88,11 +89,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     }
                 }
             });
-
             parent.layer.close(index);
         }) ;
     }
-
+    function toImpPage(flag){
+        window.location.href="<%=request.getContextPath()%>/import/toImpPage";
+    }
     $(function(){
         /**/
         $('.radio-box input').iCheck({
@@ -100,8 +102,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             radioClass: 'iradio-blue',
             increaseArea: '20%'
         });
-
-
         loadData(1) ;
     }) ;
 </script>
