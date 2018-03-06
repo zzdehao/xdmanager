@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tf.biz.dataimp.mapper.BizImportUserMapper">
+  <resultMap id="BaseResultMap" type="com.tf.biz.dataimp.entity.BizImportUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="batch_id" jdbcType="BIGINT" property="batchId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="threelevel_name" jdbcType="VARCHAR" property="threelevelName" />
+    <result column="four_levelname" jdbcType="VARCHAR" property="fourLevelname" />
+    <result column="five_levelphone" jdbcType="VARCHAR" property="fiveLevelphone" />
+    <result column="second_phone" jdbcType="VARCHAR" property="secondPhone" />
+    <result column="duty_name" jdbcType="VARCHAR" property="dutyName" />
+    <result column="grid_code" jdbcType="VARCHAR" property="gridCode" />
+    <result column="grid_name" jdbcType="VARCHAR" property="gridName" />
+    <result column="data_updatetime" jdbcType="VARCHAR" property="dataUpdatetime" />
+    <result column="qita1" jdbcType="VARCHAR" property="qita1" />
+    <result column="qita2" jdbcType="VARCHAR" property="qita2" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
+    <result column="delete_user_name" jdbcType="VARCHAR" property="deleteUserName" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Express_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Express_Where_Clause">
+    <where>
+      <foreach collection="Express.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, batch_id, user_name, user_id, province_id, province_name, city_id, city_name, 
+    threelevel_name, four_levelname, five_levelphone, second_phone, duty_name, grid_code, 
+    grid_name, data_updatetime, qita1, qita2, create_user_id, create_user_name, create_time, 
+    is_deleted, delete_user_id, delete_user_name, delete_time, remark
+  </sql>
+  <select id="selectByExpress" parameterType="com.tf.biz.user.entity.BizImportUserExpress" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_import_user
+    <if test="_parameter != null">
+      <include refid="Express_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${limit} offset ${offset}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_import_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from biz_import_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExpress" parameterType="com.tf.biz.user.entity.BizImportUserExpress">
+    delete from biz_import_user
+    <if test="_parameter != null">
+      <include refid="Express_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.user.entity.BizImportUser" useGeneratedKeys="true">
+    insert into biz_import_user (batch_id, user_name, user_id, 
+      province_id, province_name, city_id, 
+      city_name, threelevel_name, four_levelname, 
+      five_levelphone, second_phone, duty_name, 
+      grid_code, grid_name, data_updatetime, 
+      qita1, qita2, create_user_id, 
+      create_user_name, create_time, is_deleted, 
+      delete_user_id, delete_user_name, delete_time, 
+      remark)
+    values (#{batchId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=INTEGER}, #{provinceName,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
+      #{cityName,jdbcType=VARCHAR}, #{threelevelName,jdbcType=VARCHAR}, #{fourLevelname,jdbcType=VARCHAR}, 
+      #{fiveLevelphone,jdbcType=VARCHAR}, #{secondPhone,jdbcType=VARCHAR}, #{dutyName,jdbcType=VARCHAR}, 
+      #{gridCode,jdbcType=VARCHAR}, #{gridName,jdbcType=VARCHAR}, #{dataUpdatetime,jdbcType=VARCHAR}, 
+      #{qita1,jdbcType=VARCHAR}, #{qita2,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, 
+      #{deleteUserId,jdbcType=INTEGER}, #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.user.entity.BizImportUser" useGeneratedKeys="true">
+    insert into biz_import_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="batchId != null">
+        batch_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="provinceId != null">
+        province_id,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="threelevelName != null">
+        threelevel_name,
+      </if>
+      <if test="fourLevelname != null">
+        four_levelname,
+      </if>
+      <if test="fiveLevelphone != null">
+        five_levelphone,
+      </if>
+      <if test="secondPhone != null">
+        second_phone,
+      </if>
+      <if test="dutyName != null">
+        duty_name,
+      </if>
+      <if test="gridCode != null">
+        grid_code,
+      </if>
+      <if test="gridName != null">
+        grid_name,
+      </if>
+      <if test="dataUpdatetime != null">
+        data_updatetime,
+      </if>
+      <if test="qita1 != null">
+        qita1,
+      </if>
+      <if test="qita2 != null">
+        qita2,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createUserName != null">
+        create_user_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="deleteUserId != null">
+        delete_user_id,
+      </if>
+      <if test="deleteUserName != null">
+        delete_user_name,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="batchId != null">
+        #{batchId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="threelevelName != null">
+        #{threelevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="fourLevelname != null">
+        #{fourLevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="fiveLevelphone != null">
+        #{fiveLevelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="secondPhone != null">
+        #{secondPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null">
+        #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="gridCode != null">
+        #{gridCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gridName != null">
+        #{gridName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataUpdatetime != null">
+        #{dataUpdatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="qita1 != null">
+        #{qita1,jdbcType=VARCHAR},
+      </if>
+      <if test="qita2 != null">
+        #{qita2,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null">
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserId != null">
+        #{deleteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserName != null">
+        #{deleteUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExpress" parameterType="com.tf.biz.user.entity.BizImportUserExpress" resultType="java.lang.Long">
+    select count(*) from biz_import_user
+    <if test="_parameter != null">
+      <include refid="Express_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExpressSelective" parameterType="map">
+    update biz_import_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.batchId != null">
+        batch_id = #{record.batchId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceId != null">
+        province_id = #{record.provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.provinceName != null">
+        province_name = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null">
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null">
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.threelevelName != null">
+        threelevel_name = #{record.threelevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fourLevelname != null">
+        four_levelname = #{record.fourLevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fiveLevelphone != null">
+        five_levelphone = #{record.fiveLevelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secondPhone != null">
+        second_phone = #{record.secondPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyName != null">
+        duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gridCode != null">
+        grid_code = #{record.gridCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gridName != null">
+        grid_name = #{record.gridName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataUpdatetime != null">
+        data_updatetime = #{record.dataUpdatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qita1 != null">
+        qita1 = #{record.qita1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qita2 != null">
+        qita2 = #{record.qita2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createUserName != null">
+        create_user_name = #{record.createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteUserId != null">
+        delete_user_id = #{record.deleteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteUserName != null">
+        delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Express_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExpress" parameterType="map">
+    update biz_import_user
+    set id = #{record.id,jdbcType=BIGINT},
+      batch_id = #{record.batchId,jdbcType=BIGINT},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      province_id = #{record.provinceId,jdbcType=INTEGER},
+      province_name = #{record.provinceName,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      threelevel_name = #{record.threelevelName,jdbcType=VARCHAR},
+      four_levelname = #{record.fourLevelname,jdbcType=VARCHAR},
+      five_levelphone = #{record.fiveLevelphone,jdbcType=VARCHAR},
+      second_phone = #{record.secondPhone,jdbcType=VARCHAR},
+      duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      grid_code = #{record.gridCode,jdbcType=VARCHAR},
+      grid_name = #{record.gridName,jdbcType=VARCHAR},
+      data_updatetime = #{record.dataUpdatetime,jdbcType=VARCHAR},
+      qita1 = #{record.qita1,jdbcType=VARCHAR},
+      qita2 = #{record.qita2,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_user_name = #{record.createUserName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      delete_user_id = #{record.deleteUserId,jdbcType=INTEGER},
+      delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Express_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tf.biz.user.entity.BizImportUser">
+    update biz_import_user
+    <set>
+      <if test="batchId != null">
+        batch_id = #{batchId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="threelevelName != null">
+        threelevel_name = #{threelevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="fourLevelname != null">
+        four_levelname = #{fourLevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="fiveLevelphone != null">
+        five_levelphone = #{fiveLevelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="secondPhone != null">
+        second_phone = #{secondPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null">
+        duty_name = #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="gridCode != null">
+        grid_code = #{gridCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gridName != null">
+        grid_name = #{gridName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataUpdatetime != null">
+        data_updatetime = #{dataUpdatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="qita1 != null">
+        qita1 = #{qita1,jdbcType=VARCHAR},
+      </if>
+      <if test="qita2 != null">
+        qita2 = #{qita2,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null">
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserId != null">
+        delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteUserName != null">
+        delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tf.biz.user.entity.BizImportUser">
+    update biz_import_user
+    set batch_id = #{batchId,jdbcType=BIGINT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      threelevel_name = #{threelevelName,jdbcType=VARCHAR},
+      four_levelname = #{fourLevelname,jdbcType=VARCHAR},
+      five_levelphone = #{fiveLevelphone,jdbcType=VARCHAR},
+      second_phone = #{secondPhone,jdbcType=VARCHAR},
+      duty_name = #{dutyName,jdbcType=VARCHAR},
+      grid_code = #{gridCode,jdbcType=VARCHAR},
+      grid_name = #{gridName,jdbcType=VARCHAR},
+      data_updatetime = #{dataUpdatetime,jdbcType=VARCHAR},
+      qita1 = #{qita1,jdbcType=VARCHAR},
+      qita2 = #{qita2,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

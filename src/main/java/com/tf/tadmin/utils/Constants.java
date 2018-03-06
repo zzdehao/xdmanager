@@ -12,6 +12,8 @@ public interface Constants {
 	 * 
 	 */
 	public static final String ADMIN_TPL = "admin/";
+
+	public static final String BIZ_TPL = "biz/";
 	
 	/**
 	 * 超级管理员

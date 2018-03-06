@@ -27,6 +27,8 @@ public class BaseController {
     private String provinceCode ;
 
 
+    @Value("${adminPath}")
+    private String adminPath ;
 	/**
 	 * @param url
 	 * @return
@@ -115,6 +117,9 @@ public class BaseController {
     protected void setAdminView(ModelAndView mav, String viewName) {
     	mav.setViewName(Constants.ADMIN_TPL + viewName); 
 	}
+    protected void setBizView(ModelAndView mav, String viewName) {
+        mav.setViewName(Constants.BIZ_TPL + viewName);
+    }
     protected HttpServletRequest getRequest() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request;
