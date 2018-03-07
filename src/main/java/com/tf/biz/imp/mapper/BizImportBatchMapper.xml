@@ -14,6 +14,10 @@
     <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
     <result column="delete_user_name" jdbcType="VARCHAR" property="deleteUserName" />
     <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="blz1" jdbcType="VARCHAR" property="blz1" />
+    <result column="blz2" jdbcType="VARCHAR" property="blz2" />
+    <result column="blz3" jdbcType="VARCHAR" property="blz3" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, import_type, batch_name, file_name, file_path, create_user_id, create_user_name, 
-    create_time, is_deleted, delete_user_id, delete_user_name, delete_time
+    create_time, is_deleted, delete_user_id, delete_user_name, delete_time, remark, blz1, 
+    blz2, blz3
   </sql>
   <select id="selectByExample" parameterType="com.tf.biz.imp.entity.BizImportBatchExample" resultMap="BaseResultMap">
     select
@@ -119,11 +124,13 @@
     insert into biz_import_batch (import_type, batch_name, file_name, 
       file_path, create_user_id, create_user_name, 
       create_time, is_deleted, delete_user_id, 
-      delete_user_name, delete_time)
+      delete_user_name, delete_time, remark, 
+      blz1, blz2, blz3)
     values (#{importType,jdbcType=INTEGER}, #{batchName,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{filePath,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, 
-      #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP})
+      #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{blz1,jdbcType=VARCHAR}, #{blz2,jdbcType=VARCHAR}, #{blz3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.imp.entity.BizImportBatch" useGeneratedKeys="true">
     insert into biz_import_batch
@@ -161,6 +168,18 @@
       <if test="deleteTime != null">
         delete_time,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="blz1 != null">
+        blz1,
+      </if>
+      <if test="blz2 != null">
+        blz2,
+      </if>
+      <if test="blz3 != null">
+        blz3,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="importType != null">
@@ -195,6 +214,18 @@
       </if>
       <if test="deleteTime != null">
         #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="blz1 != null">
+        #{blz1,jdbcType=VARCHAR},
+      </if>
+      <if test="blz2 != null">
+        #{blz2,jdbcType=VARCHAR},
+      </if>
+      <if test="blz3 != null">
+        #{blz3,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +274,18 @@
       <if test="record.deleteTime != null">
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blz1 != null">
+        blz1 = #{record.blz1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blz2 != null">
+        blz2 = #{record.blz2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blz3 != null">
+        blz3 = #{record.blz3,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +304,11 @@
       is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       delete_user_id = #{record.deleteUserId,jdbcType=INTEGER},
       delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      blz1 = #{record.blz1,jdbcType=VARCHAR},
+      blz2 = #{record.blz2,jdbcType=VARCHAR},
+      blz3 = #{record.blz3,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +349,18 @@
       <if test="deleteTime != null">
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="blz1 != null">
+        blz1 = #{blz1,jdbcType=VARCHAR},
+      </if>
+      <if test="blz2 != null">
+        blz2 = #{blz2,jdbcType=VARCHAR},
+      </if>
+      <if test="blz3 != null">
+        blz3 = #{blz3,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -317,7 +376,11 @@
       is_deleted = #{isDeleted,jdbcType=INTEGER},
       delete_user_id = #{deleteUserId,jdbcType=INTEGER},
       delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      blz1 = #{blz1,jdbcType=VARCHAR},
+      blz2 = #{blz2,jdbcType=VARCHAR},
+      blz3 = #{blz3,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
