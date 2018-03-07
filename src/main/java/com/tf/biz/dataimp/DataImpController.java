@@ -1,5 +1,6 @@
 package com.tf.biz.dataimp;
 import com.tf.biz.dataimp.entity.BizImportUser;
+import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.tadmin.controller.BaseController;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 /**
  * Created by wugq on 2018/3/5.
@@ -53,12 +56,29 @@ public class DataImpController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/upfileList")
-    public @ResponseBody Pager<BizImportBatch> upfileList(
+    public @ResponseBody Pager<Map> upfileList(
             @RequestParam(required=true)  Integer page){
         int start = (page - 1)*Constants.PAGE_SIZE ;
         Map<String,Object> param = new HashMap<String,Object>();
         Pager<BizImportBatch> pager = this.impService.queryUpLoadFileList(start,param) ;
-        return pager;
+        Pager<Map> dataPager = new Pager<Map>();
+        List<Map> dataList =  new ArrayList<Map>();
+        for(BizImportBatch row:pager.getRows()){
+            Map data = new HashMap();
+            data.put("batchName",row.getBatchName());
+            data.put("importTypeName",ImportEnum.ImportType.getFullName(row.getImportType()));
+            data.put("importType",row.getImportType());
+            data.put("fileName",row.getFileName());
+            //文件路径
+            data.put("filePath",row.getFilePath());
+            data.put("createTime",row.getCreateTime());
+            data.put("remark",row.getRemark());
+            data.put("id",row.getId());
+            dataList.add(data);
+        }
+        dataPager.setRows(dataList);
+        dataPager.setTotal(pager.getTotal());
+        return dataPager;
     }
 
 

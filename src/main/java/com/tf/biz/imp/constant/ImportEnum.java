@@ -4,9 +4,9 @@ public interface ImportEnum {
     //导入类型
     enum ImportType {
 
-        SELF_CHANNEL(11, "自有渠道","商铺"),
-        WORLD_CHANNEL(12, "社会渠道","商铺"),
-        SMALL_CHANNEL(13, "小微渠道","商铺"),
+        SELF_CHANNEL(11, "自有渠道","店铺"),
+        WORLD_CHANNEL(12, "社会渠道","店铺"),
+        SMALL_CHANNEL(13, "小微渠道","店铺"),
         USER(21, "人员","人员");
 
         private Integer code;
@@ -18,7 +18,18 @@ public interface ImportEnum {
             this.name = name;
             this.typeName=typeName;
         }
-
+        // 普通方法
+        public static String getFullName(Integer code) {
+            for (ImportType c : ImportType.values()) {
+                if (c.getCode() == code) {
+                    return c.name+"("+c.getTypeName()+")";
+                }
+            }
+            return null;
+        }
+        public String getTypeName(){
+            return this.typeName;
+        }
         public int getCode() {
             return this.code;
         }
