@@ -150,4 +150,70 @@ public class DataImpService extends BaseService {
         pager.setTotal(count.intValue());
         return pager;
     }
+
+    /**
+     * 导入计划
+     * @param multipartFile
+     * @param filePath
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws InvalidFormatException
+     */
+    public boolean saveImportCheckPlanData(MultipartFile multipartFile,
+                                   FilePath filePath,
+                                   Map<String, Object> param)
+            throws IOException, InvalidFormatException {
+        Long batchId = this.importService.save(multipartFile,
+                filePath, ImportEnum.ImportType.USER.getCode());
+        //解析文件
+        InputStream inputStream = multipartFile.getInputStream();
+        List<Map> readDatas = (List) ObjectExcelRead.readExcelInputStream(inputStream, 1, 0, 13, 0);
+        List<BizImportUser> importData = new ArrayList<BizImportUser>();
+        int count = 0;
+        if (readDatas != null && readDatas.size() > 0) {
+            BizImportUser userPo = null;
+            for (Map data : readDatas) {
+                userPo = new BizImportUser();
+                userPo.setBatchId(batchId);
+                //检查数据项 姓名  手机号码
+                String uname = (String) data.get("var0");
+                String phone = (String) data.get("var6");
+                if(StringUtils.isEmpty(uname)&&StringUtils.isEmpty(phone)){
+                    continue;
+                }
+                userPo.setUserName((String) data.get("var0"));//姓名
+                userPo.setUserId((String) data.get("var1"));//UserID
+                userPo.setProvinceName((String) data.get("var2"));//省（I级）_2
+                userPo.setCityName((String) data.get("var3"));//地市（二级）_3
+                userPo.setThreelevelName((String) data.get("var4"));//联通/代理商/其它（三级）_1
+                userPo.setFourLevelname((String) data.get("var5"));//部门/团队/网格（四级）_1
+                userPo.setFiveLevelphone((String) data.get("var6"));//联系电话（五级）
+                userPo.setSecondPhone((String) data.get("var7"));//第二联系电话
+
+                userPo.setDutyName((String) data.get("var8"));//职务
+                userPo.setGridName((String) data.get("var9"));//网格名称
+                userPo.setGridCode((String) data.get("var10"));//网格代码
+                userPo.setDataUpdatetime((String) data.get("var11"));//数据更新时间
+                userPo.setQita1((String) data.get("var12"));//其它信息1
+                userPo.setQita2((String) data.get("var13"));//其它信息2
+                importData.add(userPo);
+                count++;
+            }
+            //保存数据
+            final Date now = new Date();
+            final SessionUser sessionUser = ShiroUtils.getSessionUser();
+            final int userId = sessionUser.getId();
+            final String trueName = sessionUser.getTrueName();
+            importData.forEach(s -> {
+                s.setBatchId(batchId);
+                s.setCreateTime(now);
+                s.setCreateUserId(userId);
+                s.setCreateUserName(trueName);
+                this.importUserMapper.insertSelective(s);
+            });
+        }
+        return true;
+    }
+
 }

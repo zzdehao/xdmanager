@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }) ;
     }
     function toImpPage(flag){
-        window.location.href="<%=request.getContextPath()%>/import/toImpPage";
+        window.location.href="<%=request.getContextPath()%>/import/toImpPage?importType=21";
     }
     $(function(){
         /**/

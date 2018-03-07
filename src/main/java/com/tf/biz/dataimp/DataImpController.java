@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
+
 /**
  * Created by wugq on 2018/3/5.
  * 导入
@@ -46,6 +50,15 @@ public class DataImpController extends BaseController {
     @RequestMapping(value = "/upfileIndex")
     public ModelAndView upfileIndex(){
         ModelAndView mav = new ModelAndView() ;
+        List<Map<String,String>> fileTypes = new ArrayList<Map<String,String>>();
+        for(ImportEnum.ImportType e:ImportEnum.ImportType.values()){
+            Map<String,String> data = new HashMap<String,String>(2);
+            data.put("code",e.getCode()+"");
+            data.put("typeName",e.getFullName(e.getCode()));
+            fileTypes.add(data);
+            System.out.println("data:"+data.toString());
+        }
+        mav.addObject("fileTypes",fileTypes);
         this.setBizView(mav, "import/upfile-index");
         return mav ;
     }
@@ -105,12 +118,42 @@ public class DataImpController extends BaseController {
     }
     /**
      * 定位到导入页面
+     *
      * @return
      */
     @RequestMapping(value = "/toImpPage")
-    public ModelAndView toImpPage(){
+    public ModelAndView toImpPage(@RequestParam(value = "importType") String importType){
         ModelAndView mav = new ModelAndView() ;
-        this.setBizView(mav, "import/user-import");
+        /**
+         *  SELF_CHANNEL(11, "自有渠道","店铺"),
+            WORLD_CHANNEL(12, "社会渠道","店铺"),
+            SMALL_CHANNEL(13, "小微渠道","店铺"),
+            USER(21, "人员","人员"),
+           SELF_CHANNEL_PLAN(31, "自有渠道","巡检计划"),
+           WORLD_CHANNEL_PLAN(32, "社会渠道","巡检计划"),
+           SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
+         */
+        mav.addObject("importType",importType);
+        mav.addObject("importTypeName",ImportEnum.ImportType.getFullName(Integer.parseInt(importType)));
+        String action="";
+        String backAction="upfileIndex";
+        if(Integer.parseInt(importType)==11||
+                Integer.parseInt(importType)==12||
+                Integer.parseInt(importType)==13){
+            action="importStore";
+        }
+        if(Integer.parseInt(importType)==21){
+            action="importUser";
+            backAction="userIndex";
+        }
+        if(Integer.parseInt(importType)==31||
+                Integer.parseInt(importType)==32||
+                Integer.parseInt(importType)==33){
+            action="importCheckPlan";
+        }
+        mav.addObject("action",action);
+        mav.addObject("backAction",backAction);
+        this.setBizView(mav, "import/file-import");
         return mav ;
     }
     /**
@@ -139,6 +182,49 @@ public class DataImpController extends BaseController {
         return mav;
     }
     /******************************3-导入计划*****************************/
+    /**
+     * 导入人员信息
+     * 1)上传临时附件表(生成批次号信息)
+     * 2)解析文件放入数据表
+     * @param multipartFile
+     * @param req
+     * @param upload
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/importCheckPlan", method = {RequestMethod.POST})
+    public ModelAndView importCheckPlan(@RequestParam MultipartFile multipartFile,
+                                   HttpServletRequest req, Upload upload) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        /**
+         SELF_CHANNEL(11, "自有渠道","店铺"),
+         WORLD_CHANNEL(12, "社会渠道","店铺"),
+         SMALL_CHANNEL(13, "小微渠道","店铺"),
+         USER(21, "人员","人员"),
+         SELF_CHANNEL_PLAN(31, "自有渠道","巡检计划"),
+         WORLD_CHANNEL_PLAN(32, "社会渠道","巡检计划"),
+         SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
+         */
+        String importType=req.getParameter("importType");
+        String realPath = req.getSession().getServletContext().getRealPath(this.uploadDir);
+        String webPath = req.getContextPath() + this.uploadDir;
+        FilePath filePath= new FilePath(realPath, webPath);
+        Map<String,Object> param = new HashMap<String,Object>();
+        param.put("importType",importType);
+        try{
+            this.impService.saveImportCheckPlanData(multipartFile,filePath,param);
+            this.setBizView(mav, "import/checkplan-index");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return mav;
+    }
+
+
+
+
+
+
 
 
 

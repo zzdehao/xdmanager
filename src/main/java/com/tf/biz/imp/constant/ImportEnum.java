@@ -7,8 +7,10 @@ public interface ImportEnum {
         SELF_CHANNEL(11, "自有渠道","店铺"),
         WORLD_CHANNEL(12, "社会渠道","店铺"),
         SMALL_CHANNEL(13, "小微渠道","店铺"),
-        USER(21, "人员","人员");
-
+        USER(21, "人员","人员"),
+        SELF_CHANNEL_PLAN(31, "自有渠道","巡检计划"),
+        WORLD_CHANNEL_PLAN(32, "社会渠道","巡检计划"),
+        SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
         private Integer code;
         private String name;
         private String typeName;
