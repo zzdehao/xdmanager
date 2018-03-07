@@ -1,6 +1,9 @@
 package com.tf.biz.check;
 
+import com.tf.biz.check.entity.BizCheckDetail;
+import com.tf.biz.check.entity.BizCheckDetailExample;
 import com.tf.biz.check.entity.BizCheckPlanExample;
+import com.tf.biz.check.mapper.BizCheckDetailMapper;
 import com.tf.biz.check.mapper.BizCheckPlanMapper;
 import com.tf.biz.imp.ImportService;
 import com.tf.biz.imp.constant.ImportEnum;
@@ -38,6 +41,10 @@ public class CheckService {
     @Autowired
     private BizCheckPlanMapper bizCheckPlanMapper;
 
+    @Autowired
+    private BizCheckDetailMapper bizCheckDetailMapper;
+
+    @Transactional(readOnly = true)
     XSSFWorkbook createExcel(){
 
         return buildExcel();
@@ -67,6 +74,11 @@ public class CheckService {
         }
 
         return workBook;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BizCheckDetail> findCheckDetail(BizCheckDetailExample example){
+        return this.bizCheckDetailMapper.selectByExample(example);
     }
 
 }

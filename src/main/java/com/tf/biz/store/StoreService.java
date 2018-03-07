@@ -4,6 +4,7 @@ import com.tf.biz.imp.ImportService;
 import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.entity.BizStore;
+import com.tf.biz.store.entity.BizStoreExample;
 import com.tf.biz.store.mapper.BizStoreMapper;
 import com.tf.tadmin.entity.SessionUser;
 import com.tf.tadmin.shiro.ShiroUtils;
@@ -89,6 +90,10 @@ public class StoreService {
             bizStoreList.add(bizStore);
         }
         return bizStoreList;
+    }
+
+    List<BizStore> findStore(BizStoreExample example){
+        return this.bizStoreMapper.selectByExample(example);
     }
 
 }

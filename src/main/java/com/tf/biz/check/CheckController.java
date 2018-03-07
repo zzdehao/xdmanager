@@ -1,5 +1,7 @@
 package com.tf.biz.check;
 
+import com.tf.biz.check.entity.BizCheckDetail;
+import com.tf.biz.check.entity.BizCheckDetailExample;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.StoreService;
 import com.tf.tadmin.controller.BaseController;
@@ -11,10 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +24,10 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author zx
@@ -74,8 +77,15 @@ public class CheckController extends BaseController {
 
     @RequestMapping(value = "/check/route/query", method = {RequestMethod.POST})
     @ResponseBody
-    public String  routeCheckQuery(HttpServletResponse response, HttpServletRequest request, Upload upload) throws Exception {
-        return "111";
+    public Object routeCheckQuery(@RequestBody BizCheckDetail checkDetail) throws Exception {
+        BizCheckDetailExample example = new BizCheckDetailExample();
+        example.setOrderByClause("check_time");
+        List<BizCheckDetail> list = this.checkService.findCheckDetail(example);
+        Map<Long, List<BizCheckDetail>> checkDetailMap = list.stream().collect(Collectors.groupingBy(BizCheckDetail::getPlanId, Collectors.toList()));
+        List<List<BizCheckDetail>> relist = new ArrayList();
+        checkDetailMap.forEach((k, v) -> relist.add(v));
+        return relist;
     }
+
 
 }

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>GIS-巡店轨迹</title>
+    <title>GIS-店面分布</title>
     <%@ include file="/WEB-INF/views/ywinclude.jsp" %>
     <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.4&key=702af4761943e6d922af67591128c064"></script>
     <style type="text/css">
@@ -146,13 +146,7 @@
 </html>
 <script type="text/javascript">
 
-    var url = "${staticPath}/check/route/query";
-
-    var map = new AMap.Map('container',{
-        resizeEnable: true,
-        zoom: 10,
-        center: [116.480983, 40.0958]
-    });
+    var url = "${staticPath}/store/map/query";
 
     //颜色数组
     var colors=["#FF2D2D","#600000","#900041","#FF359A","#460046","#930093","#FF00FF",
@@ -160,10 +154,14 @@
         "#02F78E","#00BB00","#53FF53","#FFFF37","#977C00","#FFD306","#9F5000","#FF9225","#A23400",
         "#5151A2","#3D7878","#616130","#AD5A5A"];
 
+    var map = new AMap.Map('container',{
+        resizeEnable: true,
+        zoom: 10,
+        center: [116.480983, 40.0958]
+    });
+
     $("#searchBtn").bind("click", function () {
-
         var index = layer.load(0, {shade: [0.1, '#fff']});
-
         $.ajax({
             cache: true,
             type: "POST",
@@ -177,30 +175,14 @@
             },
             success: function (data) {
                 console.info(data)
-                //var data = [[{checkLongitude:116.399, checkLatitude:39.910},{checkLongitude:116.405, checkLatitude:39.920}]];
+
                 layer.close(index);
                 for(let i = 0; i < data.length; i++){
-                    let line = data[i];
-                    let lineArr = new Array();
-                    for(let k = 0; k < line.length; k++){
-                        let point = line[k];
-                        let p = [point.checkLongitude, point.checkLatitude];
-                        let marker = new AMap.Marker({
-                            position: p,//marker所在的位置
-                            map:map//创建时直接赋予map属性
-                        });
-                        lineArr.push(p);
-                    }
-
-                    var polyline = new AMap.Polyline({
-                        path: lineArr,          //设置线覆盖物路径
-                        strokeColor: colors[i], //线颜色
-                        strokeOpacity: 1,       //线透明度
-                        strokeWeight: 5,        //线宽
-                        strokeStyle: "solid",   //线样式
-                        strokeDasharray: [10, 5] //补充线样式
+                    let point = data[i];
+                    let marker = new AMap.Marker({
+                        position: [point.longitude, point.latitude],//marker所在的位置
+                        map:map//创建时直接赋予map属性
                     });
-                    polyline.setMap(map);
                 }
             }
         });
