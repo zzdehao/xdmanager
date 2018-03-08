@@ -1,6 +1,7 @@
 package com.tf.biz.imp;
 
 import com.tf.biz.imp.entity.BizImportBatch;
+import com.tf.biz.imp.entity.BizImportBatchExample;
 import com.tf.biz.imp.mapper.BizImportBatchMapper;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.common.utils.Tools;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -69,14 +71,23 @@ public class ImportService {
         return bizImportBatch.getId();
 
     }
+
     /**
      * 生成批次号
+     *
      * @return
      */
-    private   String createBatchId(String type){
-        StringBuffer batchStr= new StringBuffer();
-        batchStr.append("批-"+type+"-"+ Tools.getCurrentDateStr()+"--"+Tools.getRandomNum());
+    private String createBatchId(String type) {
+        StringBuffer batchStr = new StringBuffer();
+        batchStr.append("批-" + type + "-" + Tools.getCurrentDateStr() + "--" + Tools.getRandomNum());
         return batchStr.toString();
+    }
+
+    public List<BizImportBatch> queryBatchByTypes(List<Integer> typeIdList){
+        BizImportBatchExample example = new BizImportBatchExample();
+        example.createCriteria().andImportTypeIn(typeIdList);
+        example.setOrderByClause("create_time");
+        return this.bizImportBatchMapper.selectByExample(example);
     }
 
 }

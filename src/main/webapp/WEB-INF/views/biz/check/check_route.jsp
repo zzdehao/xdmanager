@@ -97,10 +97,7 @@
                     <div class="form-group">
                         <label for="batch">批次</label>
                         <select id="batch" class="form-control input-sm" name="batch">
-                            <option value="0">全部</option>
-                            <option value="1">1批次</option>
-                            <option value="2">2批次</option>
-                            <option value="3">3批次</option>
+                            <option value="">全部</option>
                         </select>
                     </div>
                     <%--&nbsp;--%>
@@ -146,13 +143,76 @@
 </html>
 <script type="text/javascript">
 
-    var url = "${staticPath}/check/route/query";
+    var queryUrl = "${staticPath}/check/route/query";
+    var batchUrl = "${staticPath}/common/batch?typeList=11";
+
+    $(function(){
+        init();
+    });
+
+    function init(){
+        $.get(batchUrl, function(data){
+            console.info(data)
+            let batch11 = data["11"];
+            let $batch = $("#batch");
+            for(let i = 0; i < batch11.length; i++){
+                let $option = $("<option></option>");
+                $option.val(batch11[i].id);
+                $option.text(batch11[i].batchName);
+                $batch.append($option);
+            }
+        });
+    }
+
 
     var map = new AMap.Map('container',{
         resizeEnable: true,
-        zoom: 10,
-        center: [116.480983, 40.0958]
+        zoom: 10
     });
+
+
+    /***************************************
+     由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。
+     ***************************************/
+    var map, geolocation;
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('container', {
+        resizeEnable: true,
+        zoom: 10
+    });
+
+    map.plugin('AMap.Geolocation', function() {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            //zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition:'RB'
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+    });
+
+
+    // map.plugin('AMap.Geolocation', function () {
+    //     geolocation = new AMap.Geolocation({
+    //         enableHighAccuracy: true,//是否使用高精度定位，默认:true
+    //         timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+    //         maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+    //         convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+    //         showButton: true,        //显示定位按钮，默认：true
+    //         buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+    //         buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+    //         showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+    //         showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+    //         panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+    //         zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+    //     });
+    //     map.addControl(geolocation);
+    //     geolocation.getCurrentPosition();
+    //     //AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+    //     //AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+    // });
 
     //颜色数组
     var colors=["#FF2D2D","#600000","#900041","#FF359A","#460046","#930093","#FF00FF",
@@ -169,7 +229,7 @@
             type: "POST",
             dataType: 'json',
             contentType:"application/json",
-            url: url,//xd.169ol.com:8090/WeChatTest
+            url: queryUrl,//xd.169ol.com:8090/WeChatTest
             data: JSON.stringify({}),//$('#searchForm').serialize(),// 你的formid
             //async: false,
             error: function (XMLHttpRequest, textStatus, errorThrown) {

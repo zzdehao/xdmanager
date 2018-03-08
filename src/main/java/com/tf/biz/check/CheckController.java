@@ -2,11 +2,13 @@ package com.tf.biz.check;
 
 import com.tf.biz.check.entity.BizCheckDetail;
 import com.tf.biz.check.entity.BizCheckDetailExample;
+import com.tf.biz.check.param.BizCheckDetailRequest;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.StoreService;
 import com.tf.tadmin.controller.BaseController;
 import com.tf.tadmin.entity.Upload;
 import com.tf.tadmin.service.UploadService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,14 +79,32 @@ public class CheckController extends BaseController {
 
     @RequestMapping(value = "/check/route/query", method = {RequestMethod.POST})
     @ResponseBody
-    public Object routeCheckQuery(@RequestBody BizCheckDetail checkDetail) throws Exception {
-        BizCheckDetailExample example = new BizCheckDetailExample();
+    public Object routeCheckQuery(@RequestBody BizCheckDetailRequest checkDetailRequest) throws Exception {
+
+        BizCheckDetailExample example = this.buildCheckDetailExample(checkDetailRequest);
         example.setOrderByClause("check_time");
         List<BizCheckDetail> list = this.checkService.findCheckDetail(example);
         Map<Long, List<BizCheckDetail>> checkDetailMap = list.stream().collect(Collectors.groupingBy(BizCheckDetail::getPlanId, Collectors.toList()));
         List<List<BizCheckDetail>> relist = new ArrayList();
         checkDetailMap.forEach((k, v) -> relist.add(v));
         return relist;
+    }
+
+    private BizCheckDetailExample buildCheckDetailExample(BizCheckDetailRequest checkDetailRequest){
+        BizCheckDetailExample example = new BizCheckDetailExample();
+        BizCheckDetailExample.Criteria criteria = example.createCriteria();
+        if(checkDetailRequest.getPlanId() != null){
+            criteria.andPlanIdEqualTo(checkDetailRequest.getPlanId());
+        }
+        if(checkDetailRequest.getStartTime() != null && checkDetailRequest.getEndTime() != null){
+            criteria.andCheckTimeBetween(checkDetailRequest.getStartTime(), checkDetailRequest.getEndTime());
+        }else if(checkDetailRequest.getStartTime() != null){
+            criteria.andCheckTimeGreaterThanOrEqualTo(checkDetailRequest.getStartTime());
+        }else if(checkDetailRequest.getEndTime() != null){
+            criteria.andCheckTimeLessThanOrEqualTo(checkDetailRequest.getEndTime());
+        }
+
+        return example;
     }
 
 

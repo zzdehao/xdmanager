@@ -24,6 +24,10 @@
           <property name="unauthorizedUrl" value="/admin/login" />
           <property name="filterChainDefinitions">
                <value>
+                   <!--上线时删除-->
+                   /common/** = anon
+                   <!--上线时删除-->
+                   /check/** = anon
                		/css/** = anon
                		/images/** = anon
                		/lib/** = anon
