@@ -33,6 +33,7 @@
                		/lib/** = anon
                		/script/** = anon
                		/upload/** = anon
+                    /template/** = anon
                     /admin/login = anon
                     /admin/** = authc
                     /** = authc

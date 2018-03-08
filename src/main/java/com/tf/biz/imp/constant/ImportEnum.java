@@ -29,24 +29,29 @@ public interface ImportEnum {
             }
             return null;
         }
+        public static ImportType getByCode(Integer code) {
+            for (ImportType c : ImportType.values()) {
+                if (c.getCode() == code) {
+                    return c;
+                }
+            }
+            return null;
+        }
         public String getTypeName(){
             return this.typeName;
         }
         public int getCode() {
             return this.code;
         }
-
         public String getStringCode() {
             return this.code.toString();
         }
     }
     //渠道类型
     enum ChannelType {
-
-        SELF(10, "自有渠道"),
-        WORLD(20, "社会渠道"),
-        SMALL(30, "小微渠道");
-
+        SELF(10,  "自有渠道"),
+        WORLD(11, "社会渠道"),
+        SMALL(13, "小微渠道");
         private Integer code;
         private String name;
 

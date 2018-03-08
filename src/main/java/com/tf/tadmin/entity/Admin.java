@@ -1,11 +1,46 @@
 package com.tf.tadmin.entity;
 
 import java.util.List;
+
+import com.tf.biz.dataimp.entity.BizImportUser;
 import com.tf.tadmin.utils.Constants;
 import com.tf.tadmin.utils.MD5Utils;
 public class Admin extends BaseEntity{
 	private String name ;
-	
+
+	private String provinceName;//省名称
+
+	private String cityName;//地市名称
+
+	private String busTypename;
+
+	private String deptName;
+
+	private String tel2;
+
+	private String gridCode;
+
+	private String gridName;
+
+	private String dutyCode;
+
+	private String dutyName;
+
+	private String dataupDate;
+
+	private String qita1;
+
+	private String qita2;
+
+	private String blz3;
+	private Integer storeId=-99;
+	private String storeName="";
+	private String userType="00";
+	private String cityCode= Constants.ALL_PROVICECITY;
+	private String provinceCode=Constants.ALL_PROVICECITY;
+	private String roleCode="";
+	private String trueName;
+
 	/**
 	 * 昵称
 	 */
@@ -90,9 +125,7 @@ public class Admin extends BaseEntity{
         this.roleCode = roleCode;
     }
 
-    private String blz3;
-    private Integer storeId=-99;
-    private String storeName="";
+
 
     public String getCityCode() {
         return cityCode;
@@ -110,10 +143,6 @@ public class Admin extends BaseEntity{
         this.provinceCode = provinceCode;
     }
 
-    private String userType="00";
-    private String cityCode= Constants.ALL_PROVICECITY;
-    private String provinceCode=Constants.ALL_PROVICECITY;
-    private String roleCode="";
 
     public String getTrueName() {
         return trueName;
@@ -123,7 +152,7 @@ public class Admin extends BaseEntity{
         this.trueName = trueName;
     }
 
-    private String trueName;
+
 
 	public String toString() {
 		return String.format("name=%s,nickname=%s,deptId=%s,tel=%s,email=%s,status=%s,remark=%s",name , nickname ,deptId , tel , email , status , remark) ;
@@ -173,6 +202,102 @@ public class Admin extends BaseEntity{
 		this.tel = tel;
 	}
 
+	public String getProvinceName() {
+		return provinceName;
+	}
+
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getBusTypename() {
+		return busTypename;
+	}
+
+	public void setBusTypename(String busTypename) {
+		this.busTypename = busTypename;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getTel2() {
+		return tel2;
+	}
+
+	public void setTel2(String tel2) {
+		this.tel2 = tel2;
+	}
+
+	public String getGridCode() {
+		return gridCode;
+	}
+
+	public void setGridCode(String gridCode) {
+		this.gridCode = gridCode;
+	}
+
+	public String getGridName() {
+		return gridName;
+	}
+
+	public void setGridName(String gridName) {
+		this.gridName = gridName;
+	}
+
+	public String getDutyCode() {
+		return dutyCode;
+	}
+
+	public void setDutyCode(String dutyCode) {
+		this.dutyCode = dutyCode;
+	}
+
+	public String getDutyName() {
+		return dutyName;
+	}
+
+	public void setDutyName(String dutyName) {
+		this.dutyName = dutyName;
+	}
+
+	public String getDataupDate() {
+		return dataupDate;
+	}
+
+	public void setDataupDate(String dataupDate) {
+		this.dataupDate = dataupDate;
+	}
+
+	public String getQita1() {
+		return qita1;
+	}
+
+	public void setQita1(String qita1) {
+		this.qita1 = qita1;
+	}
+
+	public String getQita2() {
+		return qita2;
+	}
+
+	public void setQita2(String qita2) {
+		this.qita2 = qita2;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -204,4 +329,6 @@ public class Admin extends BaseEntity{
 	public void setRoles(List<Integer> roles) {
 		this.roles = roles;
 	}
+
+
 }

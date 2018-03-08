@@ -9,7 +9,7 @@
 <head>
     <base href="<%=basePath %>">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>上传文件管理</title>
+    <title>巡检计划</title>
     <%@include file="/header.jsp" %>
 </head>
 <body>
@@ -17,18 +17,17 @@
     <div class="text-c mb-10">
         <div class="select-box" style="width: 170px;">
             <select class="select" size="1" name="importType" id="importType">
-                <option value="" selected>全部导入类型</option>
-                <option value="11">自有渠道-店铺</option>
-                <option value="12">社会渠道-店铺</option>
-                <option value="13">小微渠道-店铺</option>
-                <option value="21">人员</option>
+                <option value="" selected>渠道类型</option>
+                <option value="31">自有渠道-计划</option>
+                <option value="32">社会渠道-计划</option>
+                <option value="33">小微渠道-计划</option>
             </select>
         </div>
         <button type="submit" class="btn btn-success" id="search" name="" onclick="loadData() ;">
             <i class="Hui-iconfont">&#xe665;</i>查询
         </button>
         <button type="submit" class="btn btn-success" id="importbtn" name="" onclick="javascript:toImpPage();">
-            <i class="Hui-iconfont">&#xe665;</i>导入文件
+            <i class="Hui-iconfont">&#xe665;</i>导入计划
         </button>
     </div>
     <table class="table table-border table-bordered table-bg">
@@ -74,7 +73,7 @@
     function loadData(page) {
         page = page || 1;
         var index = parent.layer.load();
-        $.getJSON("import/upfileList", {
+        $.getJSON("import/planfileList", {
             page: page,
             minDate: $("#minDate").val(),
             maxDate: $("#maxDate").val()
@@ -100,7 +99,7 @@
             alert('选择导入类型');
             return;
         }
-        window.location.href = "<%=request.getContextPath()%>/import/toImpPage?importType="+importType;
+        window.location.href = "<%=request.getContextPath()%>/import/toPlanImport?importType="+importType;
     }
     $(function () {
         /**/

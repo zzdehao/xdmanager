@@ -83,8 +83,10 @@ public class AdminController extends BaseController{
             //密码
 			String password = request.getParameter("password") ;
 
-            String plevel = request.getParameter("plevel") ;
+            String plevel = "";
 
+			Admin admin = adminService.get(uname);
+			plevel = admin.getRoleCode();
             uname = uname+Constants.USERNAME_DELIMITER+plevel;
 			LOGGER.info("Login Info:uname={},password={}" , uname , password);
 			String msg = "";
@@ -167,9 +169,9 @@ public class AdminController extends BaseController{
 			isModify = true ;
 		}
 		
-		if(!this.adminService.uniquenessCheck(Constants.T_ADMIN, "name", admin.getName(), id, isModify)){
-			return new Message(false, "用户名已经存在!") ;
-		}
+//		if(!this.adminService.uniquenessCheck(Constants.T_ADMIN, "name", admin.getName(), id, isModify)){
+//			return new Message(false, "用户名已经存在!") ;
+//		}
 		if(!this.adminService.uniquenessCheck(Constants.T_ADMIN, "tel", admin.getTel(), id, isModify) ){
 			return new Message(false, "手机号码已经存在!") ;
 		}

@@ -19,4 +19,6 @@ public interface AdminMapper extends BaseMapper<Admin,Integer>{
     public int pageCount(Map<String, Object> map) ;
 
 
+
+
 }

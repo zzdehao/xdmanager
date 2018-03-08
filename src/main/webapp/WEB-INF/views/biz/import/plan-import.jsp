@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>导入人员信息</title>
+    <title>巡检计划导入</title>
     <%@ include file="../../yewu/ywinclude.jsp" %>
     <!--[endif]-->
     <style type="text/css" rel="stylesheet">
@@ -22,8 +22,8 @@
     <script>
         $(function () {
             //给提交按钮绑定事件
-            $("#impUserBtn").bind("click",function () {
-                var file=$("#userFile").val();
+            $("#impBtn").bind("click",function () {
+                var file=$("#planFile").val();
                 if (file==null || file=="") {
                     alert("请先选择文件");
                 }else {
@@ -33,7 +33,8 @@
                 }
             });
             $("#backBtn").bind("click",function () {
-                window.location.href="<%=request.getContextPath()%>/import/userIndex";
+                window.location.href="<%=request.getContextPath()%>/import/planfileIndex";
+
             });
 
         });
@@ -43,22 +44,34 @@
 <div class="container container-fluid">
     <div class="panel panel-defalut">
         <div class="panel-body">
-            <form id="importForm" action="<%=request.getContextPath()%>/import/importUser" method="post" enctype="multipart/form-data">
+            <form id="importForm" action="<%=request.getContextPath()%>/import/importCheckPlan"
+                  method="post" enctype="multipart/form-data">
+                <input type="hidden" name="importType"  value="${importType}"/>
                 <div class="form-group">
-                   <h4>导入人员信息</h4>
+                    <h4>
+                        导入${importTypeName}
+                    </h4>
                 </div>
                 <div class="form-group">
-                    <label for="userFile">excel文件</label>
-                    <input type="file" id="userFile" name="multipartFile">
+                    巡检日期：
+                    <input type="text" name="minDate" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'maxDate\')||\'%y-%M-%d\'}'})"
+                           id="minDate" class="input-text Wdate" style="width:186px;">
+                    -
+                    <input type="text" name="maxDate" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'minDate\')}',maxDate:'%y-%M-%d'})"
+                           id="maxDate" class="input-text Wdate" style="width:186px;">
+                </div>
+                <div class="form-group">
+                    <label for="planFile">巡检计划文件(excel)</label>
+                    <input type="file" id="planFile" name="planFile">
                     <p class="help-block">支持.xlsx,xls格式的excel表格文件</p>
                 </div><hr>
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <input type="button" id="impUserBtn" class="btn btn-danger" value="确认导入"/>
+                        <input type="button" id="impBtn" class="btn btn-danger" value="确认导入"/>
                     </div>
                     <div class="col-sm-2">
                         <input type="button" id="backBtn" class="btn btn-danger" value="返回"/>
-                     </div>
+                    </div>
                 </div>
             </form>
             <br>

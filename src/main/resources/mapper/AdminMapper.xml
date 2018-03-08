@@ -15,31 +15,30 @@
         <result column="city_code" property="cityCode"/>
         <result column="tel" property="tel"/>
         <result column="truename" property="trueName"/>
+
+        <result column="province_code" property="provinceCode" jdbcType="VARCHAR" />
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="bus_typename" property="busTypename" jdbcType="VARCHAR" />
+        <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+        <result column="tel2" property="tel2" jdbcType="VARCHAR" />
+        <result column="grid_code" property="gridCode" jdbcType="VARCHAR" />
+        <result column="grid_name" property="gridName" jdbcType="VARCHAR" />
+        <result column="duty_code" property="dutyCode" jdbcType="VARCHAR" />
+        <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+        <result column="dataup_date" property="dataupDate" jdbcType="VARCHAR" />
+        <result column="qita1" property="qita1" jdbcType="VARCHAR" />
+        <result column="qita2" property="qita2" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<sql id="fields">
-		create_time,
-		create_user,
-		update_time,
-		update_user,
-		name,
-		nickname,
-		password,
-		dept_id,
-		tel,
-		email,
-		status,
-		remark,
-        role_code,
-        blz1,
-        blz2,
-        blz3,
-        store_name,
-        store_id,
-        user_type,
-        province_code,
-        city_code,
-        truename
+	create_time, create_user, update_time, update_user,
+	name, nickname, password,
+    dept_id, tel, email, status, remark, role_code, blz1, blz2, blz3, store_name, store_id,
+    user_type, truename, province_code, province_name, city_code, city_name, bus_typename,
+    dept_name, tel2, grid_code, grid_name, duty_code, duty_name, dataup_date, qita1,
+    qita2
 	</sql>
 	
 	<sql id="where">
@@ -86,7 +85,7 @@
 	</select>
 	
 	<select id="queryByLogin" parameterType="string" resultMap="adminMap">
-		select id ,<include refid="fields"/> from t_admin where name = #{login} or  tel = #{login} or  email = #{login}
+		select id ,<include refid="fields"/> from t_admin where name = #{login} or  tel = #{login}
 	</select>
 
     <select id="getByRoleCode" parameterType="Admin" resultMap="adminMap">
@@ -103,71 +102,115 @@
         #{create_user},
         #{update_time},
         #{update_user},
-		#{name},
-        #{nickname},
-        #{password},
-        #{deptId} ,
-        #{tel},
-        #{email},
-        #{status},
-        #{remark},
-        #{roleCode},
-        #{blz1},
-        #{blz2},
-        #{blz3},
-        #{storeName},
-        #{storeId},
-        #{userType},
-        #{provinceCode},
-        #{cityCode},
-        #{trueName}
-		)
+        #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+        #{roleCode,jdbcType=VARCHAR}, #{blz1,jdbcType=VARCHAR}, #{blz2,jdbcType=VARCHAR},
+        #{blz3,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER},
+        #{userType,jdbcType=INTEGER}, #{trueName,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR},
+        #{provinceName,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR},
+        #{busTypename,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{tel2,jdbcType=VARCHAR},
+        #{gridCode,jdbcType=VARCHAR}, #{gridName,jdbcType=VARCHAR}, #{dutyCode,jdbcType=VARCHAR},
+        #{dutyName,jdbcType=VARCHAR}, #{dataupDate,jdbcType=VARCHAR}, #{qita1,jdbcType=VARCHAR},
+        #{qita2,jdbcType=VARCHAR})
 	</insert>
 	
 	<update id="update" parameterType="Admin">
 		update t_admin
 		<set>
-			update_time = #{update_time},
-			update_user = #{update_user},
-			<if test="name != null">name = #{name},</if>
-			<if test="nickname != null">nickname = #{nickname},</if>
-			<if test="password != null">password = #{password},</if>
-			<if test="deptId != null">dept_id = #{deptId},</if>
-			<if test="tel != null">tel = #{tel},</if>
-			<if test="email != null">email = #{email},</if>
-			<if test="status != null">status = #{status},</if>
-			<if test="remark != null">remark = #{remark},</if>
-            <if test="roleCode != null">
-             role_code = #{roleCode},
+            update_time = #{update_time},
+            update_user = #{update_user},
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
             </if>
-            <if test="blz1 != null">
-             blz1=#{blz1},
+            <if test="nickname != null" >
+                nickname = #{nickname,jdbcType=VARCHAR},
             </if>
-            <if test="blz2 != null">
-                blz2=#{blz2},
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
             </if>
-            <if test="blz3 != null">
-                blz3=#{blz3},
+            <if test="deptId != null" >
+                dept_id = #{deptId,jdbcType=INTEGER},
             </if>
-            <if test="storeName != null">
-              store_name = #{storeName},
+            <if test="tel != null" >
+                tel = #{tel,jdbcType=VARCHAR},
             </if>
-            <if test="storeId != null">
-              store_id=#{storeId},
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
             </if>
-            <if test="userType != null">
-                user_type=#{userType},
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
             </if>
-            <if test="provinceCode != null">
-                province_code = #{provinceCode},
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="cityCode != null">
-                city_code = #{cityCode},
+            <if test="roleCode != null" >
+                role_code = #{roleCode,jdbcType=VARCHAR},
             </if>
-            <if test="trueName != null">
-                truename = #{trueName}
+            <if test="blz1 != null" >
+                blz1 = #{blz1,jdbcType=VARCHAR},
             </if>
-		</set>		
+            <if test="blz2 != null" >
+                blz2 = #{blz2,jdbcType=VARCHAR},
+            </if>
+            <if test="blz3 != null" >
+                blz3 = #{blz3,jdbcType=VARCHAR},
+            </if>
+            <if test="storeName != null" >
+                store_name = #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeId != null" >
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="userType != null" >
+                user_type = #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="trueName != null" >
+                truename = #{trueName,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceCode != null" >
+                province_code = #{provinceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null" >
+                province_name = #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityCode != null" >
+                city_code = #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null" >
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="busTypename != null" >
+                bus_typename = #{busTypename,jdbcType=VARCHAR},
+            </if>
+            <if test="deptName != null" >
+                dept_name = #{deptName,jdbcType=VARCHAR},
+            </if>
+            <if test="tel2 != null" >
+                tel2 = #{tel2,jdbcType=VARCHAR},
+            </if>
+            <if test="gridCode != null" >
+                grid_code = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridName != null" >
+                grid_name = #{gridName,jdbcType=VARCHAR},
+            </if>
+            <if test="dutyCode != null" >
+                duty_code = #{dutyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="dutyName != null" >
+                duty_name = #{dutyName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataupDate != null" >
+                dataup_date = #{dataupDate,jdbcType=VARCHAR},
+            </if>
+            <if test="qita1 != null" >
+                qita1 = #{qita1,jdbcType=VARCHAR},
+            </if>
+            <if test="qita2 != null" >
+                qita2 = #{qita2,jdbcType=VARCHAR},
+            </if>
+        </set>
 		where id = #{id}
 	</update>
 	

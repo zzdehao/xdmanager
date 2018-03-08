@@ -162,10 +162,9 @@
                 return false;
             }
             var index = layer.load(0, {shade: [0.1, '#fff']}); //0代表加载的风格，支持0-2
-            var plevel=$("input[name='permissionLevel']:checked").val();
             $.ajax({
                 url: 'admin/login',
-                data: {'uname': $("#uname").val(),'plevel':plevel,'password': MD5($("#password").val())},
+                data: {'uname': $("#uname").val(),'password': MD5($("#password").val())},
                 dataType: 'json',
                 type: 'post',
                 success: function (data) {
@@ -207,13 +206,6 @@
         <span class="p_logo"></span> <input class="ipt" id="password"
                                             type="password" placeholder="请输入至少六位密码" value="123456">
     </p>
-   <div style="height: 30px; line-height: 50px; margin-top: 10px; border-top-color: rgb(231, 231, 231);">
-       <input type="radio" name="permissionLevel" value="manager">管理员
-       <input type="radio" name="permissionLevel" value="province"> 省
-       <input type="radio" name="permissionLevel" value="city"> 地市
-       <input type="radio" name="permissionLevel" value="grid">网格
-       <input type="radio" name="permissionLevel" value="qita" checked>其他
-   </div>
     <div
             style="height: 80px; line-height: 50px; margin-top: 30px; border-top-color: rgb(231, 231, 231); border-top-width: 1px; border-top-style: solid;">
         <P style="margin: 0px 35px 20px 45px;">

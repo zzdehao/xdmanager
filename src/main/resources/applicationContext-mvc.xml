@@ -55,6 +55,7 @@
 	<mvc:resources location="/script/" mapping="/script/**"/>
 	<mvc:resources location="/lib/" mapping="/lib/**"/>
 	<mvc:resources location="/upload/" mapping="/upload/**"/>
+	<mvc:resources location="/template/" mapping="/template/**"/>
 	
 	<!-- 拦截器配置 -->
 	<!-- -->
