@@ -9,6 +9,9 @@ import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.entity.BizImportBatchExample;
 import com.tf.biz.imp.mapper.BizImportBatchMapper;
 import com.tf.biz.imp.pojo.FilePath;
+import com.tf.biz.store.entity.BizStore;
+import com.tf.biz.store.entity.BizStoreExample;
+import com.tf.biz.store.mapper.BizStoreMapper;
 import com.tf.common.utils.MD5;
 import com.tf.common.utils.ObjectExcelRead;
 import com.tf.tadmin.entity.*;
@@ -54,10 +57,10 @@ public class DataImpService extends BaseService {
     @Autowired
     private RoleMapper roleMapper;
 
-
-
     @Autowired
     private BizImportBatchMapper batchMapper;
+    @Autowired
+    private BizStoreMapper bizStoreMapper;
 
     public Pager<BizImportUser> queryUserList(Integer start, Map<String, Object> param) {
         //limit ${start},${rows}
@@ -210,6 +213,10 @@ public class DataImpService extends BaseService {
                 List<Integer> importTypes =(List<Integer>)obj;
                  queryExpress.andImportTypeIn(importTypes);
             }
+            Object importType =param.get("importType");
+            if(obj!=null) {
+                queryExpress.andImportTypeEqualTo((Integer)importType);
+            }
         }
         List<BizImportBatch> list = batchMapper.selectByExample(express);
         Long count = batchMapper.countByExample(express);
@@ -275,10 +282,32 @@ public class DataImpService extends BaseService {
                    巡店人
                    巡店人电话
                  */
-
             }
         }
         return true;
     }
 
+    /**
+     * 查询店铺信息
+     * @param start
+     * @param param
+     * @return
+     */
+    public Pager<BizStore> queryStoreList(Integer start, Map<String, Object> param) {
+        //limit ${start},${rows}
+        int rows = Constants.PAGE_SIZE;
+        Pager<BizStore> pager = new Pager<BizStore>();
+        //组件查询条件
+        BizStoreExample express = new BizStoreExample();
+        express.setLimit(rows);
+        express.setOffset(start);
+        express.setOrderByClause(" create_time desc ");
+        //增加查询条件
+        BizStoreExample.Criteria queryExpress = express.createCriteria();
+        List<BizStore> list = bizStoreMapper.selectByExample(express);
+        Long count = bizStoreMapper.countByExample(express);
+        pager.setRows(list);
+        pager.setTotal(count.intValue());
+        return pager;
+    }
 }

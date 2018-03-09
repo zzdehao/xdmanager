@@ -1,12 +1,11 @@
 package com.tf.biz.dataimp;
-import com.tf.biz.dataimp.entity.BizImportUser;
 import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.StoreService;
+import com.tf.biz.store.entity.BizStore;
 import com.tf.tadmin.controller.BaseController;
 import com.tf.tadmin.entity.Pager;
-import com.tf.tadmin.entity.Upload;
 import com.tf.tadmin.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,10 +71,12 @@ public class DataImpController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/upfileList")
-    public @ResponseBody Pager<Map> upfileList(
-            @RequestParam(required=true)  Integer page){
+    public @ResponseBody Pager<Map> upfileList(HttpServletRequest request,
+            @RequestParam(required=true)  Integer page,
+             @RequestParam(required=false)  Integer importType){
         int start = (page - 1)*Constants.PAGE_SIZE ;
         Map<String,Object> param = new HashMap<String,Object>();
+        param.put("importType",importType);
         Pager<BizImportBatch> pager = this.impService.queryUpLoadFileList(start,param) ;
         Pager<Map> dataPager = new Pager<Map>();
         List<Map> dataList =  new ArrayList<Map>();
@@ -288,6 +287,33 @@ public class DataImpController extends BaseController {
         return mav;
     }
 
+   /********************************store list*********************/
+   @RequestMapping(value = "/toStoreList")
+   public ModelAndView toStoreList(){
+       ModelAndView mav = new ModelAndView() ;
+       this.setBizView(mav, "import/store-list");
+       return mav ;
+   }
+
+    @RequestMapping(value = "/storeList")
+    public @ResponseBody Pager<BizStore> storeList(HttpServletRequest request,
+                                               @RequestParam(required=true)  Integer page,
+                                               @RequestParam(required=false)  Integer channelType){
+        int start = (page - 1)*Constants.PAGE_SIZE ;
+        Map<String,Object> param = new HashMap<String,Object>();
+        param.put("channelType",channelType);
+        Pager<BizStore> pager = this.impService.queryStoreList(start,param) ;
+        return pager;
+    }
+    @RequestMapping(value = "/storeEdit")
+    public ModelAndView storeEdit(@RequestParam(required = false) Integer id){
+        ModelAndView mav = new ModelAndView() ;
+        if(id != null){
+            mav.addObject("store", this.storeService.getStoreById(id));
+        }
+        this.setBizView(mav, "import/store-edit");
+        return mav ;
+    }
 
 
 

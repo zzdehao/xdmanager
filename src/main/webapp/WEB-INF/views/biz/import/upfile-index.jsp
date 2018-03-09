@@ -76,8 +76,7 @@
         var index = parent.layer.load();
         $.getJSON("import/upfileList", {
             page: page,
-            minDate: $("#minDate").val(),
-            maxDate: $("#maxDate").val()
+            importType:$("#importType").val()
         }, function (data) {
             $('#user-list').html(logTemplate(data));
             laypage({
