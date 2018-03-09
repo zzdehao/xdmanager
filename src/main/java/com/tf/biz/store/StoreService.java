@@ -252,11 +252,9 @@ public class StoreService {
         }
         return bizStoreList;
     }
+
     List<BizStore> findStore(BizStoreExample example){
         return this.bizStoreMapper.selectByExample(example);
     }
 
-    public BizStore getStoreById(Integer id){
-        return this.bizStoreMapper.selectByPrimaryKey(Long.parseLong(id.toString()));
-    }
 }
