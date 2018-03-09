@@ -6,9 +6,29 @@ import java.util.Date;
 
 public class BizCheckDetailRequest extends BizCheckDetail {
 
+    private Long batchId;
+
+    private String phone;
+
     private Date startTime;
 
     private Date endTime;
+
+    public Long getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(Long batchId) {
+        this.batchId = batchId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Date getStartTime() {
         return startTime;

@@ -253,7 +253,7 @@ public class StoreService {
         return bizStoreList;
     }
 
-    List<BizStore> findStore(BizStoreExample example){
+    public List<BizStore> findStore(BizStoreExample example){
         return this.bizStoreMapper.selectByExample(example);
     }
 

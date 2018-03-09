@@ -2,6 +2,7 @@ package com.tf.biz.check;
 
 import com.tf.biz.check.entity.BizCheckDetail;
 import com.tf.biz.check.entity.BizCheckDetailExample;
+import com.tf.biz.check.entity.BizCheckPlan;
 import com.tf.biz.check.entity.BizCheckPlanExample;
 import com.tf.biz.check.mapper.BizCheckDetailMapper;
 import com.tf.biz.check.mapper.BizCheckPlanMapper;
@@ -74,6 +75,11 @@ public class CheckService {
         }
 
         return workBook;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BizCheckPlan> findCheckPlan(BizCheckPlanExample example){
+        return this.bizCheckPlanMapper.selectByExample(example);
     }
 
     @Transactional(readOnly = true)

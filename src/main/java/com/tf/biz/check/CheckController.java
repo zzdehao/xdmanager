@@ -2,9 +2,13 @@ package com.tf.biz.check;
 
 import com.tf.biz.check.entity.BizCheckDetail;
 import com.tf.biz.check.entity.BizCheckDetailExample;
+import com.tf.biz.check.entity.BizCheckPlan;
+import com.tf.biz.check.entity.BizCheckPlanExample;
 import com.tf.biz.check.param.BizCheckDetailRequest;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.StoreService;
+import com.tf.biz.store.entity.BizStore;
+import com.tf.biz.store.entity.BizStoreExample;
 import com.tf.tadmin.controller.BaseController;
 import com.tf.tadmin.entity.Upload;
 import com.tf.tadmin.service.UploadService;
@@ -15,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,8 +32,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +51,9 @@ public class CheckController extends BaseController {
 
     @Resource
     private CheckService checkService;
+
+    @Autowired
+    private StoreService storeService;
 
 
     @Value("${upload.dir}")
@@ -80,19 +90,54 @@ public class CheckController extends BaseController {
     @RequestMapping(value = "/check/route/query", method = {RequestMethod.POST})
     @ResponseBody
     public Object routeCheckQuery(@RequestBody BizCheckDetailRequest checkDetailRequest) throws Exception {
+        List<List<Map<String, Object>>> relist = new ArrayList();
 
-        BizCheckDetailExample example = this.buildCheckDetailExample(checkDetailRequest);
-        example.setOrderByClause("check_time");
-        List<BizCheckDetail> list = this.checkService.findCheckDetail(example);
+        BizCheckDetailExample checkDetailExample = new BizCheckDetailExample();
+        BizCheckDetailExample.Criteria criteria = checkDetailExample.createCriteria();
+
+        if(checkDetailRequest.getBatchId() != null){
+            BizCheckPlanExample checkPlanExample = new BizCheckPlanExample();
+            checkPlanExample.createCriteria().andBatchIdEqualTo(checkDetailRequest.getBatchId());
+            List<BizCheckPlan> checkPlanList = this.checkService.findCheckPlan(checkPlanExample);
+            List<Long> planIdList  = checkPlanList.stream().map(BizCheckPlan::getId).collect(Collectors.toList());
+            if(CollectionUtils.isEmpty(planIdList)){
+                return relist;
+            }
+            criteria.andPlanIdIn(planIdList);
+        }
+
+        this.buildCheckDetailCriteria(criteria, checkDetailRequest);
+        checkDetailExample.setOrderByClause("check_time");
+        List<BizCheckDetail> list = this.checkService.findCheckDetail(checkDetailExample);
+        if(CollectionUtils.isEmpty(list)){
+            return relist;
+        }
+
+        List<Long> storeIdList = list.stream().map(BizCheckDetail::getStoreId).collect(Collectors.toList());
+        BizStoreExample exampleStore = new BizStoreExample();
+        exampleStore.createCriteria().andIdIn(storeIdList);
+        List<BizStore> storeList = this.storeService.findStore(exampleStore);
+        if(CollectionUtils.isEmpty(storeList)){
+            return relist;
+        }
+        Map<Long, BizStore> storeMap = storeList.stream().collect(Collectors.toMap(BizStore::getId, Function.identity()));
         Map<Long, List<BizCheckDetail>> checkDetailMap = list.stream().collect(Collectors.groupingBy(BizCheckDetail::getPlanId, Collectors.toList()));
-        List<List<BizCheckDetail>> relist = new ArrayList();
-        checkDetailMap.forEach((k, v) -> relist.add(v));
+
+        checkDetailMap.forEach((k, v) -> {
+            List<Map<String, Object>> listTemp = new ArrayList<>();
+            v.forEach(l -> {
+                listTemp.add(new HashMap(){{
+                    put("detail", l);
+                    put("store", storeMap.get(l.getStoreId()));
+                }});
+            });
+            relist.add(listTemp);
+
+        });
         return relist;
     }
 
-    private BizCheckDetailExample buildCheckDetailExample(BizCheckDetailRequest checkDetailRequest){
-        BizCheckDetailExample example = new BizCheckDetailExample();
-        BizCheckDetailExample.Criteria criteria = example.createCriteria();
+    private void buildCheckDetailCriteria(BizCheckDetailExample.Criteria criteria, BizCheckDetailRequest checkDetailRequest){
         if(checkDetailRequest.getPlanId() != null){
             criteria.andPlanIdEqualTo(checkDetailRequest.getPlanId());
         }
@@ -104,7 +149,6 @@ public class CheckController extends BaseController {
             criteria.andCheckTimeLessThanOrEqualTo(checkDetailRequest.getEndTime());
         }
 
-        return example;
     }
 
 
