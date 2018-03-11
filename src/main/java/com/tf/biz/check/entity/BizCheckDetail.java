@@ -7,6 +7,10 @@ public class BizCheckDetail {
 
     private Long planId;
 
+    private Long planBatchId;
+
+    private String planBatchName;
+
     private Long storeId;
 
     private String storeCode;
@@ -25,7 +29,7 @@ public class BizCheckDetail {
 
     private String checkLongitude;
 
-    private String checkLatiude;
+    private String checkLatitude;
 
     private Date createTime;
 
@@ -149,6 +153,22 @@ public class BizCheckDetail {
         this.planId = planId;
     }
 
+    public Long getPlanBatchId() {
+        return planBatchId;
+    }
+
+    public void setPlanBatchId(Long planBatchId) {
+        this.planBatchId = planBatchId;
+    }
+
+    public String getPlanBatchName() {
+        return planBatchName;
+    }
+
+    public void setPlanBatchName(String planBatchName) {
+        this.planBatchName = planBatchName == null ? null : planBatchName.trim();
+    }
+
     public Long getStoreId() {
         return storeId;
     }
@@ -221,12 +241,12 @@ public class BizCheckDetail {
         this.checkLongitude = checkLongitude == null ? null : checkLongitude.trim();
     }
 
-    public String getCheckLatiude() {
-        return checkLatiude;
+    public String getCheckLatitude() {
+        return checkLatitude;
     }
 
-    public void setCheckLatiude(String checkLatiude) {
-        this.checkLatiude = checkLatiude == null ? null : checkLatiude.trim();
+    public void setCheckLatitude(String checkLatitude) {
+        this.checkLatitude = checkLatitude == null ? null : checkLatitude.trim();
     }
 
     public Date getCreateTime() {

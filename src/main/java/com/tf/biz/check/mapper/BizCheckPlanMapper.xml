@@ -4,19 +4,30 @@
   <resultMap id="BaseResultMap" type="com.tf.biz.check.entity.BizCheckPlan">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="batch_id" jdbcType="BIGINT" property="batchId" />
-    <result column="store_id" jdbcType="BIGINT" property="storeId" />
+    <result column="store_code" jdbcType="VARCHAR" property="storeCode" />
     <result column="store_name" jdbcType="VARCHAR" property="storeName" />
-    <result column="check_user_id" jdbcType="INTEGER" property="checkUserId" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="check_userid" jdbcType="INTEGER" property="checkUserid" />
     <result column="check_user_name" jdbcType="VARCHAR" property="checkUserName" />
+    <result column="channel_user_tel" jdbcType="VARCHAR" property="channelUserTel" />
     <result column="check_start_date" jdbcType="TIMESTAMP" property="checkStartDate" />
     <result column="check_end_date" jdbcType="TIMESTAMP" property="checkEndDate" />
     <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
-    <result column="check_number" jdbcType="INTEGER" property="checkNumber" />
     <result column="check_last_time" jdbcType="TIMESTAMP" property="checkLastTime" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
     <result column="delete_user_name" jdbcType="VARCHAR" property="deleteUserName" />
     <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="channel_code" jdbcType="VARCHAR" property="channelCode" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="channel_type" jdbcType="INTEGER" property="channelType" />
+    <result column="plan_code" jdbcType="VARCHAR" property="planCode" />
+    <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
+    <result column="store_type_name" jdbcType="VARCHAR" property="storeTypeName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,9 +88,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, batch_id, store_id, store_name, check_user_id, check_user_name, check_start_date, 
-    check_end_date, check_status, check_number, check_last_time, is_deleted, delete_user_id, 
-    delete_user_name, delete_time
+    id, batch_id, store_code, store_name, store_id, check_userid, check_user_name, channel_user_tel, 
+    check_start_date, check_end_date, check_status, check_last_time, is_deleted, delete_user_id, 
+    delete_user_name, delete_time, channel_code, channel_name, channel_type, plan_code, 
+    province_code, province_name, city_code, city_name, store_address, store_type_name
   </sql>
   <select id="selectByExample" parameterType="com.tf.biz.check.entity.BizCheckPlanExample" resultMap="BaseResultMap">
     select
@@ -120,16 +132,24 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.check.entity.BizCheckPlan" useGeneratedKeys="true">
-    insert into biz_check_plan (batch_id, store_id, store_name, 
-      check_user_id, check_user_name, check_start_date, 
-      check_end_date, check_status, check_number, 
-      check_last_time, is_deleted, delete_user_id, 
-      delete_user_name, delete_time)
-    values (#{batchId,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT}, #{storeName,jdbcType=VARCHAR}, 
-      #{checkUserId,jdbcType=INTEGER}, #{checkUserName,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=TIMESTAMP}, 
-      #{checkEndDate,jdbcType=TIMESTAMP}, #{checkStatus,jdbcType=INTEGER}, #{checkNumber,jdbcType=INTEGER}, 
-      #{checkLastTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, 
-      #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP})
+    insert into biz_check_plan (batch_id, store_code, store_name, 
+      store_id, check_userid, check_user_name, 
+      channel_user_tel, check_start_date, check_end_date, 
+      check_status, check_last_time, is_deleted, 
+      delete_user_id, delete_user_name, delete_time, 
+      channel_code, channel_name, channel_type, 
+      plan_code, province_code, province_name, 
+      city_code, city_name, store_address, 
+      store_type_name)
+    values (#{batchId,jdbcType=BIGINT}, #{storeCode,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, 
+      #{storeId,jdbcType=INTEGER}, #{checkUserid,jdbcType=INTEGER}, #{checkUserName,jdbcType=VARCHAR}, 
+      #{channelUserTel,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=TIMESTAMP}, #{checkEndDate,jdbcType=TIMESTAMP}, 
+      #{checkStatus,jdbcType=INTEGER}, #{checkLastTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, 
+      #{deleteUserId,jdbcType=INTEGER}, #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{channelCode,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR}, #{channelType,jdbcType=INTEGER}, 
+      #{planCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
+      #{cityCode,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, 
+      #{storeTypeName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.check.entity.BizCheckPlan" useGeneratedKeys="true">
     insert into biz_check_plan
@@ -137,17 +157,23 @@
       <if test="batchId != null">
         batch_id,
       </if>
-      <if test="storeId != null">
-        store_id,
+      <if test="storeCode != null">
+        store_code,
       </if>
       <if test="storeName != null">
         store_name,
       </if>
-      <if test="checkUserId != null">
-        check_user_id,
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="checkUserid != null">
+        check_userid,
       </if>
       <if test="checkUserName != null">
         check_user_name,
+      </if>
+      <if test="channelUserTel != null">
+        channel_user_tel,
       </if>
       <if test="checkStartDate != null">
         check_start_date,
@@ -157,9 +183,6 @@
       </if>
       <if test="checkStatus != null">
         check_status,
-      </if>
-      <if test="checkNumber != null">
-        check_number,
       </if>
       <if test="checkLastTime != null">
         check_last_time,
@@ -176,22 +199,58 @@
       <if test="deleteTime != null">
         delete_time,
       </if>
+      <if test="channelCode != null">
+        channel_code,
+      </if>
+      <if test="channelName != null">
+        channel_name,
+      </if>
+      <if test="channelType != null">
+        channel_type,
+      </if>
+      <if test="planCode != null">
+        plan_code,
+      </if>
+      <if test="provinceCode != null">
+        province_code,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="cityCode != null">
+        city_code,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="storeAddress != null">
+        store_address,
+      </if>
+      <if test="storeTypeName != null">
+        store_type_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="batchId != null">
         #{batchId,jdbcType=BIGINT},
       </if>
-      <if test="storeId != null">
-        #{storeId,jdbcType=BIGINT},
+      <if test="storeCode != null">
+        #{storeCode,jdbcType=VARCHAR},
       </if>
       <if test="storeName != null">
         #{storeName,jdbcType=VARCHAR},
       </if>
-      <if test="checkUserId != null">
-        #{checkUserId,jdbcType=INTEGER},
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="checkUserid != null">
+        #{checkUserid,jdbcType=INTEGER},
       </if>
       <if test="checkUserName != null">
         #{checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelUserTel != null">
+        #{channelUserTel,jdbcType=VARCHAR},
       </if>
       <if test="checkStartDate != null">
         #{checkStartDate,jdbcType=TIMESTAMP},
@@ -201,9 +260,6 @@
       </if>
       <if test="checkStatus != null">
         #{checkStatus,jdbcType=INTEGER},
-      </if>
-      <if test="checkNumber != null">
-        #{checkNumber,jdbcType=INTEGER},
       </if>
       <if test="checkLastTime != null">
         #{checkLastTime,jdbcType=TIMESTAMP},
@@ -219,6 +275,36 @@
       </if>
       <if test="deleteTime != null">
         #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelCode != null">
+        #{channelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        #{channelType,jdbcType=INTEGER},
+      </if>
+      <if test="planCode != null">
+        #{planCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddress != null">
+        #{storeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="storeTypeName != null">
+        #{storeTypeName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -237,17 +323,23 @@
       <if test="record.batchId != null">
         batch_id = #{record.batchId,jdbcType=BIGINT},
       </if>
-      <if test="record.storeId != null">
-        store_id = #{record.storeId,jdbcType=BIGINT},
+      <if test="record.storeCode != null">
+        store_code = #{record.storeCode,jdbcType=VARCHAR},
       </if>
       <if test="record.storeName != null">
         store_name = #{record.storeName,jdbcType=VARCHAR},
       </if>
-      <if test="record.checkUserId != null">
-        check_user_id = #{record.checkUserId,jdbcType=INTEGER},
+      <if test="record.storeId != null">
+        store_id = #{record.storeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkUserid != null">
+        check_userid = #{record.checkUserid,jdbcType=INTEGER},
       </if>
       <if test="record.checkUserName != null">
         check_user_name = #{record.checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelUserTel != null">
+        channel_user_tel = #{record.channelUserTel,jdbcType=VARCHAR},
       </if>
       <if test="record.checkStartDate != null">
         check_start_date = #{record.checkStartDate,jdbcType=TIMESTAMP},
@@ -257,9 +349,6 @@
       </if>
       <if test="record.checkStatus != null">
         check_status = #{record.checkStatus,jdbcType=INTEGER},
-      </if>
-      <if test="record.checkNumber != null">
-        check_number = #{record.checkNumber,jdbcType=INTEGER},
       </if>
       <if test="record.checkLastTime != null">
         check_last_time = #{record.checkLastTime,jdbcType=TIMESTAMP},
@@ -276,6 +365,36 @@
       <if test="record.deleteTime != null">
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.channelCode != null">
+        channel_code = #{record.channelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelName != null">
+        channel_name = #{record.channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelType != null">
+        channel_type = #{record.channelType,jdbcType=INTEGER},
+      </if>
+      <if test="record.planCode != null">
+        plan_code = #{record.planCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceCode != null">
+        province_code = #{record.provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceName != null">
+        province_name = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityCode != null">
+        city_code = #{record.cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityName != null">
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeAddress != null">
+        store_address = #{record.storeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeTypeName != null">
+        store_type_name = #{record.storeTypeName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -285,19 +404,30 @@
     update biz_check_plan
     set id = #{record.id,jdbcType=BIGINT},
       batch_id = #{record.batchId,jdbcType=BIGINT},
-      store_id = #{record.storeId,jdbcType=BIGINT},
+      store_code = #{record.storeCode,jdbcType=VARCHAR},
       store_name = #{record.storeName,jdbcType=VARCHAR},
-      check_user_id = #{record.checkUserId,jdbcType=INTEGER},
+      store_id = #{record.storeId,jdbcType=INTEGER},
+      check_userid = #{record.checkUserid,jdbcType=INTEGER},
       check_user_name = #{record.checkUserName,jdbcType=VARCHAR},
+      channel_user_tel = #{record.channelUserTel,jdbcType=VARCHAR},
       check_start_date = #{record.checkStartDate,jdbcType=TIMESTAMP},
       check_end_date = #{record.checkEndDate,jdbcType=TIMESTAMP},
       check_status = #{record.checkStatus,jdbcType=INTEGER},
-      check_number = #{record.checkNumber,jdbcType=INTEGER},
       check_last_time = #{record.checkLastTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       delete_user_id = #{record.deleteUserId,jdbcType=INTEGER},
       delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      channel_code = #{record.channelCode,jdbcType=VARCHAR},
+      channel_name = #{record.channelName,jdbcType=VARCHAR},
+      channel_type = #{record.channelType,jdbcType=INTEGER},
+      plan_code = #{record.planCode,jdbcType=VARCHAR},
+      province_code = #{record.provinceCode,jdbcType=VARCHAR},
+      province_name = #{record.provinceName,jdbcType=VARCHAR},
+      city_code = #{record.cityCode,jdbcType=VARCHAR},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      store_address = #{record.storeAddress,jdbcType=VARCHAR},
+      store_type_name = #{record.storeTypeName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -308,17 +438,23 @@
       <if test="batchId != null">
         batch_id = #{batchId,jdbcType=BIGINT},
       </if>
-      <if test="storeId != null">
-        store_id = #{storeId,jdbcType=BIGINT},
+      <if test="storeCode != null">
+        store_code = #{storeCode,jdbcType=VARCHAR},
       </if>
       <if test="storeName != null">
         store_name = #{storeName,jdbcType=VARCHAR},
       </if>
-      <if test="checkUserId != null">
-        check_user_id = #{checkUserId,jdbcType=INTEGER},
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="checkUserid != null">
+        check_userid = #{checkUserid,jdbcType=INTEGER},
       </if>
       <if test="checkUserName != null">
         check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelUserTel != null">
+        channel_user_tel = #{channelUserTel,jdbcType=VARCHAR},
       </if>
       <if test="checkStartDate != null">
         check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
@@ -328,9 +464,6 @@
       </if>
       <if test="checkStatus != null">
         check_status = #{checkStatus,jdbcType=INTEGER},
-      </if>
-      <if test="checkNumber != null">
-        check_number = #{checkNumber,jdbcType=INTEGER},
       </if>
       <if test="checkLastTime != null">
         check_last_time = #{checkLastTime,jdbcType=TIMESTAMP},
@@ -347,25 +480,66 @@
       <if test="deleteTime != null">
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="channelCode != null">
+        channel_code = #{channelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        channel_name = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        channel_type = #{channelType,jdbcType=INTEGER},
+      </if>
+      <if test="planCode != null">
+        plan_code = #{planCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        province_code = #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddress != null">
+        store_address = #{storeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="storeTypeName != null">
+        store_type_name = #{storeTypeName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tf.biz.check.entity.BizCheckPlan">
     update biz_check_plan
     set batch_id = #{batchId,jdbcType=BIGINT},
-      store_id = #{storeId,jdbcType=BIGINT},
+      store_code = #{storeCode,jdbcType=VARCHAR},
       store_name = #{storeName,jdbcType=VARCHAR},
-      check_user_id = #{checkUserId,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
+      check_userid = #{checkUserid,jdbcType=INTEGER},
       check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      channel_user_tel = #{channelUserTel,jdbcType=VARCHAR},
       check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
       check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
       check_status = #{checkStatus,jdbcType=INTEGER},
-      check_number = #{checkNumber,jdbcType=INTEGER},
       check_last_time = #{checkLastTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=INTEGER},
       delete_user_id = #{deleteUserId,jdbcType=INTEGER},
       delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      channel_code = #{channelCode,jdbcType=VARCHAR},
+      channel_name = #{channelName,jdbcType=VARCHAR},
+      channel_type = #{channelType,jdbcType=INTEGER},
+      plan_code = #{planCode,jdbcType=VARCHAR},
+      province_code = #{provinceCode,jdbcType=VARCHAR},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      store_address = #{storeAddress,jdbcType=VARCHAR},
+      store_type_name = #{storeTypeName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

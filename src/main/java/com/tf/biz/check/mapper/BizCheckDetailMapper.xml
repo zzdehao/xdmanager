@@ -4,16 +4,71 @@
   <resultMap id="BaseResultMap" type="com.tf.biz.check.entity.BizCheckDetail">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="plan_id" jdbcType="BIGINT" property="planId" />
+    <result column="plan_batch_id" jdbcType="BIGINT" property="planBatchId" />
+    <result column="plan_batch_name" jdbcType="VARCHAR" property="planBatchName" />
     <result column="store_id" jdbcType="BIGINT" property="storeId" />
+    <result column="store_code" jdbcType="VARCHAR" property="storeCode" />
     <result column="store_name" jdbcType="VARCHAR" property="storeName" />
     <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="check_user_id" jdbcType="BIGINT" property="checkUserId" />
     <result column="check_user_name" jdbcType="VARCHAR" property="checkUserName" />
+    <result column="check_user_phone" jdbcType="VARCHAR" property="checkUserPhone" />
     <result column="check_longitude" jdbcType="VARCHAR" property="checkLongitude" />
     <result column="check_latitude" jdbcType="VARCHAR" property="checkLatitude" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="store_existsok" jdbcType="INTEGER" property="storeExistsok" />
+    <result column="store_realnameok" jdbcType="INTEGER" property="storeRealnameok" />
+    <result column="store_check_city_code" jdbcType="VARCHAR" property="storeCheckCityCode" />
+    <result column="store_check_city_name" jdbcType="VARCHAR" property="storeCheckCityName" />
+    <result column="store_check_province_code" jdbcType="VARCHAR" property="storeCheckProvinceCode" />
+    <result column="store_check_province_name" jdbcType="VARCHAR" property="storeCheckProvinceName" />
+    <result column="store_checkaddress" jdbcType="INTEGER" property="storeCheckaddress" />
+    <result column="store_regiontype" jdbcType="INTEGER" property="storeRegiontype" />
+    <result column="store_mendiantype" jdbcType="INTEGER" property="storeMendiantype" />
+    <result column="store_ytsqtype" jdbcType="INTEGER" property="storeYtsqtype" />
+    <result column="store_areatype" jdbcType="INTEGER" property="storeAreatype" />
+    <result column="store_memberstype" jdbcType="INTEGER" property="storeMemberstype" />
+    <result column="store_nmonth_changeok" jdbcType="INTEGER" property="storeNmonthChangeok" />
+    <result column="store_busy_usercount" jdbcType="INTEGER" property="storeBusyUsercount" />
+    <result column="store_free_usercount" jdbcType="INTEGER" property="storeFreeUsercount" />
+    <result column="store_member_busscope" jdbcType="INTEGER" property="storeMemberBusscope" />
+    <result column="store_member_taocan_scope" jdbcType="INTEGER" property="storeMemberTaocanScope" />
+    <result column="store_member_terminal_policy" jdbcType="INTEGER" property="storeMemberTerminalPolicy" />
+    <result column="store_memeber_activesellok" jdbcType="INTEGER" property="storeMemeberActivesellok" />
+    <result column="store_4gok" jdbcType="INTEGER" property="store4gok" />
+    <result column="store_allnetok" jdbcType="INTEGER" property="storeAllnetok" />
+    <result column="store_first_recd_terminal" jdbcType="INTEGER" property="storeFirstRecdTerminal" />
+    <result column="store_healthok" jdbcType="INTEGER" property="storeHealthok" />
+    <result column="store_conductok" jdbcType="INTEGER" property="storeConductok" />
+    <result column="store_donglineok" jdbcType="INTEGER" property="storeDonglineok" />
+    <result column="store_month_salecount" jdbcType="INTEGER" property="storeMonthSalecount" />
+    <result column="store_dif_expandability" jdbcType="INTEGER" property="storeDifExpandability" />
+    <result column="store_doortouok" jdbcType="INTEGER" property="storeDoortouok" />
+    <result column="store_dengxiangok" jdbcType="INTEGER" property="storeDengxiangok" />
+    <result column="store_brandok" jdbcType="INTEGER" property="storeBrandok" />
+    <result column="store_qrcode" jdbcType="INTEGER" property="storeQrcode" />
+    <result column="store_realname_noticeok" jdbcType="INTEGER" property="storeRealnameNoticeok" />
+    <result column="store_backwall" jdbcType="INTEGER" property="storeBackwall" />
+    <result column="store_bartie" jdbcType="INTEGER" property="storeBartie" />
+    <result column="store_zq_oppok" jdbcType="INTEGER" property="storeZqOppok" />
+    <result column="store_zq_jinliok" jdbcType="INTEGER" property="storeZqJinliok" />
+    <result column="store_zq_vivook" jdbcType="INTEGER" property="storeZqVivook" />
+    <result column="store_zq_huaweiok" jdbcType="INTEGER" property="storeZqHuaweiok" />
+    <result column="store_zq_samsongok" jdbcType="INTEGER" property="storeZqSamsongok" />
+    <result column="store_zq_appleok" jdbcType="INTEGER" property="storeZqAppleok" />
+    <result column="store_zq_meizuok" jdbcType="INTEGER" property="storeZqMeizuok" />
+    <result column="store_zq_2g3gok" jdbcType="INTEGER" property="storeZq2g3gok" />
+    <result column="store_kccheck_outcount" jdbcType="INTEGER" property="storeKccheckOutcount" />
+    <result column="store_kccheck_selfcount" jdbcType="INTEGER" property="storeKccheckSelfcount" />
+    <result column="store_front_image1" jdbcType="VARCHAR" property="storeFrontImage1" />
+    <result column="stroe_front_image2" jdbcType="VARCHAR" property="stroeFrontImage2" />
+    <result column="stroe_linjie_image1" jdbcType="VARCHAR" property="stroeLinjieImage1" />
+    <result column="stroe_linjie_image2" jdbcType="VARCHAR" property="stroeLinjieImage2" />
+    <result column="stroe_linjie_image3" jdbcType="VARCHAR" property="stroeLinjieImage3" />
+    <result column="store_guitai_image1" jdbcType="VARCHAR" property="storeGuitaiImage1" />
+    <result column="store_guitai_image2" jdbcType="VARCHAR" property="storeGuitaiImage2" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,8 +129,20 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, plan_id, store_id, store_name, store_address, check_time, check_user_id, check_user_name, 
-    check_longitude, check_latitude, create_time, status
+    id, plan_id, plan_batch_id, plan_batch_name, store_id, store_code, store_name, store_address, 
+    check_time, check_user_id, check_user_name, check_user_phone, check_longitude, check_latitude, 
+    create_time, status, store_existsok, store_realnameok, store_check_city_code, store_check_city_name, 
+    store_check_province_code, store_check_province_name, store_checkaddress, store_regiontype, 
+    store_mendiantype, store_ytsqtype, store_areatype, store_memberstype, store_nmonth_changeok, 
+    store_busy_usercount, store_free_usercount, store_member_busscope, store_member_taocan_scope, 
+    store_member_terminal_policy, store_memeber_activesellok, store_4gok, store_allnetok, 
+    store_first_recd_terminal, store_healthok, store_conductok, store_donglineok, store_month_salecount, 
+    store_dif_expandability, store_doortouok, store_dengxiangok, store_brandok, store_qrcode, 
+    store_realname_noticeok, store_backwall, store_bartie, store_zq_oppok, store_zq_jinliok, 
+    store_zq_vivook, store_zq_huaweiok, store_zq_samsongok, store_zq_appleok, store_zq_meizuok, 
+    store_zq_2g3gok, store_kccheck_outcount, store_kccheck_selfcount, store_front_image1, 
+    stroe_front_image2, stroe_linjie_image1, stroe_linjie_image2, stroe_linjie_image3, 
+    store_guitai_image1, store_guitai_image2
   </sql>
   <select id="selectByExample" parameterType="com.tf.biz.check.entity.BizCheckDetailExample" resultMap="BaseResultMap">
     select
@@ -116,14 +183,56 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.check.entity.BizCheckDetail" useGeneratedKeys="true">
-    insert into biz_check_detail (plan_id, store_id, store_name, 
+    insert into biz_check_detail (plan_id, plan_batch_id, plan_batch_name, 
+      store_id, store_code, store_name, 
       store_address, check_time, check_user_id, 
-      check_user_name, check_longitude, check_latitude, 
-      create_time, status)
-    values (#{planId,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT}, #{storeName,jdbcType=VARCHAR}, 
+      check_user_name, check_user_phone, check_longitude, 
+      check_latitude, create_time, status, 
+      store_existsok, store_realnameok, store_check_city_code, 
+      store_check_city_name, store_check_province_code, 
+      store_check_province_name, store_checkaddress, 
+      store_regiontype, store_mendiantype, store_ytsqtype, 
+      store_areatype, store_memberstype, store_nmonth_changeok, 
+      store_busy_usercount, store_free_usercount, 
+      store_member_busscope, store_member_taocan_scope, 
+      store_member_terminal_policy, store_memeber_activesellok, 
+      store_4gok, store_allnetok, store_first_recd_terminal, 
+      store_healthok, store_conductok, store_donglineok, 
+      store_month_salecount, store_dif_expandability, 
+      store_doortouok, store_dengxiangok, store_brandok, 
+      store_qrcode, store_realname_noticeok, store_backwall, 
+      store_bartie, store_zq_oppok, store_zq_jinliok, 
+      store_zq_vivook, store_zq_huaweiok, store_zq_samsongok, 
+      store_zq_appleok, store_zq_meizuok, store_zq_2g3gok, 
+      store_kccheck_outcount, store_kccheck_selfcount, 
+      store_front_image1, stroe_front_image2, stroe_linjie_image1, 
+      stroe_linjie_image2, stroe_linjie_image3, store_guitai_image1, 
+      store_guitai_image2)
+    values (#{planId,jdbcType=BIGINT}, #{planBatchId,jdbcType=BIGINT}, #{planBatchName,jdbcType=VARCHAR}, 
+      #{storeId,jdbcType=BIGINT}, #{storeCode,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, 
       #{storeAddress,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{checkUserId,jdbcType=BIGINT}, 
-      #{checkUserName,jdbcType=VARCHAR}, #{checkLongitude,jdbcType=VARCHAR}, #{checkLatitude,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+      #{checkUserName,jdbcType=VARCHAR}, #{checkUserPhone,jdbcType=VARCHAR}, #{checkLongitude,jdbcType=VARCHAR}, 
+      #{checkLatitude,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{storeExistsok,jdbcType=INTEGER}, #{storeRealnameok,jdbcType=INTEGER}, #{storeCheckCityCode,jdbcType=VARCHAR}, 
+      #{storeCheckCityName,jdbcType=VARCHAR}, #{storeCheckProvinceCode,jdbcType=VARCHAR}, 
+      #{storeCheckProvinceName,jdbcType=VARCHAR}, #{storeCheckaddress,jdbcType=INTEGER}, 
+      #{storeRegiontype,jdbcType=INTEGER}, #{storeMendiantype,jdbcType=INTEGER}, #{storeYtsqtype,jdbcType=INTEGER}, 
+      #{storeAreatype,jdbcType=INTEGER}, #{storeMemberstype,jdbcType=INTEGER}, #{storeNmonthChangeok,jdbcType=INTEGER}, 
+      #{storeBusyUsercount,jdbcType=INTEGER}, #{storeFreeUsercount,jdbcType=INTEGER}, 
+      #{storeMemberBusscope,jdbcType=INTEGER}, #{storeMemberTaocanScope,jdbcType=INTEGER}, 
+      #{storeMemberTerminalPolicy,jdbcType=INTEGER}, #{storeMemeberActivesellok,jdbcType=INTEGER}, 
+      #{store4gok,jdbcType=INTEGER}, #{storeAllnetok,jdbcType=INTEGER}, #{storeFirstRecdTerminal,jdbcType=INTEGER}, 
+      #{storeHealthok,jdbcType=INTEGER}, #{storeConductok,jdbcType=INTEGER}, #{storeDonglineok,jdbcType=INTEGER}, 
+      #{storeMonthSalecount,jdbcType=INTEGER}, #{storeDifExpandability,jdbcType=INTEGER}, 
+      #{storeDoortouok,jdbcType=INTEGER}, #{storeDengxiangok,jdbcType=INTEGER}, #{storeBrandok,jdbcType=INTEGER}, 
+      #{storeQrcode,jdbcType=INTEGER}, #{storeRealnameNoticeok,jdbcType=INTEGER}, #{storeBackwall,jdbcType=INTEGER}, 
+      #{storeBartie,jdbcType=INTEGER}, #{storeZqOppok,jdbcType=INTEGER}, #{storeZqJinliok,jdbcType=INTEGER}, 
+      #{storeZqVivook,jdbcType=INTEGER}, #{storeZqHuaweiok,jdbcType=INTEGER}, #{storeZqSamsongok,jdbcType=INTEGER}, 
+      #{storeZqAppleok,jdbcType=INTEGER}, #{storeZqMeizuok,jdbcType=INTEGER}, #{storeZq2g3gok,jdbcType=INTEGER}, 
+      #{storeKccheckOutcount,jdbcType=INTEGER}, #{storeKccheckSelfcount,jdbcType=INTEGER}, 
+      #{storeFrontImage1,jdbcType=VARCHAR}, #{stroeFrontImage2,jdbcType=VARCHAR}, #{stroeLinjieImage1,jdbcType=VARCHAR}, 
+      #{stroeLinjieImage2,jdbcType=VARCHAR}, #{stroeLinjieImage3,jdbcType=VARCHAR}, #{storeGuitaiImage1,jdbcType=VARCHAR}, 
+      #{storeGuitaiImage2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.check.entity.BizCheckDetail" useGeneratedKeys="true">
     insert into biz_check_detail
@@ -131,8 +240,17 @@
       <if test="planId != null">
         plan_id,
       </if>
+      <if test="planBatchId != null">
+        plan_batch_id,
+      </if>
+      <if test="planBatchName != null">
+        plan_batch_name,
+      </if>
       <if test="storeId != null">
         store_id,
+      </if>
+      <if test="storeCode != null">
+        store_code,
       </if>
       <if test="storeName != null">
         store_name,
@@ -149,6 +267,9 @@
       <if test="checkUserName != null">
         check_user_name,
       </if>
+      <if test="checkUserPhone != null">
+        check_user_phone,
+      </if>
       <if test="checkLongitude != null">
         check_longitude,
       </if>
@@ -161,13 +282,175 @@
       <if test="status != null">
         status,
       </if>
+      <if test="storeExistsok != null">
+        store_existsok,
+      </if>
+      <if test="storeRealnameok != null">
+        store_realnameok,
+      </if>
+      <if test="storeCheckCityCode != null">
+        store_check_city_code,
+      </if>
+      <if test="storeCheckCityName != null">
+        store_check_city_name,
+      </if>
+      <if test="storeCheckProvinceCode != null">
+        store_check_province_code,
+      </if>
+      <if test="storeCheckProvinceName != null">
+        store_check_province_name,
+      </if>
+      <if test="storeCheckaddress != null">
+        store_checkaddress,
+      </if>
+      <if test="storeRegiontype != null">
+        store_regiontype,
+      </if>
+      <if test="storeMendiantype != null">
+        store_mendiantype,
+      </if>
+      <if test="storeYtsqtype != null">
+        store_ytsqtype,
+      </if>
+      <if test="storeAreatype != null">
+        store_areatype,
+      </if>
+      <if test="storeMemberstype != null">
+        store_memberstype,
+      </if>
+      <if test="storeNmonthChangeok != null">
+        store_nmonth_changeok,
+      </if>
+      <if test="storeBusyUsercount != null">
+        store_busy_usercount,
+      </if>
+      <if test="storeFreeUsercount != null">
+        store_free_usercount,
+      </if>
+      <if test="storeMemberBusscope != null">
+        store_member_busscope,
+      </if>
+      <if test="storeMemberTaocanScope != null">
+        store_member_taocan_scope,
+      </if>
+      <if test="storeMemberTerminalPolicy != null">
+        store_member_terminal_policy,
+      </if>
+      <if test="storeMemeberActivesellok != null">
+        store_memeber_activesellok,
+      </if>
+      <if test="store4gok != null">
+        store_4gok,
+      </if>
+      <if test="storeAllnetok != null">
+        store_allnetok,
+      </if>
+      <if test="storeFirstRecdTerminal != null">
+        store_first_recd_terminal,
+      </if>
+      <if test="storeHealthok != null">
+        store_healthok,
+      </if>
+      <if test="storeConductok != null">
+        store_conductok,
+      </if>
+      <if test="storeDonglineok != null">
+        store_donglineok,
+      </if>
+      <if test="storeMonthSalecount != null">
+        store_month_salecount,
+      </if>
+      <if test="storeDifExpandability != null">
+        store_dif_expandability,
+      </if>
+      <if test="storeDoortouok != null">
+        store_doortouok,
+      </if>
+      <if test="storeDengxiangok != null">
+        store_dengxiangok,
+      </if>
+      <if test="storeBrandok != null">
+        store_brandok,
+      </if>
+      <if test="storeQrcode != null">
+        store_qrcode,
+      </if>
+      <if test="storeRealnameNoticeok != null">
+        store_realname_noticeok,
+      </if>
+      <if test="storeBackwall != null">
+        store_backwall,
+      </if>
+      <if test="storeBartie != null">
+        store_bartie,
+      </if>
+      <if test="storeZqOppok != null">
+        store_zq_oppok,
+      </if>
+      <if test="storeZqJinliok != null">
+        store_zq_jinliok,
+      </if>
+      <if test="storeZqVivook != null">
+        store_zq_vivook,
+      </if>
+      <if test="storeZqHuaweiok != null">
+        store_zq_huaweiok,
+      </if>
+      <if test="storeZqSamsongok != null">
+        store_zq_samsongok,
+      </if>
+      <if test="storeZqAppleok != null">
+        store_zq_appleok,
+      </if>
+      <if test="storeZqMeizuok != null">
+        store_zq_meizuok,
+      </if>
+      <if test="storeZq2g3gok != null">
+        store_zq_2g3gok,
+      </if>
+      <if test="storeKccheckOutcount != null">
+        store_kccheck_outcount,
+      </if>
+      <if test="storeKccheckSelfcount != null">
+        store_kccheck_selfcount,
+      </if>
+      <if test="storeFrontImage1 != null">
+        store_front_image1,
+      </if>
+      <if test="stroeFrontImage2 != null">
+        stroe_front_image2,
+      </if>
+      <if test="stroeLinjieImage1 != null">
+        stroe_linjie_image1,
+      </if>
+      <if test="stroeLinjieImage2 != null">
+        stroe_linjie_image2,
+      </if>
+      <if test="stroeLinjieImage3 != null">
+        stroe_linjie_image3,
+      </if>
+      <if test="storeGuitaiImage1 != null">
+        store_guitai_image1,
+      </if>
+      <if test="storeGuitaiImage2 != null">
+        store_guitai_image2,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="planId != null">
         #{planId,jdbcType=BIGINT},
       </if>
+      <if test="planBatchId != null">
+        #{planBatchId,jdbcType=BIGINT},
+      </if>
+      <if test="planBatchName != null">
+        #{planBatchName,jdbcType=VARCHAR},
+      </if>
       <if test="storeId != null">
         #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="storeCode != null">
+        #{storeCode,jdbcType=VARCHAR},
       </if>
       <if test="storeName != null">
         #{storeName,jdbcType=VARCHAR},
@@ -184,6 +467,9 @@
       <if test="checkUserName != null">
         #{checkUserName,jdbcType=VARCHAR},
       </if>
+      <if test="checkUserPhone != null">
+        #{checkUserPhone,jdbcType=VARCHAR},
+      </if>
       <if test="checkLongitude != null">
         #{checkLongitude,jdbcType=VARCHAR},
       </if>
@@ -195,6 +481,159 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="storeExistsok != null">
+        #{storeExistsok,jdbcType=INTEGER},
+      </if>
+      <if test="storeRealnameok != null">
+        #{storeRealnameok,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckCityCode != null">
+        #{storeCheckCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckCityName != null">
+        #{storeCheckCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckProvinceCode != null">
+        #{storeCheckProvinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckProvinceName != null">
+        #{storeCheckProvinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckaddress != null">
+        #{storeCheckaddress,jdbcType=INTEGER},
+      </if>
+      <if test="storeRegiontype != null">
+        #{storeRegiontype,jdbcType=INTEGER},
+      </if>
+      <if test="storeMendiantype != null">
+        #{storeMendiantype,jdbcType=INTEGER},
+      </if>
+      <if test="storeYtsqtype != null">
+        #{storeYtsqtype,jdbcType=INTEGER},
+      </if>
+      <if test="storeAreatype != null">
+        #{storeAreatype,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberstype != null">
+        #{storeMemberstype,jdbcType=INTEGER},
+      </if>
+      <if test="storeNmonthChangeok != null">
+        #{storeNmonthChangeok,jdbcType=INTEGER},
+      </if>
+      <if test="storeBusyUsercount != null">
+        #{storeBusyUsercount,jdbcType=INTEGER},
+      </if>
+      <if test="storeFreeUsercount != null">
+        #{storeFreeUsercount,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberBusscope != null">
+        #{storeMemberBusscope,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberTaocanScope != null">
+        #{storeMemberTaocanScope,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberTerminalPolicy != null">
+        #{storeMemberTerminalPolicy,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemeberActivesellok != null">
+        #{storeMemeberActivesellok,jdbcType=INTEGER},
+      </if>
+      <if test="store4gok != null">
+        #{store4gok,jdbcType=INTEGER},
+      </if>
+      <if test="storeAllnetok != null">
+        #{storeAllnetok,jdbcType=INTEGER},
+      </if>
+      <if test="storeFirstRecdTerminal != null">
+        #{storeFirstRecdTerminal,jdbcType=INTEGER},
+      </if>
+      <if test="storeHealthok != null">
+        #{storeHealthok,jdbcType=INTEGER},
+      </if>
+      <if test="storeConductok != null">
+        #{storeConductok,jdbcType=INTEGER},
+      </if>
+      <if test="storeDonglineok != null">
+        #{storeDonglineok,jdbcType=INTEGER},
+      </if>
+      <if test="storeMonthSalecount != null">
+        #{storeMonthSalecount,jdbcType=INTEGER},
+      </if>
+      <if test="storeDifExpandability != null">
+        #{storeDifExpandability,jdbcType=INTEGER},
+      </if>
+      <if test="storeDoortouok != null">
+        #{storeDoortouok,jdbcType=INTEGER},
+      </if>
+      <if test="storeDengxiangok != null">
+        #{storeDengxiangok,jdbcType=INTEGER},
+      </if>
+      <if test="storeBrandok != null">
+        #{storeBrandok,jdbcType=INTEGER},
+      </if>
+      <if test="storeQrcode != null">
+        #{storeQrcode,jdbcType=INTEGER},
+      </if>
+      <if test="storeRealnameNoticeok != null">
+        #{storeRealnameNoticeok,jdbcType=INTEGER},
+      </if>
+      <if test="storeBackwall != null">
+        #{storeBackwall,jdbcType=INTEGER},
+      </if>
+      <if test="storeBartie != null">
+        #{storeBartie,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqOppok != null">
+        #{storeZqOppok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqJinliok != null">
+        #{storeZqJinliok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqVivook != null">
+        #{storeZqVivook,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqHuaweiok != null">
+        #{storeZqHuaweiok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqSamsongok != null">
+        #{storeZqSamsongok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqAppleok != null">
+        #{storeZqAppleok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqMeizuok != null">
+        #{storeZqMeizuok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZq2g3gok != null">
+        #{storeZq2g3gok,jdbcType=INTEGER},
+      </if>
+      <if test="storeKccheckOutcount != null">
+        #{storeKccheckOutcount,jdbcType=INTEGER},
+      </if>
+      <if test="storeKccheckSelfcount != null">
+        #{storeKccheckSelfcount,jdbcType=INTEGER},
+      </if>
+      <if test="storeFrontImage1 != null">
+        #{storeFrontImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeFrontImage2 != null">
+        #{stroeFrontImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeLinjieImage1 != null">
+        #{stroeLinjieImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeLinjieImage2 != null">
+        #{stroeLinjieImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeLinjieImage3 != null">
+        #{stroeLinjieImage3,jdbcType=VARCHAR},
+      </if>
+      <if test="storeGuitaiImage1 != null">
+        #{storeGuitaiImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="storeGuitaiImage2 != null">
+        #{storeGuitaiImage2,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -213,8 +652,17 @@
       <if test="record.planId != null">
         plan_id = #{record.planId,jdbcType=BIGINT},
       </if>
+      <if test="record.planBatchId != null">
+        plan_batch_id = #{record.planBatchId,jdbcType=BIGINT},
+      </if>
+      <if test="record.planBatchName != null">
+        plan_batch_name = #{record.planBatchName,jdbcType=VARCHAR},
+      </if>
       <if test="record.storeId != null">
         store_id = #{record.storeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.storeCode != null">
+        store_code = #{record.storeCode,jdbcType=VARCHAR},
       </if>
       <if test="record.storeName != null">
         store_name = #{record.storeName,jdbcType=VARCHAR},
@@ -231,6 +679,9 @@
       <if test="record.checkUserName != null">
         check_user_name = #{record.checkUserName,jdbcType=VARCHAR},
       </if>
+      <if test="record.checkUserPhone != null">
+        check_user_phone = #{record.checkUserPhone,jdbcType=VARCHAR},
+      </if>
       <if test="record.checkLongitude != null">
         check_longitude = #{record.checkLongitude,jdbcType=VARCHAR},
       </if>
@@ -243,6 +694,159 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.storeExistsok != null">
+        store_existsok = #{record.storeExistsok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeRealnameok != null">
+        store_realnameok = #{record.storeRealnameok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckCityCode != null">
+        store_check_city_code = #{record.storeCheckCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckCityName != null">
+        store_check_city_name = #{record.storeCheckCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckProvinceCode != null">
+        store_check_province_code = #{record.storeCheckProvinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckProvinceName != null">
+        store_check_province_name = #{record.storeCheckProvinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckaddress != null">
+        store_checkaddress = #{record.storeCheckaddress,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeRegiontype != null">
+        store_regiontype = #{record.storeRegiontype,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeMendiantype != null">
+        store_mendiantype = #{record.storeMendiantype,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeYtsqtype != null">
+        store_ytsqtype = #{record.storeYtsqtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeAreatype != null">
+        store_areatype = #{record.storeAreatype,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeMemberstype != null">
+        store_memberstype = #{record.storeMemberstype,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeNmonthChangeok != null">
+        store_nmonth_changeok = #{record.storeNmonthChangeok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeBusyUsercount != null">
+        store_busy_usercount = #{record.storeBusyUsercount,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeFreeUsercount != null">
+        store_free_usercount = #{record.storeFreeUsercount,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeMemberBusscope != null">
+        store_member_busscope = #{record.storeMemberBusscope,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeMemberTaocanScope != null">
+        store_member_taocan_scope = #{record.storeMemberTaocanScope,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeMemberTerminalPolicy != null">
+        store_member_terminal_policy = #{record.storeMemberTerminalPolicy,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeMemeberActivesellok != null">
+        store_memeber_activesellok = #{record.storeMemeberActivesellok,jdbcType=INTEGER},
+      </if>
+      <if test="record.store4gok != null">
+        store_4gok = #{record.store4gok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeAllnetok != null">
+        store_allnetok = #{record.storeAllnetok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeFirstRecdTerminal != null">
+        store_first_recd_terminal = #{record.storeFirstRecdTerminal,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeHealthok != null">
+        store_healthok = #{record.storeHealthok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeConductok != null">
+        store_conductok = #{record.storeConductok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeDonglineok != null">
+        store_donglineok = #{record.storeDonglineok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeMonthSalecount != null">
+        store_month_salecount = #{record.storeMonthSalecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeDifExpandability != null">
+        store_dif_expandability = #{record.storeDifExpandability,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeDoortouok != null">
+        store_doortouok = #{record.storeDoortouok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeDengxiangok != null">
+        store_dengxiangok = #{record.storeDengxiangok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeBrandok != null">
+        store_brandok = #{record.storeBrandok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeQrcode != null">
+        store_qrcode = #{record.storeQrcode,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeRealnameNoticeok != null">
+        store_realname_noticeok = #{record.storeRealnameNoticeok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeBackwall != null">
+        store_backwall = #{record.storeBackwall,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeBartie != null">
+        store_bartie = #{record.storeBartie,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZqOppok != null">
+        store_zq_oppok = #{record.storeZqOppok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZqJinliok != null">
+        store_zq_jinliok = #{record.storeZqJinliok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZqVivook != null">
+        store_zq_vivook = #{record.storeZqVivook,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZqHuaweiok != null">
+        store_zq_huaweiok = #{record.storeZqHuaweiok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZqSamsongok != null">
+        store_zq_samsongok = #{record.storeZqSamsongok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZqAppleok != null">
+        store_zq_appleok = #{record.storeZqAppleok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZqMeizuok != null">
+        store_zq_meizuok = #{record.storeZqMeizuok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeZq2g3gok != null">
+        store_zq_2g3gok = #{record.storeZq2g3gok,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeKccheckOutcount != null">
+        store_kccheck_outcount = #{record.storeKccheckOutcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeKccheckSelfcount != null">
+        store_kccheck_selfcount = #{record.storeKccheckSelfcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeFrontImage1 != null">
+        store_front_image1 = #{record.storeFrontImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stroeFrontImage2 != null">
+        stroe_front_image2 = #{record.stroeFrontImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stroeLinjieImage1 != null">
+        stroe_linjie_image1 = #{record.stroeLinjieImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stroeLinjieImage2 != null">
+        stroe_linjie_image2 = #{record.stroeLinjieImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stroeLinjieImage3 != null">
+        stroe_linjie_image3 = #{record.stroeLinjieImage3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeGuitaiImage1 != null">
+        store_guitai_image1 = #{record.storeGuitaiImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeGuitaiImage2 != null">
+        store_guitai_image2 = #{record.storeGuitaiImage2,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -252,16 +856,71 @@
     update biz_check_detail
     set id = #{record.id,jdbcType=BIGINT},
       plan_id = #{record.planId,jdbcType=BIGINT},
+      plan_batch_id = #{record.planBatchId,jdbcType=BIGINT},
+      plan_batch_name = #{record.planBatchName,jdbcType=VARCHAR},
       store_id = #{record.storeId,jdbcType=BIGINT},
+      store_code = #{record.storeCode,jdbcType=VARCHAR},
       store_name = #{record.storeName,jdbcType=VARCHAR},
       store_address = #{record.storeAddress,jdbcType=VARCHAR},
       check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       check_user_id = #{record.checkUserId,jdbcType=BIGINT},
       check_user_name = #{record.checkUserName,jdbcType=VARCHAR},
+      check_user_phone = #{record.checkUserPhone,jdbcType=VARCHAR},
       check_longitude = #{record.checkLongitude,jdbcType=VARCHAR},
       check_latitude = #{record.checkLatitude,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      store_existsok = #{record.storeExistsok,jdbcType=INTEGER},
+      store_realnameok = #{record.storeRealnameok,jdbcType=INTEGER},
+      store_check_city_code = #{record.storeCheckCityCode,jdbcType=VARCHAR},
+      store_check_city_name = #{record.storeCheckCityName,jdbcType=VARCHAR},
+      store_check_province_code = #{record.storeCheckProvinceCode,jdbcType=VARCHAR},
+      store_check_province_name = #{record.storeCheckProvinceName,jdbcType=VARCHAR},
+      store_checkaddress = #{record.storeCheckaddress,jdbcType=INTEGER},
+      store_regiontype = #{record.storeRegiontype,jdbcType=INTEGER},
+      store_mendiantype = #{record.storeMendiantype,jdbcType=INTEGER},
+      store_ytsqtype = #{record.storeYtsqtype,jdbcType=INTEGER},
+      store_areatype = #{record.storeAreatype,jdbcType=INTEGER},
+      store_memberstype = #{record.storeMemberstype,jdbcType=INTEGER},
+      store_nmonth_changeok = #{record.storeNmonthChangeok,jdbcType=INTEGER},
+      store_busy_usercount = #{record.storeBusyUsercount,jdbcType=INTEGER},
+      store_free_usercount = #{record.storeFreeUsercount,jdbcType=INTEGER},
+      store_member_busscope = #{record.storeMemberBusscope,jdbcType=INTEGER},
+      store_member_taocan_scope = #{record.storeMemberTaocanScope,jdbcType=INTEGER},
+      store_member_terminal_policy = #{record.storeMemberTerminalPolicy,jdbcType=INTEGER},
+      store_memeber_activesellok = #{record.storeMemeberActivesellok,jdbcType=INTEGER},
+      store_4gok = #{record.store4gok,jdbcType=INTEGER},
+      store_allnetok = #{record.storeAllnetok,jdbcType=INTEGER},
+      store_first_recd_terminal = #{record.storeFirstRecdTerminal,jdbcType=INTEGER},
+      store_healthok = #{record.storeHealthok,jdbcType=INTEGER},
+      store_conductok = #{record.storeConductok,jdbcType=INTEGER},
+      store_donglineok = #{record.storeDonglineok,jdbcType=INTEGER},
+      store_month_salecount = #{record.storeMonthSalecount,jdbcType=INTEGER},
+      store_dif_expandability = #{record.storeDifExpandability,jdbcType=INTEGER},
+      store_doortouok = #{record.storeDoortouok,jdbcType=INTEGER},
+      store_dengxiangok = #{record.storeDengxiangok,jdbcType=INTEGER},
+      store_brandok = #{record.storeBrandok,jdbcType=INTEGER},
+      store_qrcode = #{record.storeQrcode,jdbcType=INTEGER},
+      store_realname_noticeok = #{record.storeRealnameNoticeok,jdbcType=INTEGER},
+      store_backwall = #{record.storeBackwall,jdbcType=INTEGER},
+      store_bartie = #{record.storeBartie,jdbcType=INTEGER},
+      store_zq_oppok = #{record.storeZqOppok,jdbcType=INTEGER},
+      store_zq_jinliok = #{record.storeZqJinliok,jdbcType=INTEGER},
+      store_zq_vivook = #{record.storeZqVivook,jdbcType=INTEGER},
+      store_zq_huaweiok = #{record.storeZqHuaweiok,jdbcType=INTEGER},
+      store_zq_samsongok = #{record.storeZqSamsongok,jdbcType=INTEGER},
+      store_zq_appleok = #{record.storeZqAppleok,jdbcType=INTEGER},
+      store_zq_meizuok = #{record.storeZqMeizuok,jdbcType=INTEGER},
+      store_zq_2g3gok = #{record.storeZq2g3gok,jdbcType=INTEGER},
+      store_kccheck_outcount = #{record.storeKccheckOutcount,jdbcType=INTEGER},
+      store_kccheck_selfcount = #{record.storeKccheckSelfcount,jdbcType=INTEGER},
+      store_front_image1 = #{record.storeFrontImage1,jdbcType=VARCHAR},
+      stroe_front_image2 = #{record.stroeFrontImage2,jdbcType=VARCHAR},
+      stroe_linjie_image1 = #{record.stroeLinjieImage1,jdbcType=VARCHAR},
+      stroe_linjie_image2 = #{record.stroeLinjieImage2,jdbcType=VARCHAR},
+      stroe_linjie_image3 = #{record.stroeLinjieImage3,jdbcType=VARCHAR},
+      store_guitai_image1 = #{record.storeGuitaiImage1,jdbcType=VARCHAR},
+      store_guitai_image2 = #{record.storeGuitaiImage2,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,8 +931,17 @@
       <if test="planId != null">
         plan_id = #{planId,jdbcType=BIGINT},
       </if>
+      <if test="planBatchId != null">
+        plan_batch_id = #{planBatchId,jdbcType=BIGINT},
+      </if>
+      <if test="planBatchName != null">
+        plan_batch_name = #{planBatchName,jdbcType=VARCHAR},
+      </if>
       <if test="storeId != null">
         store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="storeCode != null">
+        store_code = #{storeCode,jdbcType=VARCHAR},
       </if>
       <if test="storeName != null">
         store_name = #{storeName,jdbcType=VARCHAR},
@@ -290,6 +958,9 @@
       <if test="checkUserName != null">
         check_user_name = #{checkUserName,jdbcType=VARCHAR},
       </if>
+      <if test="checkUserPhone != null">
+        check_user_phone = #{checkUserPhone,jdbcType=VARCHAR},
+      </if>
       <if test="checkLongitude != null">
         check_longitude = #{checkLongitude,jdbcType=VARCHAR},
       </if>
@@ -302,22 +973,230 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="storeExistsok != null">
+        store_existsok = #{storeExistsok,jdbcType=INTEGER},
+      </if>
+      <if test="storeRealnameok != null">
+        store_realnameok = #{storeRealnameok,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckCityCode != null">
+        store_check_city_code = #{storeCheckCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckCityName != null">
+        store_check_city_name = #{storeCheckCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckProvinceCode != null">
+        store_check_province_code = #{storeCheckProvinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckProvinceName != null">
+        store_check_province_name = #{storeCheckProvinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckaddress != null">
+        store_checkaddress = #{storeCheckaddress,jdbcType=INTEGER},
+      </if>
+      <if test="storeRegiontype != null">
+        store_regiontype = #{storeRegiontype,jdbcType=INTEGER},
+      </if>
+      <if test="storeMendiantype != null">
+        store_mendiantype = #{storeMendiantype,jdbcType=INTEGER},
+      </if>
+      <if test="storeYtsqtype != null">
+        store_ytsqtype = #{storeYtsqtype,jdbcType=INTEGER},
+      </if>
+      <if test="storeAreatype != null">
+        store_areatype = #{storeAreatype,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberstype != null">
+        store_memberstype = #{storeMemberstype,jdbcType=INTEGER},
+      </if>
+      <if test="storeNmonthChangeok != null">
+        store_nmonth_changeok = #{storeNmonthChangeok,jdbcType=INTEGER},
+      </if>
+      <if test="storeBusyUsercount != null">
+        store_busy_usercount = #{storeBusyUsercount,jdbcType=INTEGER},
+      </if>
+      <if test="storeFreeUsercount != null">
+        store_free_usercount = #{storeFreeUsercount,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberBusscope != null">
+        store_member_busscope = #{storeMemberBusscope,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberTaocanScope != null">
+        store_member_taocan_scope = #{storeMemberTaocanScope,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberTerminalPolicy != null">
+        store_member_terminal_policy = #{storeMemberTerminalPolicy,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemeberActivesellok != null">
+        store_memeber_activesellok = #{storeMemeberActivesellok,jdbcType=INTEGER},
+      </if>
+      <if test="store4gok != null">
+        store_4gok = #{store4gok,jdbcType=INTEGER},
+      </if>
+      <if test="storeAllnetok != null">
+        store_allnetok = #{storeAllnetok,jdbcType=INTEGER},
+      </if>
+      <if test="storeFirstRecdTerminal != null">
+        store_first_recd_terminal = #{storeFirstRecdTerminal,jdbcType=INTEGER},
+      </if>
+      <if test="storeHealthok != null">
+        store_healthok = #{storeHealthok,jdbcType=INTEGER},
+      </if>
+      <if test="storeConductok != null">
+        store_conductok = #{storeConductok,jdbcType=INTEGER},
+      </if>
+      <if test="storeDonglineok != null">
+        store_donglineok = #{storeDonglineok,jdbcType=INTEGER},
+      </if>
+      <if test="storeMonthSalecount != null">
+        store_month_salecount = #{storeMonthSalecount,jdbcType=INTEGER},
+      </if>
+      <if test="storeDifExpandability != null">
+        store_dif_expandability = #{storeDifExpandability,jdbcType=INTEGER},
+      </if>
+      <if test="storeDoortouok != null">
+        store_doortouok = #{storeDoortouok,jdbcType=INTEGER},
+      </if>
+      <if test="storeDengxiangok != null">
+        store_dengxiangok = #{storeDengxiangok,jdbcType=INTEGER},
+      </if>
+      <if test="storeBrandok != null">
+        store_brandok = #{storeBrandok,jdbcType=INTEGER},
+      </if>
+      <if test="storeQrcode != null">
+        store_qrcode = #{storeQrcode,jdbcType=INTEGER},
+      </if>
+      <if test="storeRealnameNoticeok != null">
+        store_realname_noticeok = #{storeRealnameNoticeok,jdbcType=INTEGER},
+      </if>
+      <if test="storeBackwall != null">
+        store_backwall = #{storeBackwall,jdbcType=INTEGER},
+      </if>
+      <if test="storeBartie != null">
+        store_bartie = #{storeBartie,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqOppok != null">
+        store_zq_oppok = #{storeZqOppok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqJinliok != null">
+        store_zq_jinliok = #{storeZqJinliok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqVivook != null">
+        store_zq_vivook = #{storeZqVivook,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqHuaweiok != null">
+        store_zq_huaweiok = #{storeZqHuaweiok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqSamsongok != null">
+        store_zq_samsongok = #{storeZqSamsongok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqAppleok != null">
+        store_zq_appleok = #{storeZqAppleok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZqMeizuok != null">
+        store_zq_meizuok = #{storeZqMeizuok,jdbcType=INTEGER},
+      </if>
+      <if test="storeZq2g3gok != null">
+        store_zq_2g3gok = #{storeZq2g3gok,jdbcType=INTEGER},
+      </if>
+      <if test="storeKccheckOutcount != null">
+        store_kccheck_outcount = #{storeKccheckOutcount,jdbcType=INTEGER},
+      </if>
+      <if test="storeKccheckSelfcount != null">
+        store_kccheck_selfcount = #{storeKccheckSelfcount,jdbcType=INTEGER},
+      </if>
+      <if test="storeFrontImage1 != null">
+        store_front_image1 = #{storeFrontImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeFrontImage2 != null">
+        stroe_front_image2 = #{stroeFrontImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeLinjieImage1 != null">
+        stroe_linjie_image1 = #{stroeLinjieImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeLinjieImage2 != null">
+        stroe_linjie_image2 = #{stroeLinjieImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="stroeLinjieImage3 != null">
+        stroe_linjie_image3 = #{stroeLinjieImage3,jdbcType=VARCHAR},
+      </if>
+      <if test="storeGuitaiImage1 != null">
+        store_guitai_image1 = #{storeGuitaiImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="storeGuitaiImage2 != null">
+        store_guitai_image2 = #{storeGuitaiImage2,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tf.biz.check.entity.BizCheckDetail">
     update biz_check_detail
     set plan_id = #{planId,jdbcType=BIGINT},
+      plan_batch_id = #{planBatchId,jdbcType=BIGINT},
+      plan_batch_name = #{planBatchName,jdbcType=VARCHAR},
       store_id = #{storeId,jdbcType=BIGINT},
+      store_code = #{storeCode,jdbcType=VARCHAR},
       store_name = #{storeName,jdbcType=VARCHAR},
       store_address = #{storeAddress,jdbcType=VARCHAR},
       check_time = #{checkTime,jdbcType=TIMESTAMP},
       check_user_id = #{checkUserId,jdbcType=BIGINT},
       check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      check_user_phone = #{checkUserPhone,jdbcType=VARCHAR},
       check_longitude = #{checkLongitude,jdbcType=VARCHAR},
       check_latitude = #{checkLatitude,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      store_existsok = #{storeExistsok,jdbcType=INTEGER},
+      store_realnameok = #{storeRealnameok,jdbcType=INTEGER},
+      store_check_city_code = #{storeCheckCityCode,jdbcType=VARCHAR},
+      store_check_city_name = #{storeCheckCityName,jdbcType=VARCHAR},
+      store_check_province_code = #{storeCheckProvinceCode,jdbcType=VARCHAR},
+      store_check_province_name = #{storeCheckProvinceName,jdbcType=VARCHAR},
+      store_checkaddress = #{storeCheckaddress,jdbcType=INTEGER},
+      store_regiontype = #{storeRegiontype,jdbcType=INTEGER},
+      store_mendiantype = #{storeMendiantype,jdbcType=INTEGER},
+      store_ytsqtype = #{storeYtsqtype,jdbcType=INTEGER},
+      store_areatype = #{storeAreatype,jdbcType=INTEGER},
+      store_memberstype = #{storeMemberstype,jdbcType=INTEGER},
+      store_nmonth_changeok = #{storeNmonthChangeok,jdbcType=INTEGER},
+      store_busy_usercount = #{storeBusyUsercount,jdbcType=INTEGER},
+      store_free_usercount = #{storeFreeUsercount,jdbcType=INTEGER},
+      store_member_busscope = #{storeMemberBusscope,jdbcType=INTEGER},
+      store_member_taocan_scope = #{storeMemberTaocanScope,jdbcType=INTEGER},
+      store_member_terminal_policy = #{storeMemberTerminalPolicy,jdbcType=INTEGER},
+      store_memeber_activesellok = #{storeMemeberActivesellok,jdbcType=INTEGER},
+      store_4gok = #{store4gok,jdbcType=INTEGER},
+      store_allnetok = #{storeAllnetok,jdbcType=INTEGER},
+      store_first_recd_terminal = #{storeFirstRecdTerminal,jdbcType=INTEGER},
+      store_healthok = #{storeHealthok,jdbcType=INTEGER},
+      store_conductok = #{storeConductok,jdbcType=INTEGER},
+      store_donglineok = #{storeDonglineok,jdbcType=INTEGER},
+      store_month_salecount = #{storeMonthSalecount,jdbcType=INTEGER},
+      store_dif_expandability = #{storeDifExpandability,jdbcType=INTEGER},
+      store_doortouok = #{storeDoortouok,jdbcType=INTEGER},
+      store_dengxiangok = #{storeDengxiangok,jdbcType=INTEGER},
+      store_brandok = #{storeBrandok,jdbcType=INTEGER},
+      store_qrcode = #{storeQrcode,jdbcType=INTEGER},
+      store_realname_noticeok = #{storeRealnameNoticeok,jdbcType=INTEGER},
+      store_backwall = #{storeBackwall,jdbcType=INTEGER},
+      store_bartie = #{storeBartie,jdbcType=INTEGER},
+      store_zq_oppok = #{storeZqOppok,jdbcType=INTEGER},
+      store_zq_jinliok = #{storeZqJinliok,jdbcType=INTEGER},
+      store_zq_vivook = #{storeZqVivook,jdbcType=INTEGER},
+      store_zq_huaweiok = #{storeZqHuaweiok,jdbcType=INTEGER},
+      store_zq_samsongok = #{storeZqSamsongok,jdbcType=INTEGER},
+      store_zq_appleok = #{storeZqAppleok,jdbcType=INTEGER},
+      store_zq_meizuok = #{storeZqMeizuok,jdbcType=INTEGER},
+      store_zq_2g3gok = #{storeZq2g3gok,jdbcType=INTEGER},
+      store_kccheck_outcount = #{storeKccheckOutcount,jdbcType=INTEGER},
+      store_kccheck_selfcount = #{storeKccheckSelfcount,jdbcType=INTEGER},
+      store_front_image1 = #{storeFrontImage1,jdbcType=VARCHAR},
+      stroe_front_image2 = #{stroeFrontImage2,jdbcType=VARCHAR},
+      stroe_linjie_image1 = #{stroeLinjieImage1,jdbcType=VARCHAR},
+      stroe_linjie_image2 = #{stroeLinjieImage2,jdbcType=VARCHAR},
+      stroe_linjie_image3 = #{stroeLinjieImage3,jdbcType=VARCHAR},
+      store_guitai_image1 = #{storeGuitaiImage1,jdbcType=VARCHAR},
+      store_guitai_image2 = #{storeGuitaiImage2,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

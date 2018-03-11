@@ -245,6 +245,136 @@ public class BizCheckDetailExample {
             return (Criteria) this;
         }
 
+        public Criteria andPlanBatchIdIsNull() {
+            addCriterion("plan_batch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdIsNotNull() {
+            addCriterion("plan_batch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdEqualTo(Long value) {
+            addCriterion("plan_batch_id =", value, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdNotEqualTo(Long value) {
+            addCriterion("plan_batch_id <>", value, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdGreaterThan(Long value) {
+            addCriterion("plan_batch_id >", value, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("plan_batch_id >=", value, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdLessThan(Long value) {
+            addCriterion("plan_batch_id <", value, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdLessThanOrEqualTo(Long value) {
+            addCriterion("plan_batch_id <=", value, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdIn(List<Long> values) {
+            addCriterion("plan_batch_id in", values, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdNotIn(List<Long> values) {
+            addCriterion("plan_batch_id not in", values, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdBetween(Long value1, Long value2) {
+            addCriterion("plan_batch_id between", value1, value2, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchIdNotBetween(Long value1, Long value2) {
+            addCriterion("plan_batch_id not between", value1, value2, "planBatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameIsNull() {
+            addCriterion("plan_batch_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameIsNotNull() {
+            addCriterion("plan_batch_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameEqualTo(String value) {
+            addCriterion("plan_batch_name =", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameNotEqualTo(String value) {
+            addCriterion("plan_batch_name <>", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameGreaterThan(String value) {
+            addCriterion("plan_batch_name >", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameGreaterThanOrEqualTo(String value) {
+            addCriterion("plan_batch_name >=", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameLessThan(String value) {
+            addCriterion("plan_batch_name <", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameLessThanOrEqualTo(String value) {
+            addCriterion("plan_batch_name <=", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameLike(String value) {
+            addCriterion("plan_batch_name like", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameNotLike(String value) {
+            addCriterion("plan_batch_name not like", value, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameIn(List<String> values) {
+            addCriterion("plan_batch_name in", values, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameNotIn(List<String> values) {
+            addCriterion("plan_batch_name not in", values, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameBetween(String value1, String value2) {
+            addCriterion("plan_batch_name between", value1, value2, "planBatchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanBatchNameNotBetween(String value1, String value2) {
+            addCriterion("plan_batch_name not between", value1, value2, "planBatchName");
+            return (Criteria) this;
+        }
+
         public Criteria andStoreIdIsNull() {
             addCriterion("store_id is null");
             return (Criteria) this;
@@ -845,73 +975,73 @@ public class BizCheckDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeIsNull() {
-            addCriterion("check_latiude is null");
+        public Criteria andCheckLatitudeIsNull() {
+            addCriterion("check_latitude is null");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeIsNotNull() {
-            addCriterion("check_latiude is not null");
+        public Criteria andCheckLatitudeIsNotNull() {
+            addCriterion("check_latitude is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeEqualTo(String value) {
-            addCriterion("check_latiude =", value, "checkLatiude");
+        public Criteria andCheckLatitudeEqualTo(String value) {
+            addCriterion("check_latitude =", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeNotEqualTo(String value) {
-            addCriterion("check_latiude <>", value, "checkLatiude");
+        public Criteria andCheckLatitudeNotEqualTo(String value) {
+            addCriterion("check_latitude <>", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeGreaterThan(String value) {
-            addCriterion("check_latiude >", value, "checkLatiude");
+        public Criteria andCheckLatitudeGreaterThan(String value) {
+            addCriterion("check_latitude >", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeGreaterThanOrEqualTo(String value) {
-            addCriterion("check_latiude >=", value, "checkLatiude");
+        public Criteria andCheckLatitudeGreaterThanOrEqualTo(String value) {
+            addCriterion("check_latitude >=", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeLessThan(String value) {
-            addCriterion("check_latiude <", value, "checkLatiude");
+        public Criteria andCheckLatitudeLessThan(String value) {
+            addCriterion("check_latitude <", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeLessThanOrEqualTo(String value) {
-            addCriterion("check_latiude <=", value, "checkLatiude");
+        public Criteria andCheckLatitudeLessThanOrEqualTo(String value) {
+            addCriterion("check_latitude <=", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeLike(String value) {
-            addCriterion("check_latiude like", value, "checkLatiude");
+        public Criteria andCheckLatitudeLike(String value) {
+            addCriterion("check_latitude like", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeNotLike(String value) {
-            addCriterion("check_latiude not like", value, "checkLatiude");
+        public Criteria andCheckLatitudeNotLike(String value) {
+            addCriterion("check_latitude not like", value, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeIn(List<String> values) {
-            addCriterion("check_latiude in", values, "checkLatiude");
+        public Criteria andCheckLatitudeIn(List<String> values) {
+            addCriterion("check_latitude in", values, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeNotIn(List<String> values) {
-            addCriterion("check_latiude not in", values, "checkLatiude");
+        public Criteria andCheckLatitudeNotIn(List<String> values) {
+            addCriterion("check_latitude not in", values, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeBetween(String value1, String value2) {
-            addCriterion("check_latiude between", value1, value2, "checkLatiude");
+        public Criteria andCheckLatitudeBetween(String value1, String value2) {
+            addCriterion("check_latitude between", value1, value2, "checkLatitude");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLatiudeNotBetween(String value1, String value2) {
-            addCriterion("check_latiude not between", value1, value2, "checkLatiude");
+        public Criteria andCheckLatitudeNotBetween(String value1, String value2) {
+            addCriterion("check_latitude not between", value1, value2, "checkLatitude");
             return (Criteria) this;
         }
 

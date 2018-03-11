@@ -7,7 +7,7 @@ public class BizCheckPlan {
 
     private Long batchId;
 
-    private Long storeCode;
+    private String storeCode;
 
     private String storeName;
 
@@ -43,6 +43,18 @@ public class BizCheckPlan {
 
     private String planCode;
 
+    private String provinceCode;
+
+    private String provinceName;
+
+    private String cityCode;
+
+    private String cityName;
+
+    private String storeAddress;
+
+    private String storeTypeName;
+
     public Long getId() {
         return id;
     }
@@ -59,12 +71,12 @@ public class BizCheckPlan {
         this.batchId = batchId;
     }
 
-    public Long getStoreCode() {
+    public String getStoreCode() {
         return storeCode;
     }
 
-    public void setStoreCode(Long storeCode) {
-        this.storeCode = storeCode;
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode == null ? null : storeCode.trim();
     }
 
     public String getStoreName() {
@@ -201,5 +213,53 @@ public class BizCheckPlan {
 
     public void setPlanCode(String planCode) {
         this.planCode = planCode == null ? null : planCode.trim();
+    }
+
+    public String getProvinceCode() {
+        return provinceCode;
+    }
+
+    public void setProvinceCode(String provinceCode) {
+        this.provinceCode = provinceCode == null ? null : provinceCode.trim();
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName == null ? null : provinceName.trim();
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode == null ? null : cityCode.trim();
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName == null ? null : cityName.trim();
+    }
+
+    public String getStoreAddress() {
+        return storeAddress;
+    }
+
+    public void setStoreAddress(String storeAddress) {
+        this.storeAddress = storeAddress == null ? null : storeAddress.trim();
+    }
+
+    public String getStoreTypeName() {
+        return storeTypeName;
+    }
+
+    public void setStoreTypeName(String storeTypeName) {
+        this.storeTypeName = storeTypeName == null ? null : storeTypeName.trim();
     }
 }
