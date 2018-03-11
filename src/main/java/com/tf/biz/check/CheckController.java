@@ -5,6 +5,7 @@ import com.tf.biz.check.entity.BizCheckDetailExample;
 import com.tf.biz.check.entity.BizCheckPlan;
 import com.tf.biz.check.entity.BizCheckPlanExample;
 import com.tf.biz.check.param.BizCheckDetailRequest;
+import com.tf.biz.check.param.BizCheckDetailResponse;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.StoreService;
 import com.tf.biz.store.entity.BizStore;
@@ -59,16 +60,29 @@ public class CheckController extends BaseController {
     @Value("${upload.dir}")
     private String uploadDir;
 
+    @RequestMapping(value = "/check/list/page", method = {RequestMethod.GET})
+    public ModelAndView checkListPage(HttpServletResponse response, HttpServletRequest request, Upload upload) throws Exception {
+        return new ModelAndView("biz/check/check_list");
+    }
+
+    @RequestMapping(value = "/check/list/query", method = {RequestMethod.GET})
+    @ResponseBody
+    public Object checkListPageQuery(HttpServletResponse response, HttpServletRequest request, Upload upload) throws Exception {
+        BizCheckDetail bizCheckDetail = new BizCheckDetail();
+        List<BizCheckDetailResponse> list = this.checkService.findList(bizCheckDetail,1000, 0);
+        return list;
+    }
+
     @RequestMapping(value = "/check/export", method = {RequestMethod.GET})
-    public void exportCheck(@RequestBody BizCheckDetail bizCheckDetail, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void exportCheck( HttpServletResponse response, HttpServletRequest request) throws Exception {
         response.reset();
         response.setHeader("Content-Disposition", "attachment;filename=" + new String(this.fileName.getBytes(), "iso-8859-1") + ".xlsx");
         response.setContentType("application/vnd.ms-excel;charset=UTF-8");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
-
-        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail,1000, 1);
+        BizCheckDetail bizCheckDetail = new BizCheckDetail();
+        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail,1000, 0);
         OutputStream output;
         try {
             output = response.getOutputStream();
