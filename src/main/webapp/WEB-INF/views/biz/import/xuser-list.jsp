@@ -21,7 +21,7 @@
         <button type="submit" class="btn btn-success" id="search" name="" onclick="loadData(1) ;">
             <i class="Hui-iconfont">&#xe665;</i>查询
         </button>
-        <a href="javascript:;" onclick="xuser_add('添加巡店人员','import/xxuserEdit','800','680')" class="btn btn-success radius">
+        <a href="javascript:;" onclick="xuser_add('添加巡店人员','import/xuserEdit','800','680')" class="btn btn-success radius">
             <i class="Hui-iconfont">&#xe665;</i>添加巡店人员</a>
     </div>
     <table class="table table-border table-bordered table-bg">

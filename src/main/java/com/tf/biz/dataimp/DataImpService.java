@@ -1,7 +1,7 @@
 package com.tf.biz.dataimp;
 import com.tf.biz.check.entity.BizCheckPlan;
 import com.tf.biz.dataimp.entity.BizImportUser;
-import com.tf.biz.dataimp.entity.BizImportUserExpress;
+import com.tf.biz.dataimp.entity.BizImportUserExample;
 import com.tf.biz.dataimp.mapper.BizImportUserMapper;
 import com.tf.biz.imp.ImportService;
 import com.tf.biz.imp.constant.ImportEnum;
@@ -67,15 +67,15 @@ public class DataImpService extends BaseService {
         int rows = Constants.PAGE_SIZE;
         Pager<BizImportUser> pager = new Pager<BizImportUser>();
         //组件查询条件
-        BizImportUserExpress express = new BizImportUserExpress();
+        BizImportUserExample express = new BizImportUserExample();
         express.setLimit(rows);
         express.setOffset(start);
         // limit 4 offset 9 4表示返回4行，9表示从表的第十行开始
         express.setOrderByClause(" create_time desc ");
         //增加查询条件
-        BizImportUserExpress.Criteria queryExpress = express.createCriteria();
-        List<BizImportUser> list = importUserMapper.selectByExpress(express);
-        Long count = importUserMapper.countByExpress(express);
+        BizImportUserExample.Criteria queryExpress = express.createCriteria();
+        List<BizImportUser> list = importUserMapper.selectByExample(express);
+        Long count = importUserMapper.countByExample(express);
         pager.setRows(list);
         pager.setTotal(count.intValue());
         return pager;

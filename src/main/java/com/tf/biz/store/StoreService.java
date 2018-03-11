@@ -1,12 +1,10 @@
 package com.tf.biz.store;
-
 import com.tf.biz.imp.ImportService;
 import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.entity.BizStoreExample;
 import com.tf.biz.store.mapper.BizStoreMapper;
-import com.tf.tadmin.entity.Admin;
 import com.tf.tadmin.entity.SessionUser;
 import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.ExcelUtil;
@@ -111,13 +109,13 @@ public class StoreService {
                         &&!StringUtils.isEmpty(ds)) {
                     bizStore.setChannelId(Integer.valueOf(cid)); //渠道ID
                     bizStore.setChannelCode(ccode); //渠道编码
-                    bizStore.setCityId(null); //地市
+                    bizStore.setCityCode(null); //地市
                     bizStore.setCityName(ds); //地市
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
                     bizStore.setChannelType(Integer.valueOf(ExcelUtil.getFromCell(row.getCell(i++)))); //渠道类型
-                    bizStore.setProvinceId(null); //省ID
+                    bizStore.setProvinceCode(null); //省ID
                     bizStore.setProvinceName(null); //省名称
                     bizStore.setAddressDetail(ExcelUtil.getFromCell(row.getCell(i++))); //详细地址
                     bizStore.setRemark(ExcelUtil.getFromCell(row.getCell(i++)));//备注
@@ -169,13 +167,13 @@ public class StoreService {
 
                     bizStore.setChannelId(Integer.valueOf(cid)); //渠道ID
                     bizStore.setChannelCode(ccode); //渠道编码
-                    bizStore.setCityId(null); //地市id
+                    bizStore.setCityCode(null); //地市id
                     bizStore.setCityName(ds); //地市
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
                     bizStore.setChannelType(Integer.valueOf(ExcelUtil.getFromCell(row.getCell(i++)))); //渠道类型
-                    bizStore.setProvinceId(null); //省ID
+                    bizStore.setProvinceCode(null); //省ID
                     bizStore.setProvinceName(null); //省名称
                     //diff
                     bizStore.setStoreName(ExcelUtil.getFromCell(row.getCell(i++))); //店铺名称
@@ -229,13 +227,13 @@ public class StoreService {
                     //diff
                     bizStore.setPlatformName(ExcelUtil.getFromCell(row.getCell(i++)));//平台商名称
                     bizStore.setPlatformCode(ExcelUtil.getFromCell(row.getCell(i++)));//平台商编码
-                    bizStore.setCityId(null); //地市
+                    bizStore.setCityCode(null); //地市
                     bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //地市
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
                     bizStore.setChannelType(Integer.valueOf(ExcelUtil.getFromCell(row.getCell(i++)))); //渠道类型
-                    bizStore.setProvinceId(null); //省ID
+                    bizStore.setProvinceCode(null); //省ID
                     bizStore.setProvinceName(null); //省名称
                     bizStore.setAddressDetail(ExcelUtil.getFromCell(row.getCell(i++))); //详细地址
                     bizStore.setRemark(ExcelUtil.getFromCell(row.getCell(i++)));//备注
