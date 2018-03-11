@@ -11,9 +11,9 @@
     <result column="is_valid_channel" jdbcType="INTEGER" property="isValidChannel" />
     <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
-    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="province_code" jdbcType="INTEGER" property="provinceCode" />
     <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
-    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="city_code" jdbcType="INTEGER" property="cityCode" />
     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
     <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" />
     <result column="longitude" jdbcType="VARCHAR" property="longitude" />
@@ -29,9 +29,10 @@
     <result column="delete_user_name" jdbcType="VARCHAR" property="deleteUserName" />
     <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="store_name" jdbcType="VARCHAR" property="storeName" />
     <result column="platform_code" jdbcType="VARCHAR" property="platformCode" />
     <result column="platform_name" jdbcType="VARCHAR" property="platformName" />
+    <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+    <result column="store_code" jdbcType="VARCHAR" property="storeCode" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -93,10 +94,10 @@
   </sql>
   <sql id="Base_Column_List">
     id, batch_id, channel_id, channel_code, channel_name, channel_type, is_valid_channel, 
-    company_code, company_name, province_id, province_name, city_id, city_name, address_detail, 
+    company_code, company_name, province_code, province_name, city_code, city_name, address_detail, 
     longitude, latitude, channel_manager_id, channel_manager_name, channel_manager_phone, 
     create_user_id, create_user_name, create_time, is_deleted, delete_user_id, delete_user_name, 
-    delete_time, remark, store_name, platform_code, platform_name
+    delete_time, remark, platform_code, platform_name, store_name, store_code
   </sql>
   <select id="selectByExample" parameterType="com.tf.biz.store.entity.BizStoreExample" resultMap="BaseResultMap">
     select
@@ -139,24 +140,26 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.store.entity.BizStore" useGeneratedKeys="true">
     insert into biz_store (batch_id, channel_id, channel_code, 
       channel_name, channel_type, is_valid_channel, 
-      company_code, company_name, province_id, 
-      province_name, city_id, city_name, 
+      company_code, company_name, province_code, 
+      province_name, city_code, city_name, 
       address_detail, longitude, latitude, 
       channel_manager_id, channel_manager_name, channel_manager_phone, 
       create_user_id, create_user_name, create_time, 
       is_deleted, delete_user_id, delete_user_name, 
-      delete_time, remark, store_name, 
-      platform_code, platform_name)
+      delete_time, remark, platform_code, 
+      platform_name, store_name, store_code
+      )
     values (#{batchId,jdbcType=BIGINT}, #{channelId,jdbcType=INTEGER}, #{channelCode,jdbcType=VARCHAR}, 
       #{channelName,jdbcType=VARCHAR}, #{channelType,jdbcType=INTEGER}, #{isValidChannel,jdbcType=INTEGER}, 
-      #{companyCode,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{provinceId,jdbcType=INTEGER}, 
-      #{provinceName,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{companyCode,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{provinceCode,jdbcType=INTEGER}, 
+      #{provinceName,jdbcType=VARCHAR}, #{cityCode,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
       #{addressDetail,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
       #{channelManagerId,jdbcType=INTEGER}, #{channelManagerName,jdbcType=VARCHAR}, #{channelManagerPhone,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{isDeleted,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, #{deleteUserName,jdbcType=VARCHAR}, 
-      #{deleteTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, 
-      #{platformCode,jdbcType=VARCHAR}, #{platformName,jdbcType=VARCHAR})
+      #{deleteTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{platformCode,jdbcType=VARCHAR}, 
+      #{platformName,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{storeCode,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.store.entity.BizStore" useGeneratedKeys="true">
     insert into biz_store
@@ -185,14 +188,14 @@
       <if test="companyName != null">
         company_name,
       </if>
-      <if test="provinceId != null">
-        province_id,
+      <if test="provinceCode != null">
+        province_code,
       </if>
       <if test="provinceName != null">
         province_name,
       </if>
-      <if test="cityId != null">
-        city_id,
+      <if test="cityCode != null">
+        city_code,
       </if>
       <if test="cityName != null">
         city_name,
@@ -239,14 +242,17 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="storeName != null">
-        store_name,
-      </if>
       <if test="platformCode != null">
         platform_code,
       </if>
       <if test="platformName != null">
         platform_name,
+      </if>
+      <if test="storeName != null">
+        store_name,
+      </if>
+      <if test="storeCode != null">
+        store_code,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -274,14 +280,14 @@
       <if test="companyName != null">
         #{companyName,jdbcType=VARCHAR},
       </if>
-      <if test="provinceId != null">
-        #{provinceId,jdbcType=INTEGER},
+      <if test="provinceCode != null">
+        #{provinceCode,jdbcType=INTEGER},
       </if>
       <if test="provinceName != null">
         #{provinceName,jdbcType=VARCHAR},
       </if>
-      <if test="cityId != null">
-        #{cityId,jdbcType=INTEGER},
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=INTEGER},
       </if>
       <if test="cityName != null">
         #{cityName,jdbcType=VARCHAR},
@@ -328,14 +334,17 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="storeName != null">
-        #{storeName,jdbcType=VARCHAR},
-      </if>
       <if test="platformCode != null">
         #{platformCode,jdbcType=VARCHAR},
       </if>
       <if test="platformName != null">
         #{platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null">
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCode != null">
+        #{storeCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -375,14 +384,14 @@
       <if test="record.companyName != null">
         company_name = #{record.companyName,jdbcType=VARCHAR},
       </if>
-      <if test="record.provinceId != null">
-        province_id = #{record.provinceId,jdbcType=INTEGER},
+      <if test="record.provinceCode != null">
+        province_code = #{record.provinceCode,jdbcType=INTEGER},
       </if>
       <if test="record.provinceName != null">
         province_name = #{record.provinceName,jdbcType=VARCHAR},
       </if>
-      <if test="record.cityId != null">
-        city_id = #{record.cityId,jdbcType=INTEGER},
+      <if test="record.cityCode != null">
+        city_code = #{record.cityCode,jdbcType=INTEGER},
       </if>
       <if test="record.cityName != null">
         city_name = #{record.cityName,jdbcType=VARCHAR},
@@ -429,14 +438,17 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.storeName != null">
-        store_name = #{record.storeName,jdbcType=VARCHAR},
-      </if>
       <if test="record.platformCode != null">
         platform_code = #{record.platformCode,jdbcType=VARCHAR},
       </if>
       <if test="record.platformName != null">
         platform_name = #{record.platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeName != null">
+        store_name = #{record.storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCode != null">
+        store_code = #{record.storeCode,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -454,9 +466,9 @@
       is_valid_channel = #{record.isValidChannel,jdbcType=INTEGER},
       company_code = #{record.companyCode,jdbcType=VARCHAR},
       company_name = #{record.companyName,jdbcType=VARCHAR},
-      province_id = #{record.provinceId,jdbcType=INTEGER},
+      province_code = #{record.provinceCode,jdbcType=INTEGER},
       province_name = #{record.provinceName,jdbcType=VARCHAR},
-      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_code = #{record.cityCode,jdbcType=INTEGER},
       city_name = #{record.cityName,jdbcType=VARCHAR},
       address_detail = #{record.addressDetail,jdbcType=VARCHAR},
       longitude = #{record.longitude,jdbcType=VARCHAR},
@@ -472,9 +484,10 @@
       delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
       delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
-      store_name = #{record.storeName,jdbcType=VARCHAR},
       platform_code = #{record.platformCode,jdbcType=VARCHAR},
-      platform_name = #{record.platformName,jdbcType=VARCHAR}
+      platform_name = #{record.platformName,jdbcType=VARCHAR},
+      store_name = #{record.storeName,jdbcType=VARCHAR},
+      store_code = #{record.storeCode,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -506,14 +519,14 @@
       <if test="companyName != null">
         company_name = #{companyName,jdbcType=VARCHAR},
       </if>
-      <if test="provinceId != null">
-        province_id = #{provinceId,jdbcType=INTEGER},
+      <if test="provinceCode != null">
+        province_code = #{provinceCode,jdbcType=INTEGER},
       </if>
       <if test="provinceName != null">
         province_name = #{provinceName,jdbcType=VARCHAR},
       </if>
-      <if test="cityId != null">
-        city_id = #{cityId,jdbcType=INTEGER},
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=INTEGER},
       </if>
       <if test="cityName != null">
         city_name = #{cityName,jdbcType=VARCHAR},
@@ -560,14 +573,17 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="storeName != null">
-        store_name = #{storeName,jdbcType=VARCHAR},
-      </if>
       <if test="platformCode != null">
         platform_code = #{platformCode,jdbcType=VARCHAR},
       </if>
       <if test="platformName != null">
         platform_name = #{platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null">
+        store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCode != null">
+        store_code = #{storeCode,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -582,9 +598,9 @@
       is_valid_channel = #{isValidChannel,jdbcType=INTEGER},
       company_code = #{companyCode,jdbcType=VARCHAR},
       company_name = #{companyName,jdbcType=VARCHAR},
-      province_id = #{provinceId,jdbcType=INTEGER},
+      province_code = #{provinceCode,jdbcType=INTEGER},
       province_name = #{provinceName,jdbcType=VARCHAR},
-      city_id = #{cityId,jdbcType=INTEGER},
+      city_code = #{cityCode,jdbcType=INTEGER},
       city_name = #{cityName,jdbcType=VARCHAR},
       address_detail = #{addressDetail,jdbcType=VARCHAR},
       longitude = #{longitude,jdbcType=VARCHAR},
@@ -600,9 +616,10 @@
       delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
       delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
-      store_name = #{storeName,jdbcType=VARCHAR},
       platform_code = #{platformCode,jdbcType=VARCHAR},
-      platform_name = #{platformName,jdbcType=VARCHAR}
+      platform_name = #{platformName,jdbcType=VARCHAR},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      store_code = #{storeCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

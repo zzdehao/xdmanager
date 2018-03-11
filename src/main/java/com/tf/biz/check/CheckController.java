@@ -60,7 +60,7 @@ public class CheckController extends BaseController {
     private String uploadDir;
 
     @RequestMapping(value = "/check/export", method = {RequestMethod.GET})
-    public void exportCheck(HttpServletResponse response, HttpServletRequest request, Upload upload) throws Exception {
+    public void exportCheck(@RequestBody BizCheckDetail bizCheckDetail, HttpServletResponse response, HttpServletRequest request) throws Exception {
         response.reset();
         response.setHeader("Content-Disposition", "attachment;filename=" + new String(this.fileName.getBytes(), "iso-8859-1") + ".xlsx");
         response.setContentType("application/vnd.ms-excel;charset=UTF-8");
@@ -68,7 +68,7 @@ public class CheckController extends BaseController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
 
-        XSSFWorkbook workBook = this.checkService.createExcel();
+        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail);
         OutputStream output;
         try {
             output = response.getOutputStream();
@@ -90,7 +90,7 @@ public class CheckController extends BaseController {
     @RequestMapping(value = "/check/route/query", method = {RequestMethod.POST})
     @ResponseBody
     public Object routeCheckQuery(@RequestBody BizCheckDetailRequest checkDetailRequest) throws Exception {
-        List<List<Map<String, Object>>> relist = new ArrayList();
+        List<List<Map<String, Object>>> reList = new ArrayList();
 
         BizCheckDetailExample checkDetailExample = new BizCheckDetailExample();
         BizCheckDetailExample.Criteria criteria = checkDetailExample.createCriteria();
@@ -101,7 +101,7 @@ public class CheckController extends BaseController {
             List<BizCheckPlan> checkPlanList = this.checkService.findCheckPlan(checkPlanExample);
             List<Long> planIdList  = checkPlanList.stream().map(BizCheckPlan::getId).collect(Collectors.toList());
             if(CollectionUtils.isEmpty(planIdList)){
-                return relist;
+                return reList;
             }
             criteria.andPlanIdIn(planIdList);
         }
@@ -110,7 +110,7 @@ public class CheckController extends BaseController {
         checkDetailExample.setOrderByClause("check_time");
         List<BizCheckDetail> list = this.checkService.findCheckDetail(checkDetailExample);
         if(CollectionUtils.isEmpty(list)){
-            return relist;
+            return reList;
         }
 
         List<Long> storeIdList = list.stream().map(BizCheckDetail::getStoreId).collect(Collectors.toList());
@@ -118,10 +118,10 @@ public class CheckController extends BaseController {
         exampleStore.createCriteria().andIdIn(storeIdList);
         List<BizStore> storeList = this.storeService.findStore(exampleStore);
         if(CollectionUtils.isEmpty(storeList)){
-            return relist;
+            return reList;
         }
         Map<Long, BizStore> storeMap = storeList.stream().collect(Collectors.toMap(BizStore::getId, Function.identity()));
-        Map<Long, List<BizCheckDetail>> checkDetailMap = list.stream().collect(Collectors.groupingBy(BizCheckDetail::getPlanId, Collectors.toList()));
+        Map<Long, List<BizCheckDetail>> checkDetailMap = list.stream().collect(Collectors.groupingBy(BizCheckDetail::getCheckUserId, Collectors.toList()));
 
         checkDetailMap.forEach((k, v) -> {
             List<Map<String, Object>> listTemp = new ArrayList<>();
@@ -131,10 +131,10 @@ public class CheckController extends BaseController {
                     put("store", storeMap.get(l.getStoreId()));
                 }});
             });
-            relist.add(listTemp);
+            reList.add(listTemp);
 
         });
-        return relist;
+        return reList;
     }
 
     private void buildCheckDetailCriteria(BizCheckDetailExample.Criteria criteria, BizCheckDetailRequest checkDetailRequest){

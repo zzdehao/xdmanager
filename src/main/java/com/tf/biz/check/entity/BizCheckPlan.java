@@ -7,21 +7,23 @@ public class BizCheckPlan {
 
     private Long batchId;
 
-    private Long storeId;
+    private Long storeCode;
 
     private String storeName;
 
-    private Integer checkUserId;
+    private Integer storeId;
+
+    private Integer checkUserid;
 
     private String checkUserName;
+
+    private String channelUserTel;
 
     private Date checkStartDate;
 
     private Date checkEndDate;
 
     private Integer checkStatus;
-
-    private Integer checkNumber;
 
     private Date checkLastTime;
 
@@ -32,6 +34,14 @@ public class BizCheckPlan {
     private String deleteUserName;
 
     private Date deleteTime;
+
+    private String channelCode;
+
+    private String channelName;
+
+    private Integer channelType;
+
+    private String planCode;
 
     public Long getId() {
         return id;
@@ -49,12 +59,12 @@ public class BizCheckPlan {
         this.batchId = batchId;
     }
 
-    public Long getStoreId() {
-        return storeId;
+    public Long getStoreCode() {
+        return storeCode;
     }
 
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
+    public void setStoreCode(Long storeCode) {
+        this.storeCode = storeCode;
     }
 
     public String getStoreName() {
@@ -65,12 +75,20 @@ public class BizCheckPlan {
         this.storeName = storeName == null ? null : storeName.trim();
     }
 
-    public Integer getCheckUserId() {
-        return checkUserId;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setCheckUserId(Integer checkUserId) {
-        this.checkUserId = checkUserId;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
+    public Integer getCheckUserid() {
+        return checkUserid;
+    }
+
+    public void setCheckUserid(Integer checkUserid) {
+        this.checkUserid = checkUserid;
     }
 
     public String getCheckUserName() {
@@ -79,6 +97,14 @@ public class BizCheckPlan {
 
     public void setCheckUserName(String checkUserName) {
         this.checkUserName = checkUserName == null ? null : checkUserName.trim();
+    }
+
+    public String getChannelUserTel() {
+        return channelUserTel;
+    }
+
+    public void setChannelUserTel(String channelUserTel) {
+        this.channelUserTel = channelUserTel == null ? null : channelUserTel.trim();
     }
 
     public Date getCheckStartDate() {
@@ -103,14 +129,6 @@ public class BizCheckPlan {
 
     public void setCheckStatus(Integer checkStatus) {
         this.checkStatus = checkStatus;
-    }
-
-    public Integer getCheckNumber() {
-        return checkNumber;
-    }
-
-    public void setCheckNumber(Integer checkNumber) {
-        this.checkNumber = checkNumber;
     }
 
     public Date getCheckLastTime() {
@@ -151,5 +169,37 @@ public class BizCheckPlan {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getChannelCode() {
+        return channelCode;
+    }
+
+    public void setChannelCode(String channelCode) {
+        this.channelCode = channelCode == null ? null : channelCode.trim();
+    }
+
+    public String getChannelName() {
+        return channelName;
+    }
+
+    public void setChannelName(String channelName) {
+        this.channelName = channelName == null ? null : channelName.trim();
+    }
+
+    public Integer getChannelType() {
+        return channelType;
+    }
+
+    public void setChannelType(Integer channelType) {
+        this.channelType = channelType;
+    }
+
+    public String getPlanCode() {
+        return planCode;
+    }
+
+    public void setPlanCode(String planCode) {
+        this.planCode = planCode == null ? null : planCode.trim();
     }
 }

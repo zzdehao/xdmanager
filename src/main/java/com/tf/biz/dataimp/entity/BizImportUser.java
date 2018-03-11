@@ -1,11 +1,11 @@
 package com.tf.biz.dataimp.entity;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.util.Date;
-public class BizImportUser implements Serializable{
+
+public class BizImportUser {
     private Long id;
+
+    private String batchName;
 
     private Long batchId;
 
@@ -13,11 +13,11 @@ public class BizImportUser implements Serializable{
 
     private String userId;
 
-    private Integer provinceId;
+    private Integer provinceCode;
 
     private String provinceName;
 
-    private Integer cityId;
+    private Integer cityCode;
 
     private String cityName;
 
@@ -44,8 +44,7 @@ public class BizImportUser implements Serializable{
     private Integer createUserId;
 
     private String createUserName;
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+
     private Date createTime;
 
     private Integer isDeleted;
@@ -64,6 +63,14 @@ public class BizImportUser implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getBatchName() {
+        return batchName;
+    }
+
+    public void setBatchName(String batchName) {
+        this.batchName = batchName == null ? null : batchName.trim();
     }
 
     public Long getBatchId() {
@@ -90,12 +97,12 @@ public class BizImportUser implements Serializable{
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public Integer getProvinceId() {
-        return provinceId;
+    public Integer getProvinceCode() {
+        return provinceCode;
     }
 
-    public void setProvinceId(Integer provinceId) {
-        this.provinceId = provinceId;
+    public void setProvinceCode(Integer provinceCode) {
+        this.provinceCode = provinceCode;
     }
 
     public String getProvinceName() {
@@ -106,12 +113,12 @@ public class BizImportUser implements Serializable{
         this.provinceName = provinceName == null ? null : provinceName.trim();
     }
 
-    public Integer getCityId() {
-        return cityId;
+    public Integer getCityCode() {
+        return cityCode;
     }
 
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
+    public void setCityCode(Integer cityCode) {
+        this.cityCode = cityCode;
     }
 
     public String getCityName() {

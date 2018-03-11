@@ -241,11 +241,37 @@
                         for(let k = 0; k < line.length; k++){
                             let point = line[k].detail;
                             let p = [point.checkLongitude, point.checkLatitude];
+                            let iconLabelObj = {};
+                            if(k == 0){
+                                iconLabelObj = {
+                                    innerHTML: String.fromCharCode('起'.charCodeAt(0)),
+                                    style: {
+                                        top: p[1] - 38 + 'px',
+                                        left:  '3px',
+                                        fontSize: '12px',
+                                        right: 'auto',
+                                        color: 'ffffff'
+                                    }
+                                }
+                            }
+                            if(k == line.length - 1){
+                                iconLabelObj = {
+                                    innerHTML: String.fromCharCode('终'.charCodeAt(0)),
+                                    style: {
+                                        top: p[1] - 38 + 'px',
+                                        left:  '3px',
+                                        fontSize: '12px',
+                                        right: 'auto',
+                                        color: 'ffffff'
+                                    }
+                                }
+                            }
                             let marker = new SvgMarker(shape, {
                                 zIndex: 120,
                                 map: map,
                                 // showPositionPoint: true,
-                                position: p
+                                position: p,
+                                iconLabel: iconLabelObj
                             });
                             let store = line[k].store;
                             marker.on('click', function () {
@@ -253,6 +279,7 @@
                                 // info.push("<div><div><img style=\"float:left;\" src=\" http://webapi.amap.com/images/autonavi.png \"/></div> ");
                                 info.push("<div><div style=\"padding:0px 0px 0px 4px;\"><b>" + store.companyName + "</b>");
                                 info.push("类型 : " + channelMap[store.channelType]);
+                                info.push("巡检时间 : " + point.checkTime);
                                 info.push("联系人 : " + store.channelManagerName);
                                 info.push("电话 : " + store.channelManagerPhone);
                                 info.push("地址 :" + store.addressDetail + "</div></div>");

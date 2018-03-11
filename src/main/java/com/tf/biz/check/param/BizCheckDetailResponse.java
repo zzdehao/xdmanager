@@ -5,7 +5,7 @@ import com.tf.biz.store.entity.BizStore;
 
 import java.util.Date;
 
-public class BizCheckDetailResponse extends BizCheckDetail {
+public class BizCheckDetailResponse {
 
     private BizCheckDetail bizCheckDetail;
 

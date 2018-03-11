@@ -1,13 +1,15 @@
 package com.tf.biz.dataimp.mapper;
-import java.util.List;
+
 import com.tf.biz.dataimp.entity.BizImportUser;
-import com.tf.biz.dataimp.entity.BizImportUserExpress;
+import com.tf.biz.dataimp.entity.BizImportUserExample;
 import org.apache.ibatis.annotations.Param;
 
-public interface BizImportUserMapper {
-    long countByExpress(BizImportUserExpress Express);
+import java.util.List;
 
-    int deleteByExpress(BizImportUserExpress Express);
+public interface BizImportUserMapper {
+    long countByExample(BizImportUserExample example);
+
+    int deleteByExample(BizImportUserExample example);
 
     int deleteByPrimaryKey(Long id);
 
@@ -15,13 +17,13 @@ public interface BizImportUserMapper {
 
     int insertSelective(BizImportUser record);
 
-    List<BizImportUser> selectByExpress(BizImportUserExpress Express);
+    List<BizImportUser> selectByExample(BizImportUserExample example);
 
     BizImportUser selectByPrimaryKey(Long id);
 
-    int updateByExpressSelective(@Param("record") BizImportUser record, @Param("Express") BizImportUserExpress Express);
+    int updateByExampleSelective(@Param("record") BizImportUser record, @Param("example") BizImportUserExample example);
 
-    int updateByExpress(@Param("record") BizImportUser record, @Param("Express") BizImportUserExpress Express);
+    int updateByExample(@Param("record") BizImportUser record, @Param("example") BizImportUserExample example);
 
     int updateByPrimaryKeySelective(BizImportUser record);
 

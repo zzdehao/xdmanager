@@ -21,11 +21,11 @@ public class BizStore {
 
     private String companyName;
 
-    private Integer provinceId;
+    private Integer provinceCode;
 
     private String provinceName;
 
-    private Integer cityId;
+    private Integer cityCode;
 
     private String cityName;
 
@@ -57,11 +57,13 @@ public class BizStore {
 
     private String remark;
 
-    private String storeName;
-
     private String platformCode;
 
     private String platformName;
+
+    private String storeName;
+
+    private String storeCode;
 
     public Long getId() {
         return id;
@@ -135,12 +137,12 @@ public class BizStore {
         this.companyName = companyName == null ? null : companyName.trim();
     }
 
-    public Integer getProvinceId() {
-        return provinceId;
+    public Integer getProvinceCode() {
+        return provinceCode;
     }
 
-    public void setProvinceId(Integer provinceId) {
-        this.provinceId = provinceId;
+    public void setProvinceCode(Integer provinceCode) {
+        this.provinceCode = provinceCode;
     }
 
     public String getProvinceName() {
@@ -151,12 +153,12 @@ public class BizStore {
         this.provinceName = provinceName == null ? null : provinceName.trim();
     }
 
-    public Integer getCityId() {
-        return cityId;
+    public Integer getCityCode() {
+        return cityCode;
     }
 
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
+    public void setCityCode(Integer cityCode) {
+        this.cityCode = cityCode;
     }
 
     public String getCityName() {
@@ -279,14 +281,6 @@ public class BizStore {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName == null ? null : storeName.trim();
-    }
-
     public String getPlatformCode() {
         return platformCode;
     }
@@ -301,5 +295,21 @@ public class BizStore {
 
     public void setPlatformName(String platformName) {
         this.platformName = platformName == null ? null : platformName.trim();
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName == null ? null : storeName.trim();
+    }
+
+    public String getStoreCode() {
+        return storeCode;
+    }
+
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode == null ? null : storeCode.trim();
     }
 }

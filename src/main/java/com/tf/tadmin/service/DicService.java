@@ -16,6 +16,13 @@ public class DicService extends BaseService{
     public  List<TDict> queryTypeList(){
         return tdictMapper.queryTypeList();
     }
+
+    public List<TDict> list(String type){
+        Map<String , Object> param = this.param() ;
+        param.put("type", type);
+        return this.tdictMapper.queryList(param) ;
+    }
+
 	public List<TDict> list(Integer s , String q){
 		Map<String , Object> param = this.param() ;
 		param.put("status", s) ;
