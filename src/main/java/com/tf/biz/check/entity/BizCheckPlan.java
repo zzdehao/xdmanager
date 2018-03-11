@@ -65,6 +65,8 @@ public class BizCheckPlan {
 
     private Integer createUserId;
 
+    private String batchName;
+
     private String createUserName;
 
     public Long getId() {
@@ -313,6 +315,14 @@ public class BizCheckPlan {
 
     public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
+    }
+
+    public String getBatchName() {
+        return batchName;
+    }
+
+    public void setBatchName(String batchName) {
+        this.batchName = batchName == null ? null : batchName.trim();
     }
 
     public String getCreateUserName() {
