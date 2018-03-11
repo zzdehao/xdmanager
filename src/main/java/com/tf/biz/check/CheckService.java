@@ -4,6 +4,7 @@ import com.tf.biz.check.entity.*;
 import com.tf.biz.check.mapper.BizCheckDetailMapper;
 import com.tf.biz.check.mapper.BizCheckPlanMapper;
 import com.tf.biz.check.param.BizCheckDetailColResponse;
+import com.tf.biz.check.param.BizCheckDetailResponse;
 import com.tf.biz.store.StoreService;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.entity.BizStoreExample;
@@ -36,23 +37,25 @@ public class CheckService {
     @Autowired
     private BizCheckDetailMapper bizCheckDetailMapper;
 
-    @Autowired
-    private BizCheckDetailItemMapper bizCheckDetailItemMapper;
 
     @Transactional(readOnly = true)
     XSSFWorkbook createExcel(BizCheckDetail checkDetail, Integer limit, Integer offset) {
 
-        List<BizCheckDetailColResponse> checkDetailColResponseList = this.findList(checkDetail, limit, offset);
+        List<BizCheckDetailResponse> checkDetailResponses = this.findList(checkDetail, limit, offset);
 
-        return buildExcel(tDictList, checkDetailColResponseList);
+//        return buildExcel(checkDetailResponses);
+        return null;
     }
 
-    private List findList(BizCheckDetail checkDetail, Integer limit, Integer offset) {
+    private List<BizCheckDetailResponse> findList(BizCheckDetail checkDetail, Integer limit, Integer offset) {
 
-        List<BizCheckDetailColResponse> checkDetailColResponseList = new ArrayList<>();
+        List<BizCheckDetailResponse> checkDetailResponses = new ArrayList<>();
 
         BizCheckDetailExample detailExample = new BizCheckDetailExample();
-        detailExample.createCriteria().andIdIn(detailIdList);
+        detailExample.setLimit(limit);
+        detailExample.setOffset(offset);
+        detailExample.setOrderByClause("check_time desc");
+
         //检查详情列表
         List<BizCheckDetail> detailList = this.bizCheckDetailMapper.selectByExample(detailExample);
         //店铺ID列表
@@ -62,21 +65,135 @@ public class CheckService {
         exampleStore.createCriteria().andIdIn(storeIdList);
         List<BizStore> storeList = this.storeService.findStore(exampleStore);
         if (CollectionUtils.isEmpty(storeList)) {
-            return checkDetailColResponseList;
+            return checkDetailResponses;
         }
         //店铺Map
         Map<Long, BizStore> storeMap = storeList.stream().collect(Collectors.toMap(BizStore::getId, Function.identity()));
 
         detailList.forEach(d -> {
             BizCheckDetailColResponse checkDetailColResponse = new BizCheckDetailColResponse();
-            checkDetailColResponseList.add(checkDetailColResponse);
+            checkDetailResponses.add(checkDetailColResponse);
             checkDetailColResponse.setBizStore(storeMap.get(d.getStoreId()));
             checkDetailColResponse.setBizCheckDetail(d);
-            checkDetailColResponse.setColMap(itemMap.get(d.getId()));
         });
 
-        return checkDetailColResponseList;
+        return checkDetailResponses;
     }
+
+//    private XSSFWorkbook buildExcel( List<BizCheckDetailResponse> checkDetailResponses) {
+////        FileOutputStream fileOut = null;
+////        BufferedImage bufferImg = null;
+//
+//        XSSFWorkbook workBook = new XSSFWorkbook();
+//        XSSFSheet sheet = workBook.createSheet("巡店检查记录");
+//        XSSFRow headRow = sheet.createRow(0);
+//        XSSFCell cell = null;
+//        int n = 0;
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("计划批次");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("省份");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("城市");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("渠道名称");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("公司名称");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("店铺名称");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("平台名称");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("详细地址");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("渠道管理员");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("渠道管理员电话");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("检查人");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("检查时间");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("经度");
+//        cell = headRow.createCell(n++);
+//        cell.setCellValue("纬度");
+//
+//
+//
+//        for (int i = 0, size = tDictList.size(); i < size; i++) {
+//            cell = headRow.createCell(i + n);
+//            cell.setCellValue(tDictList.get(i).getName());
+//        }
+//
+//        for (int i = 0, size = checkDetailColResponseList.size(); i < size; i++) {
+//            BizCheckDetailColResponse checkDetailColResponse = checkDetailColResponseList.get(i);
+//            String provinceName = checkDetailColResponse.getBizStore().getProvinceName();
+//            String cityName = checkDetailColResponse.getBizStore().getCityName();
+//            String channelName = checkDetailColResponse.getBizStore().getChannelName();
+//            String companyName = checkDetailColResponse.getBizStore().getCompanyName();
+//            String storeName = checkDetailColResponse.getBizStore().getStoreName();
+//            String platformName = checkDetailColResponse.getBizStore().getPlatformName();
+//            String addressDetail = checkDetailColResponse.getBizStore().getAddressDetail();
+//            String channelManagerName = checkDetailColResponse.getBizStore().getChannelManagerName();
+//            String channelManagerPhone = checkDetailColResponse.getBizStore().getChannelManagerPhone();
+//            String checkUserName = checkDetailColResponse.getBizCheckDetail().getCheckUserName();
+//            Date checkTime = checkDetailColResponse.getBizCheckDetail().getCheckTime();
+//            String checkLongitude = checkDetailColResponse.getBizCheckDetail().getCheckLongitude();
+//            String checkLatitude = checkDetailColResponse.getBizCheckDetail().getCheckLatitude();
+//            headRow = sheet.createRow(i + 1);
+//            int k = 0;
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue("01");
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(provinceName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(cityName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(channelName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(companyName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(storeName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(platformName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(addressDetail);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(channelManagerName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(channelManagerPhone);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(checkUserName);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(checkTime);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(checkLongitude);
+//            cell = headRow.createCell(k++);
+//            cell.setCellValue(checkLatitude);
+//
+//            Map<String, Object> colMap = checkDetailColResponse.getColMap();
+//            for (int j = 0; j < tDictList.size(); j++) {
+//                cell = headRow.createCell(j + k);
+//                String value = "是";
+//                if ("1".equals(String.valueOf(colMap.get(tDictList.get(j).getValue())))) {
+//                    value = "否";
+//                }
+//                cell.setCellValue(value);
+//            }
+//        }
+//        try {
+//            ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+//            bufferImg = ImageIO.read(new File("D:/1.jpg"));
+//            ImageIO.write(bufferImg, "jpg", byteArrayOut);
+//            XSSFDrawing patriarch = sheet.createDrawingPatriarch();
+//            XSSFClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, (short) 3, 0, (short) 5, 7);
+//            patriarch.createPicture(anchor, workBook.addPicture(byteArrayOut.toByteArray(), XSSFWorkbook.PICTURE_TYPE_JPEG));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+//        return workBook;
+//    }
 
 //    @Transactional(readOnly = true)
 //    XSSFWorkbook createExcel(HttpServletRequest request) {

@@ -68,7 +68,7 @@ public class CheckController extends BaseController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
 
-        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail);
+        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail,1000, 1);
         OutputStream output;
         try {
             output = response.getOutputStream();
