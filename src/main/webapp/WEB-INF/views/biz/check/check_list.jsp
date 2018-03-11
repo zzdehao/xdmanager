@@ -99,9 +99,9 @@
     </div>
 </div>
 <%@include file="/footer.jsp" %>
-<div id="temp">
+<div id="temp" style="display: none">
     <table>
-    <tr class="text-c" style="display: none">
+    <tr class="text-c" >
         <td></td>
         <td></td>
         <td></td>
@@ -161,68 +161,7 @@
     </tr>
     </table>
 </div>
-<script type="text/x-handlebars-template" id="xuser-template">
-    {{#each rows}}
-    <tr class="text-c">
-        <td>{{bizCheckDetail.planBatchName}}</td>
-        <td>{{bizStore.provinceName}}</td>
-        <td>{{bizStore.cityName}}</td>
-        <td>{{bizStore.channelName}}</td>
-        <td>{{bizStore.companyName}}</td>
-        <td>{{bizStore.storeName}}</td>
-        <td>{{bizStore.platformName}}</td>
-        <td>{{bizStore.addressDetail}}</td>
-        <td>{{bizStore.channelManagerName}}</td>
-        <td>{{bizStore.channelManagerPhone}}</td>
-        <td>{{bizCheckDetail.checkUserName}}</td>
-        <td>{{bizCheckDetail.checkTime}}</td>
-        <td>{{bizCheckDetail.checkLongitude}}</td>
-        <td>{{bizCheckDetail.checkLatitude}}</td>
-        <td>{{bizCheckDetail.storeExistsok}}</td>
-        <td>{{bizCheckDetail.storeRealnameok}}</td>
-        <td>{{bizCheckDetail.storeCheckProvinceName}}</td>
-        <td>{{bizCheckDetail.storeCheckCityName}}</td>
-        <td>{{bizCheckDetail.storeAddress}}</td>
-        <td>{{bizCheckDetail.storeRegiontype}}</td>
-        <td>{{bizCheckDetail.storeMendiantype}}</td>
-        <td>{{bizCheckDetail.storeYtsqtype}}</td>
-        <td>{{bizCheckDetail.storeAreatype}}</td>
-        <td>{{bizCheckDetail.storeMemberstype}}</td>
-        <td>{{bizCheckDetail.storeNmonthChangeok}}</td>
-        <td>{{bizCheckDetail.storeBusyUsercount}}</td>
-        <td>{{bizCheckDetail.storeFreeUsercount}}</td>
-        <td>{{bizCheckDetail.storeMemberBusscope}}</td>
-        <td>{{bizCheckDetail.storeMemberTaocanScope}}</td>
-        <td>{{bizCheckDetail.storeMemberTerminalPolicy}}</td>
-        <td>{{bizCheckDetail.storeMemeberActivesellok}}</td>
-        <td>{{bizCheckDetail.store4gok}}</td>
-        <td>{{bizCheckDetail.storeAllnetok}}</td>
-        <td>{{bizCheckDetail.storeFirstRecdTerminal}}</td>
-        <td>{{bizCheckDetail.storeHealthok}}</td>
-        <td>{{bizCheckDetail.storeConductok}}</td>
-        <td>{{bizCheckDetail.storeDonglineok}}</td>
-        <td>{{bizCheckDetail.storeMonthSalecount}}</td>
-        <td>{{bizCheckDetail.storeDifExpandability}}</td>
-        <td>{{bizCheckDetail.storeDoortouok}}</td>
-        <td>{{bizCheckDetail.storeDengxiangok}}</td>
-        <td>{{bizCheckDetail.storeBrandok}}</td>
-        <td>{{bizCheckDetail.storeQrcode}}</td>
-        <td>{{bizCheckDetail.storeRealnameNoticeok}}</td>
-        <td>{{bizCheckDetail.storeBackwall}}</td>
-        <td>{{bizCheckDetail.storeBartie}}</td>
-        <td>{{bizCheckDetail.storeZqOppok}}</td>
-        <td>{{bizCheckDetail.storeZqJinliok}}</td>
-        <td>{{bizCheckDetail.storeZqVivook}}</td>
-        <td>{{bizCheckDetail.storeZqHuaweiok}}</td>
-        <td>{{bizCheckDetail.storeZqSamsongok}}</td>
-        <td>{{bizCheckDetail.storeZqAppleok}}</td>
-        <td>{{bizCheckDetail.storeZqMeizuok}}</td>
-        <td>{{bizCheckDetail.storeZq2g3gok}}</td>
-        <td>{{bizCheckDetail.storeKccheckOutcount}}</td>
-        <td>{{bizCheckDetail.storeKccheckSelfcount}}</td>
-    </tr>
-    {{/each}}
-</script>
+
 <script type="text/javascript">
 
     function checkOkMap(key){
@@ -355,96 +294,94 @@
     Handlebars.registerHelper("checkScopMap" , checkScopMap) ;
     Handlebars.registerHelper("checkLiangMap" , checkLiangMap) ;
 
-    var logTemplate = Handlebars.compile($("#xuser-template").html());
+
     function loadData(page) {
         page = page || 1;
         var index = parent.layer.load();
         $.getJSON("check/list/query", {
             page: page
         }, function (data) {
-            console.info(data);
-            //buildTR(data);
-            // $('#xuser-list').html(logTemplate(data));
-            // laypage({
-            //     cont: 'pager', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-            //     pages: data.pages, //通过后台拿到的总页数
-            //     curr: page || 1, //当前页
-            //     jump: function (obj, first) { //触发分页后的回调
-            //         $("#pager-info").html('共' + data.total + '条,' + obj.pages + '页,当前第' + obj.curr + '页');
-            //         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-            //             loadData(obj.curr);
-            //         }
-            //     }
-            // });
-            parent.layer.close(index);
+            parent.layer.close(index);buildTR(data);
+            laypage({
+                cont: 'pager', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                pages: data.pages, //通过后台拿到的总页数
+                curr: page || 1, //当前页
+                jump: function (obj, first) { //触发分页后的回调
+                    $("#pager-info").html('共' + data.total + '条,' + obj.pages + '页,当前第' + obj.curr + '页');
+                    if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                        loadData(obj.curr);
+                    }
+                }
+            });
         });
     }
 
     function buildTR(list){
-        var html = $("#temp").find("table").html();
-        alert(html);
+        var html = $("#temp").find("tbody").html();
+        var $listBox = $("#xuser-list");
+        $listBox.empty();
         for(var i = 0; i < list.length; i++){
             var obj = list[i];
             var $tr = $(html);
             var tdList = $tr.find("td");
             var k = 0;
+            $(tdList[k++]).text(obj.bizCheckDetail.planBatchName);
+            $(tdList[k++]).text(obj.bizStore.provinceName);
+            $(tdList[k++]).text(obj.bizStore.cityName);
             $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $("#xuser-list").append($tr);
+            $(tdList[k++]).text(obj.bizStore.companyName);
+            $(tdList[k++]).text(obj.bizStore.storeName);
+            $(tdList[k++]).text(obj.bizStore.platformName);
+            $(tdList[k++]).text(obj.bizStore.addressDetail);
+            $(tdList[k++]).text(obj.bizStore.channelManagerName);
+            $(tdList[k++]).text(obj.bizStore.channelManagerPhone);
+            $(tdList[k++]).text(obj.bizCheckDetail.checkUserName);
+            $(tdList[k++]).text(obj.bizCheckDetail.checkTime);
+            $(tdList[k++]).text(obj.bizCheckDetail.checkLongitude);
+            $(tdList[k++]).text(obj.bizCheckDetail.checkLatitude);
+            $(tdList[k++]).text(obj.bizCheckDetail.storeExistsok);
+            $(tdList[k++]).text(obj.bizCheckDetail.storeRealnameok);
+            $(tdList[k++]).text(obj.bizCheckDetail.storeCheckProvinceName);
+            $(tdList[k++]).text(obj.bizCheckDetail.storeCheckCityName);
+            $(tdList[k++]).text(obj.bizCheckDetail.storeAddress);
+            $(tdList[k++]).text(checkRegionMap(obj.bizCheckDetail.storeRegiontype));
+            $(tdList[k++]).text(checkMendianMap(obj.bizCheckDetail.storeMendiantype));
+            $(tdList[k++]).text(checkYtsqMap(obj.bizCheckDetail.storeYtsqtype));
+            $(tdList[k++]).text(checkAreaMap(obj.bizCheckDetail.storeAreatype));
+            $(tdList[k++]).text(checkMembersMap(obj.bizCheckDetail.storeMemberstype));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeNmonthChangeok));
+            $(tdList[k++]).text(obj.bizCheckDetail.storeBusyUsercount);
+            $(tdList[k++]).text(obj.bizCheckDetail.storeFreeUsercount);
+            $(tdList[k++]).text(checkScopMap(obj.bizCheckDetail.storeMemberBusscope));
+            $(tdList[k++]).text(checkScopMap(obj.bizCheckDetail.storeMemberTaocanScope));
+            $(tdList[k++]).text(checkScopMap(obj.bizCheckDetail.storeMemberTerminalPolicy));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeMemeberActivesellok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.store4gok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeAllnetok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeFirstRecdTerminal));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeHealthok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeConductok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeDonglineok));
+            $(tdList[k++]).text(checkLiangMap(obj.bizCheckDetail.storeMonthSalecount));
+            $(tdList[k++]).text(checkLiangMap(obj.bizCheckDetail.storeDifExpandability));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeDoortouok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeDengxiangok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeBrandok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeQrcode));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeRealnameNoticeok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeBackwall));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeBartie));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqOppok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqJinliok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqVivook));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqHuaweiok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqSamsongok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqAppleok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqMeizuok));
+            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZq2g3gok));
+            $(tdList[k++]).text(obj.bizCheckDetail.storeKccheckOutcount);
+            $(tdList[k++]).text(obj.bizCheckDetail.storeKccheckSelfcount);
+            $listBox.append($tr);
         }
     }
 

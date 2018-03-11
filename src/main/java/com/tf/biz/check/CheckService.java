@@ -360,8 +360,8 @@ public class CheckService {
             String storeBrandok = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreBrandok());
             String storeQrcode = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreQrcode());
             String storeRealnameNoticeok = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreRealnameNoticeok());
-            int storeBackwall = checkDetailResponse.getBizCheckDetail().getStoreBackwall();
-            int storeBartie = checkDetailResponse.getBizCheckDetail().getStoreBartie();
+            String storeBackwall = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreBackwall());
+            String storeBartie = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreBartie());
             String storeZqOppok = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreZqOppok());
             String storeZqJinliok = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreZqJinliok());
             String storeZqVivook = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreZqVivook());
