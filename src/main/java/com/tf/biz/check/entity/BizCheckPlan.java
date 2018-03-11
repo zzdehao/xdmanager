@@ -61,6 +61,12 @@ public class BizCheckPlan {
 
     private String blz3;
 
+    private Date createTime;
+
+    private Integer createUserId;
+
+    private String createUserName;
+
     public Long getId() {
         return id;
     }
@@ -291,5 +297,29 @@ public class BizCheckPlan {
 
     public void setBlz3(String blz3) {
         this.blz3 = blz3 == null ? null : blz3.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName == null ? null : createUserName.trim();
     }
 }
