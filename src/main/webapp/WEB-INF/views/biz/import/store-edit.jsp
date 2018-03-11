@@ -80,8 +80,8 @@
 			<label class="form-label col-3"><span class="c-red">*</span>渠道类型：</label>
 			<div class="formControls col-5">
 				<span class="select-box">
-				  <select class="select" size="1" name="channelType">
-					<option value="11" selected>自有渠道</option>
+				  <select class="select" size="1" name="channelType" id="channelType">
+					<option value="11">自有渠道</option>
 					<option value="12">社会渠道</option>
 					<option value="13">小微渠道</option>
 				  </select>
@@ -103,7 +103,7 @@
 			<div class="formControls skin-minimal col-xs-8 col-sm-9">
 				<div class="formControls col-5">
 				<span class="select-box">
-				  <select class="select" size="1" name="channelType">
+				  <select class="select" size="1" name="isValidChannel" id="isValidChannel">
 					<option value="1" selected>是</option>
 					<option value="0">否</option>
 				  </select>
@@ -146,5 +146,44 @@
 	</form>
 </div>
 <%@include file="/footer.jsp" %>
+<script type="text/javascript">
+	$(function(){
+		var id = $("#id").val();
+		var channelType = '${store.channelType}';
+		var isValidChannel = '${store.isValidChannel}';
+		$("#channelType").val(channelType);
+		$("#isValidChannel").val(isValidChannel);
+
+		$("#form-store-add").Validform({
+			tiptype:2,
+			callback:function(form){
+				var index = parent.layer.load();
+				$.ajax({
+					url:"<%=request.getContextPath()%>/import/saveStore" ,
+					type:'post',
+					async:true ,
+					cache:false ,
+					data:$(form).serialize(),
+					dataType:"json",
+					success:function(data){
+						parent.layer.close(index);
+						if(data.s == true){
+							index = parent.layer.getFrameIndex(window.name);
+							parent.layer.msg("保存成功,正在刷新数据请稍后……",{icon:1,time: 2000,shade: [0.1,'#fff']},function(){
+								parent.$(".show_iframe:visible > iframe").contents().find("#search").click() ;
+								parent.layer.close(index);
+							}) ;
+
+						}else{
+							parent.layer.alert(data.m , {icon: 2,title:"系统提示"});
+						}
+					},
+				}) ;
+				//form[0].submit();
+				return false ;
+			}
+		});
+	});
+</script>
 </body>
 </html>

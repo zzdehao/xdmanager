@@ -30,6 +30,10 @@
         <result column="dataup_date" property="dataupDate" jdbcType="VARCHAR" />
         <result column="qita1" property="qita1" jdbcType="VARCHAR" />
         <result column="qita2" property="qita2" jdbcType="VARCHAR" />
+
+        <result column="blz1" property="blz1" jdbcType="VARCHAR" />
+        <result column="blz2" property="blz2" jdbcType="VARCHAR" />
+        <result column="blz3" property="blz3" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<sql id="fields">
@@ -59,6 +63,13 @@
                 <if test="cityCode!=null and cityCode!='1'">
                     city_code=#{cityCode} AND
                 </if>
+                <if test="isAdmin!=null and isAdmin!=''">
+                    blz1 is null AND
+                </if>
+                <if test="onlyImport!=null and onlyImport!=''">
+                    blz1 is not null AND
+                </if>
+
 			</trim>
 		</where>
 	</sql>

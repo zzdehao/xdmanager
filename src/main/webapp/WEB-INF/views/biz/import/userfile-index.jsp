@@ -9,7 +9,7 @@
 <head>
     <base href="<%=basePath %>">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>上传文件管理</title>
+    <title>导入巡店人员管理</title>
     <%@include file="/header.jsp" %>
 </head>
 <body>
@@ -17,11 +17,7 @@
     <div class="text-c mb-10">
         <div class="select-box" style="width: 170px;">
             <select class="select" size="1" name="importType" id="importType">
-                <option value="" selected>全部导入类型</option>
-                <option value="11">自有渠道-店铺</option>
-                <option value="12">社会渠道-店铺</option>
-                <option value="13">小微渠道-店铺</option>
-                <option value="21">人员</option>
+                <option value="21" selected>人员</option>
             </select>
         </div>
         <button type="submit" class="btn btn-success" id="search" name="" onclick="loadData() ;">
@@ -74,7 +70,7 @@
     function loadData(page) {
         page = page || 1;
         var index = parent.layer.load();
-        $.getJSON("import/upfileList", {
+        $.getJSON("import/userFileList", {
             page: page,
             importType:$("#importType").val()
         }, function (data) {
@@ -94,12 +90,7 @@
         });
     }
     function toImpPage(flag) {
-        var importType = $("#importType").val();
-        if(importType==''){
-            alert('选择导入类型');
-            return;
-        }
-        window.location.href = "<%=request.getContextPath()%>/import/toImpPage?importType="+importType;
+        window.location.href = "<%=request.getContextPath()%>/import/toImpUserPage";
     }
     $(function () {
         /**/

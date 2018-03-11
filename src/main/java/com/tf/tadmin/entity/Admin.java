@@ -32,6 +32,8 @@ public class Admin extends BaseEntity{
 
 	private String qita2;
 
+
+
 	private String blz3;
 	private Integer storeId=-99;
 	private String storeName="";

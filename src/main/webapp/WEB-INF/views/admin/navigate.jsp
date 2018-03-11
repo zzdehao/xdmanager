@@ -13,22 +13,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%@include file="/header.jsp" %>
 </head>
 <body>
-<div class="pd-20" style="padding-top:20px;">
+<div class="pd-20" style="padding-top:10px;">
   <table class="table table-border table-bordered table-bg">
     <thead>
       <tr>
-        <th colspan="2" scope="col">服务器信息</th>
+        <th colspan="2" scope="col">通知信息</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th width="200">服务器计算机名</th>
-        <td><span id="lbServerName">${env.COMPUTERNAME}</span></td>
-      </tr>
-      <tr>
-        <th>JDK版本</th>
-        <td>${javaVersion}</td>
-      </tr>
+        <h4> 欢迎使用巡店管理后台系统</h4>
     </tbody>
   </table>
 </div>

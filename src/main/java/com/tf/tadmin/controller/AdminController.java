@@ -1,12 +1,12 @@
 package com.tf.tadmin.controller;
-
-
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tf.tadmin.entity.Pager;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -31,9 +31,7 @@ import com.tf.tadmin.shiro.NoPermissionException;
 import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.Constants;
 /**
- * 17600180016
- * 111111
- * 一人只能单角色
+ * 管理员管理
  * 登录
  */
 @Controller
@@ -150,7 +148,6 @@ public class AdminController extends BaseController{
 		if(id != null){
 			mav.addObject("admin", this.adminService.get(id));
 		}
-		//todo
 		mav.addObject("roles", this.roleService.list(null, 1)) ;
 		this.setAdminView(mav, "admin-edit");
 		return mav ;
@@ -168,17 +165,15 @@ public class AdminController extends BaseController{
 		if(id != null ){
 			isModify = true ;
 		}
-		
-//		if(!this.adminService.uniquenessCheck(Constants.T_ADMIN, "name", admin.getName(), id, isModify)){
-//			return new Message(false, "用户名已经存在!") ;
-//		}
+		if(!this.adminService.uniquenessCheck(Constants.T_ADMIN, "name", admin.getName(), id, isModify)){
+			return new Message(false, "用户名已经存在!") ;
+		}
 		if(!this.adminService.uniquenessCheck(Constants.T_ADMIN, "tel", admin.getTel(), id, isModify) ){
 			return new Message(false, "手机号码已经存在!") ;
 		}
 		if(!this.adminService.uniquenessCheck(Constants.T_ADMIN, "email", admin.getEmail(), id, isModify) ){
 			return new Message(false, "邮箱已经存在!") ;
 		}
-		
 		int result = 0 ;
         try {
             if (isModify) {
@@ -210,22 +205,32 @@ public class AdminController extends BaseController{
 	
 	@RequestMapping(value = "/delall" , method = {RequestMethod.POST})
 	public @ResponseBody Message delAll(@RequestParam(value ="id[]" , required = false) Integer[] ids){
-		//this.adminService.del(id) ;
 		if(ids != null){
 			for(Integer id :ids){
 				this.adminService.del(id) ;
 			}
 		}
-		
 		return new Message() ;
 	}
-	
-	@RequestMapping(value = "/list" ,method = {RequestMethod.GET})
-	public @ResponseBody List<Admin> list(@RequestParam(required = false , value = "s") Integer s ,
-                                          @RequestParam(required = false , value = "q") String q){
-		return this.adminService.list(s,q) ;
+	/**
+	 * 管理员列表-分页
+	 * @return
+	 */
+	@RequestMapping(value = "/adminList" ,method = {RequestMethod.GET})
+	public @ResponseBody Pager<Admin> adminList(HttpServletRequest request,
+											   @RequestParam(required = true) Integer page){
+		//return this.adminService.adminList(s,q) ;
+		int start = (page - 1) * Constants.PAGE_SIZE;
+		//查询条件
+		String key = request.getParameter("key");
+		if(StringUtils.isEmpty(key)){
+			key="";
+		}
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("key", key);
+		Pager<Admin> pager = this.adminService.queryUserList(start, param);
+		return pager;
 	}
-	
 	@RequestMapping(value = "/navigate" ,method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView navigate(){
 		ModelAndView mav = new ModelAndView();
@@ -233,6 +238,11 @@ public class AdminController extends BaseController{
 		mav.addObject("env", System.getenv()) ;
 		this.setAdminView(mav, "navigate");
 		return mav;
+	}
+	@RequestMapping(value = "/list" ,method = {RequestMethod.GET})
+	public @ResponseBody List<Admin> list(@RequestParam(required = false , value = "s") Integer s ,
+											   @RequestParam(required = false , value = "q") String q){
+		return this.adminService.adminList(s,q) ;
 	}
 	
 }

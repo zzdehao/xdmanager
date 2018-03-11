@@ -6,6 +6,7 @@ import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.entity.BizStoreExample;
 import com.tf.biz.store.mapper.BizStoreMapper;
+import com.tf.tadmin.entity.Admin;
 import com.tf.tadmin.entity.SessionUser;
 import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.ExcelUtil;
@@ -59,12 +60,18 @@ public class StoreService {
             s.setCreateTime(now);
             s.setCreateUserId(userId);
             s.setCreateUserName(trueName);
-            this.save(s);
+            this.saveOrUpdate(s);
         });
     }
 
-    void save(BizStore bizStore){
-        this.bizStoreMapper.insertSelective(bizStore);
+    public void saveOrUpdate(BizStore bizStore){
+
+        if(bizStore.getId()==null){
+            this.bizStoreMapper.insertSelective(bizStore);
+        }else{
+            this.bizStoreMapper.updateByPrimaryKeySelective(bizStore);
+        }
+
     }
 
     private List<BizStore> buildStoreList(Sheet sheet,ImportEnum.ImportType importType) {
@@ -259,5 +266,7 @@ public class StoreService {
     public BizStore getStoreById(Integer id){
         return this.bizStoreMapper.selectByPrimaryKey(Long.parseLong(id.toString()));
     }
+
+
 
 }

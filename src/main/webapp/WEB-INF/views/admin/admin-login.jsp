@@ -124,6 +124,9 @@
         }
     </style>
     <script type="text/javascript">
+        if(window !=top){
+            top.location.href=location.href;
+        }
         $(function () {
             //得到焦点
             $("#password").focus(function () {
@@ -197,7 +200,7 @@
         <%--<img src="images/yewu/yewu.png" style="float: right;margin-right: 80px;" class="icon">--%>
     <%--</div>--%>
 </div>
-<div  style="background: rgb(255, 255, 255); margin: -10px auto auto; border: 1px solid rgb(231, 231, 231); border-image: none; width: 400px; height: 240px; text-align: center;">
+<div  style="background: rgb(255, 255, 255); margin: 10px auto auto; border: 1px solid rgb(231, 231, 231); border-image: none; width: 400px; height: 240px; text-align: center;">
     <p style="padding: 30px 0px 10px; position: relative;">
         <span class="u_logo"></span> <input class="ipt" id="uname" type="text"
                                             placeholder="请输入用户名" value="admin">

@@ -15,18 +15,22 @@ import com.tf.tadmin.mapper.RoleMapper;
 public class AdminService extends BaseService{
 	@Resource
 	private AdminMapper adminMapper ;
-	
 	@Resource
 	private RoleMapper roleMapper ;
-	
-	public List<Admin> list(Integer s , String q){
+
+	/**
+	 * 只显示后台添加的用户信息(blz1为空)
+	 * @param s
+	 * @param q
+	 * @return
+	 */
+	public List<Admin> adminList(Integer s , String q){
 		Map<String , Object> param = this.param() ;
 		param.put("status", s) ;
 		param.put("q" , q);
-		
+		param.put("isAdmin" , "1");
 		return this.adminMapper.queryList(param) ;
 	}
-	
 	public int add(Admin admin){
 		return this.adminMapper.insert(admin) ;
 	}

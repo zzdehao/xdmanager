@@ -214,7 +214,7 @@ public class DataImpService extends BaseService {
                  queryExpress.andImportTypeIn(importTypes);
             }
             Object importType =param.get("importType");
-            if(obj!=null) {
+            if(importType!=null) {
                 queryExpress.andImportTypeEqualTo((Integer)importType);
             }
         }
@@ -297,17 +297,38 @@ public class DataImpService extends BaseService {
         //limit ${start},${rows}
         int rows = Constants.PAGE_SIZE;
         Pager<BizStore> pager = new Pager<BizStore>();
+        String key=(String)param.get("key");
+        Integer channelType =(Integer)param.get("channelType");
         //组件查询条件
         BizStoreExample express = new BizStoreExample();
         express.setLimit(rows);
         express.setOffset(start);
         express.setOrderByClause(" create_time desc ");
-        //增加查询条件
-        BizStoreExample.Criteria queryExpress = express.createCriteria();
+        //增加查询条件where channel_type=1 and ()效果
+        BizStoreExample.Criteria cc= express.createCriteria();
+        if(!StringUtils.isEmpty(key)) {
+            cc.andChannelNameLike("%"+key+"%");
+            BizStoreExample.Criteria c2= express.createCriteria().andChannelCodeLike("%"+key+"%");
+            BizStoreExample.Criteria c3= express.createCriteria().andStoreNameLike("%"+key+"%");
+            if(channelType!=-1){
+                cc.andChannelTypeEqualTo(channelType);
+                c2.andChannelTypeEqualTo(channelType);
+                c3.andChannelTypeEqualTo(channelType);
+            }
+            express.or(c2);
+            express.or(c3);
+        }else{
+            if(channelType!=-1){
+                cc.andChannelTypeEqualTo(channelType);
+            }
+        }
         List<BizStore> list = bizStoreMapper.selectByExample(express);
         Long count = bizStoreMapper.countByExample(express);
         pager.setRows(list);
         pager.setTotal(count.intValue());
         return pager;
+    }
+    public int delStore(Integer id){
+       return this.bizStoreMapper.deleteByPrimaryKey(Long.parseLong(id.toString()));
     }
 }

@@ -49,8 +49,8 @@ public interface ImportEnum {
     }
     //渠道类型
     enum ChannelType {
-        SELF(10,  "自有渠道"),
-        WORLD(11, "社会渠道"),
+        SELF(11,  "自有渠道"),
+        WORLD(12, "社会渠道"),
         SMALL(13, "小微渠道");
         private Integer code;
         private String name;

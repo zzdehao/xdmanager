@@ -9,54 +9,38 @@
 <head>
     <base href="<%=basePath %>">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>店铺渠道列表</title>
+    <title>用户列表</title>
     <%@include file="/header.jsp" %>
 </head>
 <body>
 <div class="pd-20">
     <div class="text-c mb-10">
-        渠道(店铺)名称：
-        <input type="text" placeholder="渠道名称或编码、店铺名称" name="key"  id="key"
+        用户名称：
+        <input type="text" placeholder="用户名或电话" name="key"  id="q"
                class="input-text" style="width:172px;margin-right: 10px;">
-        &nbsp;渠道类型：
-        <div class="select-box" style="width: 160px;">
-            <select class="select" size="1" name="channelType" id="channelType">
-                <option value="" >全部</option>
-                <option value="11">自有渠道</option>
-                <option value="12">社会渠道</option>
-                <option value="13">小微渠道</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-success" id="search" name="" onclick="loadData() ;">
+        <button type="submit" class="btn btn-success" id="search" name="" onclick="loadData(1) ;">
             <i class="Hui-iconfont">&#xe665;</i>查询
         </button>
-        <a href="javascript:;" onclick="store_add('添加店铺','import/storeEdit','800','680')" class="btn btn-success radius">
-            <i class="Hui-iconfont">&#xe665;</i>添加店铺</a>
+        <a href="javascript:;" onclick="xuser_add('添加巡店人员','import/xxuserEdit','800','680')" class="btn btn-success radius">
+            <i class="Hui-iconfont">&#xe665;</i>添加巡店人员</a>
     </div>
     <table class="table table-border table-bordered table-bg">
         <thead>
         <tr>
-            <th scope="col" colspan="15">渠道店铺列表</th>
+            <th scope="col" colspan="15">巡店人列表</th>
         </tr>
         <tr class="text-c">
-            <th width="60">渠道ID</th>
-            <th width="80">渠道编码</th>
-            <th width="80">渠道名称</th>
-            <th width="100">店铺名称</th>
-            <th width="80">渠道类型</th>
-            <th width="80">区县分公司编码</th>
-            <th width="80">区县分公司名称</th>
+            <th width="60">批次</th>
+            <th width="60">用户名</th>
+            <th width="80">手机号</th>
             <th width="80">省</th>
-            <th width="80">地市</th>
-            <th width="80">详细地址</th>
-            <th width="100">经理姓名</th>
-            <th width="100">经理电话</th>
-            <th width="100">平台商编码</th>
-            <th width="100">平台商编号</th>
+            <th width="80">城市</th>
+            <th width="80">职务</th>
+            <th width="80">导入时间</th>
             <th width="146">操作</th>
         </tr>
         </thead>
-        <tbody id="user-list">
+        <tbody id="xuser-list">
         </tbody>
     </table>
     <div class="mt-10">
@@ -65,41 +49,33 @@
     </div>
 </div>
 <%@include file="/footer.jsp" %>
-<script type="text/x-handlebars-template" id="user-template">
+<script type="text/x-handlebars-template" id="xuser-template">
     {{#each rows}}
     <tr class="text-c">
-        <td>{{channelId}}</td>
-        <td>{{channelCode}}</td>
-        <td>{{channelName}}</td>
-        <td>{{storeName}}</td>
-        <td>{{channelType}}</td>
-        <td>{{companyCode}}</td>
-        <td>{{companyName}}</td>
+        <td>{{blz1}}</td>
+        <td>{{name}}</td>
+        <td>{{tel}}</td>
         <td>{{provinceName}}</td>
         <td>{{cityName}}</td>
-        <td>{{addressDetail}}</td>
-        <td>{{channelManagerName}}</td>
-        <td>{{channelManagerPhone}}</td>
-        <td>{{platformCode}}</td>
-        <td>{{platformName}}</td>
+        <td>{{dutyName}}</td>
+        <td>{{create_time}}</td>
         <td class="td-manage">
-            <input class="btn btn-danger size-S radius" type="button" value="删除" onclick="javascript:store_del(this,{{id}});"/>
-            <input class="btn btn-success size-S radius" type="button" onclick="store_edit('店铺编辑','<%=request.getContextPath()%>/import/storeEdit?id={{id}}','820','680')" value="修改"/>
+            <input class="btn btn-danger size-S radius" type="button" value="删除" onclick="javascript:xuser_del(this,{{id}});"/>
+            <input class="btn btn-success size-S radius" type="button" onclick="xuser_edit('巡店人编辑','<%=request.getContextPath()%>/import/xuserEdit?id={{id}}','820','680')" value="修改"/>
         </td>
     </tr>
     {{/each}}
 </script>
 <script type="text/javascript">
-    var logTemplate = Handlebars.compile($("#user-template").html());
+    var logTemplate = Handlebars.compile($("#xuser-template").html());
     function loadData(page) {
         page = page || 1;
         var index = parent.layer.load();
-        $.getJSON("import/storeList", {
+        $.getJSON("import/xuserList", {
             page: page,
-            channelType:$("#channelType").val(),
-            key:$("#key").val()
+            q:$("#q").val()
         }, function (data) {
-            $('#user-list').html(logTemplate(data));
+            $('#xuser-list').html(logTemplate(data));
             laypage({
                 cont: 'pager', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                 pages: data.pages, //通过后台拿到的总页数
@@ -123,14 +99,14 @@
      h		弹出层高度（缺省调默认值）
      */
     /*管理员-增加*/
-    function store_add(title,url,w,h){
+    function xuser_add(title,url,w,h){
         layer_show(title,url,w,h);
     }
     /*管理员-删除*/
-    function store_del(obj,id){
+    function xuser_del(obj,id){
         parent.layer.confirm('确认要删除吗？',function(index){
             $.ajax({
-                url:"import/delStore/" + id,
+                url:"import/delxuser/" + id,
                 type:'post',
                 async:true ,
                 cache:false ,
@@ -147,7 +123,7 @@
         });
     }
     /*管理员-编辑*/
-    function store_edit(title,url,w,h){
+    function xuser_edit(title,url,w,h){
         layer_show(title,url,w,h);
     }
     $(function () {

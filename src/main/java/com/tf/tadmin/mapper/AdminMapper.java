@@ -21,4 +21,6 @@ public interface AdminMapper extends BaseMapper<Admin,Integer>{
 
 
 
+
+
 }

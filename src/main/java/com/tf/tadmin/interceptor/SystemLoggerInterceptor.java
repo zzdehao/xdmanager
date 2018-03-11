@@ -97,7 +97,7 @@ public class SystemLoggerInterceptor implements HandlerInterceptor {
 		if(ex!= null){
 			log.setRemark("Message:" + ex.getMessage()+",Cause:" + ex.getCause()) ;
 		}
-		logService.insert(log) ;
+//		logService.insert(log) ;
 		
 		logger.info("Request Completion");
 	}

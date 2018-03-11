@@ -33,7 +33,7 @@
 <header class="Hui-header cl" style="border-bottom:2px solid #890800;height: 58px;">
     <%--<a class="Hui-logo l" title="巡店管理" href="/" style="margin-top: 10px;">&nbsp;&nbsp;巡店管理&nbsp;V1.0</a>--%>
     <span class="Hui-subtitle l" style="margin-right: 6px;">
-        <%--<img src="images/yewu/yewu.png" class="icon" style="width:30px;height: 32px;margin-left: 6px;">--%>
+        <img src="images/yewu/yewu.png" class="icon" style="width:30px;height: 32px;margin-left: 6px;">
     </span>
     <nav class="mainnav cl" id="Hui-nav" style="height: 32px;margin-top: 10px;width: 12px;">
         <ul>
@@ -58,7 +58,7 @@
 </header>
 <aside class="Hui-aside" style="border-right: 1px solid #8c8c8c;">
     <input runat="server" id="divScrollValue" type="hidden" value=""/>
-    <div class="menu_dropdown bk_2" style="margin-top: 12px;">
+    <div class="menu_dropdown bk_2" style="margin-top: 12px;font-size: 15px;font-family: "Microsoft Yahei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, tahoma, arial, "WenQuanYi Micro Hei", Verdana, sans-serif">
         ${menu}
     </div>
 </aside>
@@ -66,7 +66,7 @@
     <div id="Hui-tabNav" class="Hui-tabNav" style="margin-top: 9px;">
         <div class="Hui-tabNav-wp">
             <ul id="min_title_list" class="acrossTab cl">
-                <li class="active"><span title="快速导航" data-href="#">快速导航</span><em></em></li>
+                <li class="active"><span title="" data-href="#">通知信息</span><em></em></li>
             </ul>
         </div>
         <div class="Hui-tabNav-more btn-group">

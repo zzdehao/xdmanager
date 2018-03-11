@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>导入信息</title>
+    <title>导入店铺</title>
     <%@ include file="../../yewu/ywinclude.jsp" %>
     <!--[endif]-->
     <style type="text/css" rel="stylesheet">
@@ -55,10 +55,6 @@
                 </div>
                 <div style="border: 1px;">
                     <div class="form-group" style="margin-top: 5px;">
-                        <c:if test="${importType==21}">
-                            <a href="<%=request.getContextPath()%>/template/1-user.xlsx"
-                               style="color: red;">下载导入${importTypeName}模版</a>
-                        </c:if>
                         <c:if test="${importType==11}">
                             <a href="<%=request.getContextPath()%>/template/2-selfchannel.xlsx"
                                style="color: red;">下载导入${importTypeName}模版</a>

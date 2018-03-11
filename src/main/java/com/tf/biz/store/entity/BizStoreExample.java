@@ -111,7 +111,7 @@ public class BizStoreExample {
             criteria.add(new Criterion(condition));
         }
 
-        protected void addCriterion(String condition, Object value, String property) {
+        public void addCriterion(String condition, Object value, String property) {
             if (value == null) {
                 throw new RuntimeException("Value for " + property + " cannot be null");
             }
@@ -2159,7 +2159,7 @@ public class BizStoreExample {
             this.noValue = true;
         }
 
-        protected Criterion(String condition, Object value, String typeHandler) {
+        public Criterion(String condition, Object value, String typeHandler) {
             super();
             this.condition = condition;
             this.value = value;

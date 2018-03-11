@@ -12,4 +12,7 @@
 <script type="text/javascript" src="${ctx}/lib/handlebars/handlebars-v4.0.2.js"></script> 
 <script type="text/javascript" src="${ctx}/lib/My97DatePicker/WdatePicker.js"></script> 
 <script type="text/javascript" src="${ctx}/lib/zTree/v3/js/jquery.ztree.all-3.5.js"></script> 
-<script type="text/javascript" src="${ctx}/script/common.js"></script> 
+<script type="text/javascript" src="${ctx}/script/common.js"></script>
+<script>
+    $.ajaxSettings.async = false;
+</script>
