@@ -13,7 +13,6 @@
     <result column="check_start_date" jdbcType="TIMESTAMP" property="checkStartDate" />
     <result column="check_end_date" jdbcType="TIMESTAMP" property="checkEndDate" />
     <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
-    <result column="check_last_time" jdbcType="TIMESTAMP" property="checkLastTime" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
     <result column="delete_user_name" jdbcType="VARCHAR" property="deleteUserName" />
@@ -28,6 +27,10 @@
     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
     <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
     <result column="store_type_name" jdbcType="VARCHAR" property="storeTypeName" />
+    <result column="remkark" jdbcType="VARCHAR" property="remkark" />
+    <result column="blz1" jdbcType="VARCHAR" property="blz1" />
+    <result column="blz2" jdbcType="VARCHAR" property="blz2" />
+    <result column="blz3" jdbcType="VARCHAR" property="blz3" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -89,9 +92,10 @@
   </sql>
   <sql id="Base_Column_List">
     id, batch_id, store_code, store_name, store_id, check_userid, check_user_name, channel_user_tel, 
-    check_start_date, check_end_date, check_status, check_last_time, is_deleted, delete_user_id, 
-    delete_user_name, delete_time, channel_code, channel_name, channel_type, plan_code, 
-    province_code, province_name, city_code, city_name, store_address, store_type_name
+    check_start_date, check_end_date, check_status, is_deleted, delete_user_id, delete_user_name, 
+    delete_time, channel_code, channel_name, channel_type, plan_code, province_code, 
+    province_name, city_code, city_name, store_address, store_type_name, remkark, blz1, 
+    blz2, blz3
   </sql>
   <select id="selectByExample" parameterType="com.tf.biz.check.entity.BizCheckPlanExample" resultMap="BaseResultMap">
     select
@@ -135,21 +139,23 @@
     insert into biz_check_plan (batch_id, store_code, store_name, 
       store_id, check_userid, check_user_name, 
       channel_user_tel, check_start_date, check_end_date, 
-      check_status, check_last_time, is_deleted, 
-      delete_user_id, delete_user_name, delete_time, 
-      channel_code, channel_name, channel_type, 
-      plan_code, province_code, province_name, 
-      city_code, city_name, store_address, 
-      store_type_name)
+      check_status, is_deleted, delete_user_id, 
+      delete_user_name, delete_time, channel_code, 
+      channel_name, channel_type, plan_code, 
+      province_code, province_name, city_code, 
+      city_name, store_address, store_type_name, 
+      remkark, blz1, blz2, 
+      blz3)
     values (#{batchId,jdbcType=BIGINT}, #{storeCode,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, 
       #{storeId,jdbcType=INTEGER}, #{checkUserid,jdbcType=INTEGER}, #{checkUserName,jdbcType=VARCHAR}, 
       #{channelUserTel,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=TIMESTAMP}, #{checkEndDate,jdbcType=TIMESTAMP}, 
-      #{checkStatus,jdbcType=INTEGER}, #{checkLastTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, 
-      #{deleteUserId,jdbcType=INTEGER}, #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
-      #{channelCode,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR}, #{channelType,jdbcType=INTEGER}, 
-      #{planCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
-      #{cityCode,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, 
-      #{storeTypeName,jdbcType=VARCHAR})
+      #{checkStatus,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, 
+      #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{channelCode,jdbcType=VARCHAR}, 
+      #{channelName,jdbcType=VARCHAR}, #{channelType,jdbcType=INTEGER}, #{planCode,jdbcType=VARCHAR}, 
+      #{provinceCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, #{storeTypeName,jdbcType=VARCHAR}, 
+      #{remkark,jdbcType=VARCHAR}, #{blz1,jdbcType=VARCHAR}, #{blz2,jdbcType=VARCHAR}, 
+      #{blz3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.check.entity.BizCheckPlan" useGeneratedKeys="true">
     insert into biz_check_plan
@@ -183,9 +189,6 @@
       </if>
       <if test="checkStatus != null">
         check_status,
-      </if>
-      <if test="checkLastTime != null">
-        check_last_time,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -229,6 +232,18 @@
       <if test="storeTypeName != null">
         store_type_name,
       </if>
+      <if test="remkark != null">
+        remkark,
+      </if>
+      <if test="blz1 != null">
+        blz1,
+      </if>
+      <if test="blz2 != null">
+        blz2,
+      </if>
+      <if test="blz3 != null">
+        blz3,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="batchId != null">
@@ -260,9 +275,6 @@
       </if>
       <if test="checkStatus != null">
         #{checkStatus,jdbcType=INTEGER},
-      </if>
-      <if test="checkLastTime != null">
-        #{checkLastTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=INTEGER},
@@ -305,6 +317,18 @@
       </if>
       <if test="storeTypeName != null">
         #{storeTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="remkark != null">
+        #{remkark,jdbcType=VARCHAR},
+      </if>
+      <if test="blz1 != null">
+        #{blz1,jdbcType=VARCHAR},
+      </if>
+      <if test="blz2 != null">
+        #{blz2,jdbcType=VARCHAR},
+      </if>
+      <if test="blz3 != null">
+        #{blz3,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -350,9 +374,6 @@
       <if test="record.checkStatus != null">
         check_status = #{record.checkStatus,jdbcType=INTEGER},
       </if>
-      <if test="record.checkLastTime != null">
-        check_last_time = #{record.checkLastTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       </if>
@@ -395,6 +416,18 @@
       <if test="record.storeTypeName != null">
         store_type_name = #{record.storeTypeName,jdbcType=VARCHAR},
       </if>
+      <if test="record.remkark != null">
+        remkark = #{record.remkark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blz1 != null">
+        blz1 = #{record.blz1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blz2 != null">
+        blz2 = #{record.blz2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blz3 != null">
+        blz3 = #{record.blz3,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -413,7 +446,6 @@
       check_start_date = #{record.checkStartDate,jdbcType=TIMESTAMP},
       check_end_date = #{record.checkEndDate,jdbcType=TIMESTAMP},
       check_status = #{record.checkStatus,jdbcType=INTEGER},
-      check_last_time = #{record.checkLastTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       delete_user_id = #{record.deleteUserId,jdbcType=INTEGER},
       delete_user_name = #{record.deleteUserName,jdbcType=VARCHAR},
@@ -427,7 +459,11 @@
       city_code = #{record.cityCode,jdbcType=VARCHAR},
       city_name = #{record.cityName,jdbcType=VARCHAR},
       store_address = #{record.storeAddress,jdbcType=VARCHAR},
-      store_type_name = #{record.storeTypeName,jdbcType=VARCHAR}
+      store_type_name = #{record.storeTypeName,jdbcType=VARCHAR},
+      remkark = #{record.remkark,jdbcType=VARCHAR},
+      blz1 = #{record.blz1,jdbcType=VARCHAR},
+      blz2 = #{record.blz2,jdbcType=VARCHAR},
+      blz3 = #{record.blz3,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -464,9 +500,6 @@
       </if>
       <if test="checkStatus != null">
         check_status = #{checkStatus,jdbcType=INTEGER},
-      </if>
-      <if test="checkLastTime != null">
-        check_last_time = #{checkLastTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=INTEGER},
@@ -510,6 +543,18 @@
       <if test="storeTypeName != null">
         store_type_name = #{storeTypeName,jdbcType=VARCHAR},
       </if>
+      <if test="remkark != null">
+        remkark = #{remkark,jdbcType=VARCHAR},
+      </if>
+      <if test="blz1 != null">
+        blz1 = #{blz1,jdbcType=VARCHAR},
+      </if>
+      <if test="blz2 != null">
+        blz2 = #{blz2,jdbcType=VARCHAR},
+      </if>
+      <if test="blz3 != null">
+        blz3 = #{blz3,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -525,7 +570,6 @@
       check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
       check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
       check_status = #{checkStatus,jdbcType=INTEGER},
-      check_last_time = #{checkLastTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=INTEGER},
       delete_user_id = #{deleteUserId,jdbcType=INTEGER},
       delete_user_name = #{deleteUserName,jdbcType=VARCHAR},
@@ -539,7 +583,11 @@
       city_code = #{cityCode,jdbcType=VARCHAR},
       city_name = #{cityName,jdbcType=VARCHAR},
       store_address = #{storeAddress,jdbcType=VARCHAR},
-      store_type_name = #{storeTypeName,jdbcType=VARCHAR}
+      store_type_name = #{storeTypeName,jdbcType=VARCHAR},
+      remkark = #{remkark,jdbcType=VARCHAR},
+      blz1 = #{blz1,jdbcType=VARCHAR},
+      blz2 = #{blz2,jdbcType=VARCHAR},
+      blz3 = #{blz3,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

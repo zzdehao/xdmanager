@@ -25,8 +25,6 @@ public class BizCheckPlan {
 
     private Integer checkStatus;
 
-    private Date checkLastTime;
-
     private Integer isDeleted;
 
     private Integer deleteUserId;
@@ -54,6 +52,14 @@ public class BizCheckPlan {
     private String storeAddress;
 
     private String storeTypeName;
+
+    private String remkark;
+
+    private String blz1;
+
+    private String blz2;
+
+    private String blz3;
 
     public Long getId() {
         return id;
@@ -141,14 +147,6 @@ public class BizCheckPlan {
 
     public void setCheckStatus(Integer checkStatus) {
         this.checkStatus = checkStatus;
-    }
-
-    public Date getCheckLastTime() {
-        return checkLastTime;
-    }
-
-    public void setCheckLastTime(Date checkLastTime) {
-        this.checkLastTime = checkLastTime;
     }
 
     public Integer getIsDeleted() {
@@ -261,5 +259,37 @@ public class BizCheckPlan {
 
     public void setStoreTypeName(String storeTypeName) {
         this.storeTypeName = storeTypeName == null ? null : storeTypeName.trim();
+    }
+
+    public String getRemkark() {
+        return remkark;
+    }
+
+    public void setRemkark(String remkark) {
+        this.remkark = remkark == null ? null : remkark.trim();
+    }
+
+    public String getBlz1() {
+        return blz1;
+    }
+
+    public void setBlz1(String blz1) {
+        this.blz1 = blz1 == null ? null : blz1.trim();
+    }
+
+    public String getBlz2() {
+        return blz2;
+    }
+
+    public void setBlz2(String blz2) {
+        this.blz2 = blz2 == null ? null : blz2.trim();
+    }
+
+    public String getBlz3() {
+        return blz3;
+    }
+
+    public void setBlz3(String blz3) {
+        this.blz3 = blz3 == null ? null : blz3.trim();
     }
 }
