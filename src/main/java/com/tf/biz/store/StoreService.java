@@ -21,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -38,9 +36,12 @@ public class StoreService {
     public void saveMultipartFile(MultipartFile multipartFile,
                                   FilePath filePath,ImportEnum.ImportType importType)
             throws IOException, InvalidFormatException {
+        String batchName=importService.createBatchId(ImportEnum.ImportType.getFullName(importType.getCode()));
+        Map<String,String> paramMap = new HashMap<String,String>();
+        paramMap.put("batchName",batchName);
         Long batchId = this.importService.save(multipartFile,
                 filePath,
-                importType.getCode());
+                importType.getCode(),paramMap);
         InputStream inputStream = multipartFile.getInputStream();
         Workbook wb = WorkbookFactory.create(inputStream);
         Sheet sheet = wb.getSheetAt(0);

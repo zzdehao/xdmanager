@@ -1,4 +1,5 @@
 package com.tf.biz.dataimp;
+import com.tf.biz.check.entity.BizCheckPlan;
 import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.pojo.FilePath;
@@ -48,6 +49,7 @@ public class DataImpController extends BaseController {
     private StoreService storeService;
     @Autowired
     private DataImpService impService;
+
     @Autowired
     private AdminService adminService;
 
@@ -249,12 +251,62 @@ public class DataImpController extends BaseController {
         return mav;
     }
 
+    /**
+     * 进入导入计划页面
+      * @param importType
+     * @return
+     */
     @RequestMapping(value = "/toPlanImport")
     public ModelAndView toplanImpPage(@RequestParam(value = "importType") String importType) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("importType", importType);
-        mav.addObject("importTypeName", ImportEnum.ImportType.getFullName(Integer.parseInt(importType)));
+        mav.addObject("importTypeName",
+                ImportEnum.ImportType.getFullName(Integer.parseInt(importType)));
         this.setBizView(mav, "import/plan-import");
+        return mav;
+    }
+    /**
+     * 导入计划
+     * 1)上传临时附件表(生成批次号信息)
+     * 2)解析文件放入数据表
+     * @param planFile
+     * @param req
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/importCheckPlan", method = {RequestMethod.POST})
+    public ModelAndView importPlan(@RequestParam MultipartFile planFile,
+                                        HttpServletRequest req) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        /**
+         SELF_CHANNEL_PLAN(31, "自有渠道","巡检计划"),
+         WORLD_CHANNEL_PLAN(32, "社会渠道","巡检计划"),
+         SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
+         */
+        String importType = req.getParameter("importType");
+        String realPath = req.getSession().getServletContext().getRealPath(this.uploadDir);
+        String webPath = req.getContextPath() + this.uploadDir;
+        FilePath filePath = new FilePath(realPath, webPath);
+
+        String minDate = req.getParameter("minDate");
+        String maxDate = req.getParameter("maxDate");
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("minDate", minDate);
+        param.put("maxDate", maxDate);
+        ImportEnum.ImportType typeEum = null;
+        if (importType.equals("31")) {
+            typeEum = ImportEnum.ImportType.SELF_CHANNEL_PLAN;
+        } else if (importType.equals("32")) {
+            typeEum = ImportEnum.ImportType.WORLD_CHANNEL_PLAN;
+        } else {
+            typeEum = ImportEnum.ImportType.SMALL_CHANNEL_PLAN;
+        }
+        try {
+            this.impService.saveImportCheckPlanData(planFile, filePath, param, typeEum);
+            this.setBizView(mav, "import/planfile-index");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return mav;
     }
 
@@ -297,50 +349,30 @@ public class DataImpController extends BaseController {
     }
 
     /**
-     * 导入人员信息
-     * 1)上传临时附件表(生成批次号信息)
-     * 2)解析文件放入数据表
-     *
-     * @param planFile
-     * @param req
+     * 计划明细页面
      * @return
-     * @throws Exception
      */
-    @RequestMapping(value = "/importCheckPlan", method = {RequestMethod.POST})
-    public ModelAndView importCheckPlan(@RequestParam MultipartFile planFile,
-                                        HttpServletRequest req) throws Exception {
+    @RequestMapping(value = "/planIndex")
+    public ModelAndView planIndex() {
         ModelAndView mav = new ModelAndView();
-        /**
-         SELF_CHANNEL_PLAN(31, "自有渠道","巡检计划"),
-         WORLD_CHANNEL_PLAN(32, "社会渠道","巡检计划"),
-         SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
-         */
-        String importType = req.getParameter("importType");
-        String realPath = req.getSession().getServletContext().getRealPath(this.uploadDir);
-        String webPath = req.getContextPath() + this.uploadDir;
-        FilePath filePath = new FilePath(realPath, webPath);
-
-        String minDate = req.getParameter("minDate");
-        String maxDate = req.getParameter("maxDate");
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("minDate", minDate);
-        param.put("maxDate", maxDate);
-        ImportEnum.ImportType typeEum = null;
-        if (importType.equals("31")) {
-            typeEum = ImportEnum.ImportType.SELF_CHANNEL_PLAN;
-        } else if (importType.equals("32")) {
-            typeEum = ImportEnum.ImportType.WORLD_CHANNEL_PLAN;
-        } else {
-            typeEum = ImportEnum.ImportType.SMALL_CHANNEL_PLAN;
-        }
-        try {
-            this.impService.saveImportCheckPlanData(planFile, filePath, param, typeEum);
-            this.setBizView(mav, "import/planfileIndex");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        this.setBizView(mav, "import/plan-list");
         return mav;
     }
+
+    @RequestMapping(value = "/planList")
+    public  @ResponseBody
+    Pager<BizCheckPlan> planList(HttpServletRequest request,
+                             @RequestParam(required = true) Integer page,
+                             @RequestParam(required = false,defaultValue = "-99") Integer batchId) {
+        int start = (page - 1) * Constants.PAGE_SIZE;
+        //查询条件
+
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("batchId", batchId);
+        Pager<BizCheckPlan> pager = this.impService.queryPlanList(start, param);
+        return pager;
+    }
+
 
     /********************************店铺信息列表*********************/
     @RequestMapping(value = "/toStoreList")
@@ -351,8 +383,7 @@ public class DataImpController extends BaseController {
     }
 
     @RequestMapping(value = "/storeList")
-    public
-    @ResponseBody
+    public   @ResponseBody
     Pager<BizStore> storeList(HttpServletRequest request,
                               @RequestParam(required = true) Integer page,
                               @RequestParam(required = false,defaultValue = "-1") Integer channelType) {
@@ -367,6 +398,32 @@ public class DataImpController extends BaseController {
         param.put("key", key);
         Pager<BizStore> pager = this.impService.queryStoreList(start, param);
         return pager;
+    }
+    @RequestMapping(value = "/validChannelCode")
+    @ResponseBody
+    public Map<String,String> validChannelCode(HttpServletRequest request) {
+        //param=1100&name=channelCode
+        //Ajax中会POST过来变量param和name。param是文本框的值，name是文本框的name属性
+        String channelCode = request.getParameter("param");
+        String name = request.getParameter("name");
+        Map<String,String> result = new HashMap<String,String>();
+        result.put("info","渠道编号可用");
+        result.put("status","y");
+        if(!StringUtils.isEmpty(channelCode)){
+           Long count =  this.impService.getStoreByChannelCodeCount(channelCode);
+           if(count>0){
+               result.put("info","渠道编号已存在");
+               result.put("status","n");
+           }
+        }
+        /**
+         * {
+         "info":"验证通过！",
+         "status":"y"
+         }
+         */
+        return result;
+
     }
 
     @RequestMapping(value = "/storeEdit")
@@ -439,6 +496,10 @@ public class DataImpController extends BaseController {
         this.setBizView(mav, "import/xuser-edit");
         return mav;
     }
+
+
+
+
 
 
 

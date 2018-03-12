@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -34,7 +35,8 @@ public class ImportService {
 
     public long save(MultipartFile multipartFile,
                      FilePath filePath,
-                     Integer type) throws IOException, InvalidFormatException {
+                     Integer type,
+                     Map<String,String> param) throws IOException, InvalidFormatException {
         logger.info("文件长度: " + multipartFile.getSize());
         logger.info("文件类型: " + multipartFile.getContentType());
         logger.info("文件名称: " + multipartFile.getName());
@@ -57,8 +59,12 @@ public class ImportService {
         BizImportBatch bizImportBatch = new BizImportBatch();
         bizImportBatch.setImportType(type);
         //bizImportBatch.setBatchName(oldName);
-
-        bizImportBatch.setBatchName(createBatchId(type.toString()));
+        if(param!=null) {
+            String batchName =param.get("batchName");
+            bizImportBatch.setBatchName(batchName);
+        }else{
+            bizImportBatch.setBatchName(createBatchId(type.toString()));
+        }
         bizImportBatch.setFileName(multipartFile.getOriginalFilename());
         bizImportBatch.setFilePath(webPath);
         SessionUser sessionUser = ShiroUtils.getSessionUser();
@@ -77,7 +83,7 @@ public class ImportService {
      *
      * @return
      */
-    private String createBatchId(String type) {
+    public  String createBatchId(String type) {
         StringBuffer batchStr = new StringBuffer();
         batchStr.append("批-" + type + "-" + Tools.getCurrentDateStr() + "--" + Tools.getRandomNum());
         return batchStr.toString();

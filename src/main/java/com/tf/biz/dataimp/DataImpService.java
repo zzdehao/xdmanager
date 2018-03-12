@@ -1,5 +1,8 @@
 package com.tf.biz.dataimp;
+
 import com.tf.biz.check.entity.BizCheckPlan;
+import com.tf.biz.check.entity.BizCheckPlanExample;
+import com.tf.biz.check.mapper.BizCheckPlanMapper;
 import com.tf.biz.dataimp.entity.BizImportUser;
 import com.tf.biz.dataimp.entity.BizImportUserExample;
 import com.tf.biz.dataimp.mapper.BizImportUserMapper;
@@ -20,6 +23,7 @@ import com.tf.tadmin.mapper.RoleMapper;
 import com.tf.tadmin.service.BaseService;
 import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.Constants;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +31,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 /**
  * Created by wugq on 2018/3/6.
  */
@@ -53,7 +56,7 @@ public class DataImpService extends BaseService {
     private ImportService importService;
 
     @Autowired
-    private AdminMapper   adminMapper;
+    private AdminMapper adminMapper;
     @Autowired
     private RoleMapper roleMapper;
 
@@ -61,6 +64,18 @@ public class DataImpService extends BaseService {
     private BizImportBatchMapper batchMapper;
     @Autowired
     private BizStoreMapper bizStoreMapper;
+    @Autowired
+    private BizCheckPlanMapper checkPlanMapper;
+
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public Long getStoreByChannelCodeCount(String channelCode) {
+        BizStoreExample express = new BizStoreExample();
+        BizStoreExample.Criteria queryExpress = express.createCriteria();
+        queryExpress.andChannelCodeEqualTo(channelCode);
+        Long count = bizStoreMapper.countByExample(express);
+        return count;
+    }
 
     public Pager<BizImportUser> queryUserList(Integer start, Map<String, Object> param) {
         //limit ${start},${rows}
@@ -82,18 +97,23 @@ public class DataImpService extends BaseService {
     }
 
     /**
-     *  上传文件以及解析
-     *  放入临时表
-     *  并放入用户表
-     *  注意:
-     *  初始密码为:11111111 初始角色为:general
+     * 上传文件以及解析
+     * 放入临时表
+     * 并放入用户表
+     * 注意:
+     * 初始密码为:11111111 初始角色为:general
+     *
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean saveImpUserData(MultipartFile multipartFile,
                                    FilePath filePath, Map<String, Object> param)
             throws IOException, InvalidFormatException {
-        Long batchId = this.importService.save(multipartFile, filePath, ImportEnum.ImportType.USER.getCode());
+        String batchName=importService.createBatchId(ImportEnum.ImportType.USER.getTypeName());
+        Map<String,String> paramMap = new HashMap<String,String>();
+        paramMap.put("batchName",batchName);
+        Long batchId = this.importService.save(multipartFile, filePath, ImportEnum.ImportType.USER.getCode(),
+                paramMap);
         //解析文件
         InputStream inputStream = multipartFile.getInputStream();
         /**
@@ -113,12 +133,13 @@ public class DataImpService extends BaseService {
             for (Map data : readDatas) {
                 userPo = new BizImportUser();
                 admin = new Admin();
+                admin.setBlz2(batchName);
                 admin.setBlz1(batchId.toString());
                 userPo.setBatchId(batchId);
                 //检查数据项 姓名  手机号码
                 String uname = (String) data.get("var0");
                 String phone = (String) data.get("var6");
-                if(StringUtils.isEmpty(uname)&&StringUtils.isEmpty(phone)){
+                if (StringUtils.isEmpty(uname) && StringUtils.isEmpty(phone)) {
                     continue;
                 }
                 userPo.setUserName((String) data.get("var0"));//姓名
@@ -177,7 +198,7 @@ public class DataImpService extends BaseService {
             userData.forEach(u -> {
                 //生成用户信息
                 Admin qadmin = this.adminMapper.queryByLogin(u.getTel());
-                if(qadmin==null) {
+                if (qadmin == null) {
                     this.adminMapper.insert(u);
                     UserRole urole = new UserRole();
                     urole.setRoleId(role.getId());
@@ -189,8 +210,10 @@ public class DataImpService extends BaseService {
         }
         return true;
     }
+
     /**
      * 上传文件列表
+     *
      * @param start
      * @param param
      * @return
@@ -207,15 +230,15 @@ public class DataImpService extends BaseService {
         express.setOrderByClause(" create_time desc ");
         //增加查询条件
         BizImportBatchExample.Criteria queryExpress = express.createCriteria();
-        if(param!=null){
+        if (param != null) {
             Object obj = param.get("importTypes");
-            if(obj!=null) {
-                List<Integer> importTypes =(List<Integer>)obj;
-                 queryExpress.andImportTypeIn(importTypes);
+            if (obj != null) {
+                List<Integer> importTypes = (List<Integer>) obj;
+                queryExpress.andImportTypeIn(importTypes);
             }
-            Object importType =param.get("importType");
-            if(importType!=null) {
-                queryExpress.andImportTypeEqualTo((Integer)importType);
+            Object importType = param.get("importType");
+            if (importType != null) {
+                queryExpress.andImportTypeEqualTo((Integer) importType);
             }
         }
         List<BizImportBatch> list = batchMapper.selectByExample(express);
@@ -224,6 +247,7 @@ public class DataImpService extends BaseService {
         pager.setTotal(count.intValue());
         return pager;
     }
+
     /**
      * 导入计划
      * @param multipartFile
@@ -234,61 +258,101 @@ public class DataImpService extends BaseService {
      * @throws InvalidFormatException
      */
     public boolean saveImportCheckPlanData(MultipartFile multipartFile,
-                                   FilePath filePath,
-                                   Map<String, Object> param,
+                                           FilePath filePath,
+                                           Map<String, Object> param,
                                            ImportEnum.ImportType importType)
             throws IOException, InvalidFormatException {
         /**
          * SELF_CHANNEL_PLAN(31, "自有渠道","巡检计划"),
-           WORLD_CHANNEL_PLAN(32, "社会渠道","巡检计划"),
-           SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
+         WORLD_CHANNEL_PLAN(32, "社会渠道","巡检计划"),
+         SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
          */
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        ParsePosition pos = new ParsePosition(0);
+        String minDate = (String) param.get("minDate");
+        String maxDate = (String) param.get("maxDate");
+        String dateSuffix=" 00:00:00";
+        minDate=minDate+dateSuffix;
+        maxDate=maxDate+dateSuffix;
 
-        String  minDate = (String)param.get("minDate");
-        String  maxDate = (String)param.get("maxDate");
+        Map<String,String> paramMap = new HashMap<String,String>();
+        String batchName=importService.createBatchId(importType.getTypeName());
+        paramMap.put("batchName",batchName);
         Long batchId = this.importService.save(multipartFile,
-                filePath,importType.getCode());
+                filePath, importType.getCode(),
+                paramMap);
         //解析文件
         InputStream inputStream = multipartFile.getInputStream();
-        List<Map> readDatas = (List) ObjectExcelRead.readExcelInputStream(inputStream, 1, 0, 13, 0);
+        List<Map> readDatas = (List) ObjectExcelRead.readExcelInputStream(inputStream, 1, 0, 11, 0);
         List<BizCheckPlan> planData = new ArrayList<BizCheckPlan>();
         if (readDatas != null && readDatas.size() > 0) {
             BizCheckPlan plan = null;
-            for(Map data : readDatas) {
+            for (Map data : readDatas) {
                 plan = new BizCheckPlan();
                 plan.setBatchId(batchId);
-                plan.setCheckStartDate(formatter.parse(minDate, pos));
-                plan.setCheckEndDate(formatter.parse(maxDate, pos));
+                plan.setBatchName(batchName);
+                try {
+                    Date end = formatter.parse(maxDate);
+                    Date st = formatter.parse(minDate);
+                    plan.setCheckStartDate(st);
+                    plan.setCheckEndDate(end);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
                 //检查数据项  渠道编码
-                String channelCode = (String)data.get("var1");
-                if(StringUtils.isEmpty(channelCode)){
+                String channelCode = (String) data.get("var2");
+                //渠道名称
+                String channelName = (String) data.get("var3");
+                if (StringUtils.isEmpty(channelCode) || StringUtils.isEmpty(channelName)) {
                     continue;
                 }
                 /**
-                 * 1、自有渠道
-                   渠道编码
-                   地市
-                   区县分公司名称
-                   区县分公司编码
-                   渠道名称
-                   渠道类型
-                   详细地址
-                   备注
-                   是否是有效渠道
-                   人员匹配（渠道经理）
-                   渠道经理电话
-                   巡店人
-                   巡店人电话
+                 省
+                 市
+                 渠道编码
+                 渠道名称
+                 渠道类型
+                 店铺编码
+                 店铺名称
+                 店铺详细地址
+                 备注
+                 巡店人
+                 巡店人电话
                  */
+                plan.setProvinceCode(null);
+                plan.setProvinceName((String) data.get("var0"));
+                plan.setCityCode(null);
+                plan.setCityName((String) data.get("var1"));
+                plan.setChannelType(importType.getCode());
+                plan.setChannelCode((String) data.get("var2"));
+                plan.setChannelName((String) data.get("var3"));
+                plan.setStoreCode((String) data.get("var4"));
+                plan.setStoreName((String) data.get("var5"));
+                plan.setStoreAddress((String) data.get("var6"));
+                plan.setStoreTypeName(importType.getTypeName());
+                plan.setCheckUserName((String) data.get("var9"));
+                plan.setChannelUserTel((String)data.get("var10"));
+                System.out.println("checkEndDate:"+plan.getCheckEndDate());
+                planData.add(plan);
             }
+            //保存数据
+            final Date now = new Date();
+            final SessionUser sessionUser = ShiroUtils.getSessionUser();
+            final int userId = sessionUser.getId();
+            final String name = sessionUser.getName();
+            planData.forEach(s -> {
+                s.setBatchId(batchId);
+                s.setCreateTime(now);
+                s.setCreateUserId(userId);
+                s.setCreateUserName(name);
+                this.checkPlanMapper.insertSelective(s);
+            });
         }
         return true;
     }
 
     /**
      * 查询店铺信息
+     *
      * @param start
      * @param param
      * @return
@@ -297,28 +361,28 @@ public class DataImpService extends BaseService {
         //limit ${start},${rows}
         int rows = Constants.PAGE_SIZE;
         Pager<BizStore> pager = new Pager<BizStore>();
-        String key=(String)param.get("key");
-        Integer channelType =(Integer)param.get("channelType");
+        String key = (String) param.get("key");
+        Integer channelType = (Integer) param.get("channelType");
         //组件查询条件
         BizStoreExample express = new BizStoreExample();
         express.setLimit(rows);
         express.setOffset(start);
         express.setOrderByClause(" create_time desc ");
         //增加查询条件where channel_type=1 and ()效果
-        BizStoreExample.Criteria cc= express.createCriteria();
-        if(!StringUtils.isEmpty(key)) {
-            cc.andChannelNameLike("%"+key+"%");
-            BizStoreExample.Criteria c2= express.createCriteria().andChannelCodeLike("%"+key+"%");
-            BizStoreExample.Criteria c3= express.createCriteria().andStoreNameLike("%"+key+"%");
-            if(channelType!=-1){
+        BizStoreExample.Criteria cc = express.createCriteria();
+        if (!StringUtils.isEmpty(key)) {
+            cc.andChannelNameLike("%" + key + "%");
+            BizStoreExample.Criteria c2 = express.createCriteria().andChannelCodeLike("%" + key + "%");
+            BizStoreExample.Criteria c3 = express.createCriteria().andStoreNameLike("%" + key + "%");
+            if (channelType != -1) {
                 cc.andChannelTypeEqualTo(channelType);
                 c2.andChannelTypeEqualTo(channelType);
                 c3.andChannelTypeEqualTo(channelType);
             }
             express.or(c2);
             express.or(c3);
-        }else{
-            if(channelType!=-1){
+        } else {
+            if (channelType != -1) {
                 cc.andChannelTypeEqualTo(channelType);
             }
         }
@@ -328,7 +392,29 @@ public class DataImpService extends BaseService {
         pager.setTotal(count.intValue());
         return pager;
     }
-    public int delStore(Integer id){
-       return this.bizStoreMapper.deleteByPrimaryKey(Long.parseLong(id.toString()));
+    public Pager<BizCheckPlan> queryPlanList(Integer start, Map<String, Object> param) {
+        //limit ${start},${rows}
+        int rows = Constants.PAGE_SIZE;
+        Pager<BizCheckPlan> pager = new Pager<BizCheckPlan>();
+        String key = (String) param.get("key");
+        Integer batchId = (Integer) param.get("batchId");
+        //组件查询条件
+        BizCheckPlanExample express = new BizCheckPlanExample();
+        express.setLimit(rows);
+        express.setOffset(start);
+        express.setOrderByClause(" create_time desc ");
+        if(batchId!=-99) {
+            express.createCriteria().andBatchIdEqualTo(Long.parseLong(batchId.toString()));
+        }
+        //增加查询条件where channel_type=1 and ()效果
+        List<BizCheckPlan> list = checkPlanMapper.selectByExample(express);
+        Long count = checkPlanMapper.countByExample(express);
+        pager.setRows(list);
+        pager.setTotal(count.intValue());
+        return pager;
+    }
+
+    public int delStore(Integer id) {
+        return this.bizStoreMapper.deleteByPrimaryKey(Long.parseLong(id.toString()));
     }
 }

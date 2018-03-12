@@ -124,12 +124,12 @@
 <script type="text/javascript">
 
     var queryUrl = "${staticPath}/check/route/query";
-    var batchUrl = "${staticPath}/common/batch?typeList=11";
+    var batchUrl = "${staticPath}/common/batch?typeList=11&typeList=11";
 
     var channelMap = {
         "11" : "自有渠道",
-        "12" : "aaaa",
-        "13" : "bbbb",
+        "12" : "社会渠道",
+        "13" : "小微渠道",
     }
 
     $(function(){

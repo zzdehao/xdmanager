@@ -54,11 +54,16 @@
                 </div>
                 <div class="form-group">
                     巡检日期：
-                    <input type="text" name="minDate" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'maxDate\')||\'%y-%M-%d\'}'})"
+                    <input type="text" name="minDate" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'maxDate\')}',minDate:'%y-%M-{%d+1}'})"
                            id="minDate" class="input-text Wdate" style="width:186px;">
                     -
-                    <input type="text" name="maxDate" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'minDate\')}',maxDate:'%y-%M-%d'})"
+                    <input type="text" name="maxDate" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'minDate\')}'})"
                            id="maxDate" class="input-text Wdate" style="width:186px;">
+                </div>
+                <div class="form-group" style="margin-top: 5px;">
+                        <a href="<%=request.getContextPath()%>/template/5-plan.xlsx"
+                           style="color: red;">下载导入巡检计划导入模版</a>
+
                 </div>
                 <div class="form-group">
                     <label for="planFile">巡检计划文件(excel)</label>
