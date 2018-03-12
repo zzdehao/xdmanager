@@ -26,73 +26,75 @@
             <i class="Hui-iconfont">&#xe665;</i>导出EXCEL</a>
         </form>
     </div>
-    <table class="table table-border table-bordered table-bg">
-        <thead>
-        <tr>
-            <th scope="col" colspan="56">巡店记录查询</th>
-        </tr>
-        <tr class="text-c">
-            <th width="60">计划批次</th>
-            <th width="60">省份</th>
-            <th width="60">城市</th>
-            <th width="60">渠道名称</th>
-            <th width="60">公司名称</th>
-            <th width="60">店铺名称</th>
-            <th width="60">平台名称</th>
-            <th width="60">详细地址</th>
-            <th width="60">渠道管理员</th>
-            <th width="60">渠道管理员电话</th>
-            <th width="60">检查人</th>
-            <th width="60">检查时间</th>
-            <th width="60">经度</th>
-            <th width="60">纬度</th>
-            <th width="60">店铺是否存在</th>
-            <th width="60">店铺实际名称是否相符</th>
-            <th width="60">店铺实际巡查地址省</th>
-            <th width="60">店铺实际巡查地址城市</th>
-            <th width="60">店铺实际巡查地址</th>
-            <th width="60">店铺地域类型</th>
-            <th width="60">店铺门店类型</th>
-            <th width="60">店铺类型业态商圈</th>
-            <th width="60">店铺面积类型</th>
-            <th width="60">店铺人员规模</th>
-            <th width="60">近一个月是否变更</th>
-            <th width="60">忙时人数</th>
-            <th width="60">闲时人数</th>
-            <th width="60">营业员受理业务程度</th>
-            <th width="60">营业员对内部套餐策略数量程度</th>
-            <th width="60">终端营销策略数量</th>
-            <th width="60">对客户是否主动营销</th>
-            <th width="60">是否推出4g</th>
-            <th width="60">是否推出全网通</th>
-            <th width="60">是否主推机型</th>
-            <th width="60">是否干净卫生</th>
-            <th width="60">宣传是否合规</th>
-            <th width="60">店内动线是否设计合规</th>
-            <th width="60">月销售终端数量</th>
-            <th width="60">异网发展能力</th>
-            <th width="60">是否联通门头</th>
-            <th width="60">是否联通灯箱</th>
-            <th width="60">是否联通标牌</th>
-            <th width="60">是否联通二维码</th>
-            <th width="60">是否有实名制公告</th>
-            <th width="60">是否联通背景墙</th>
-            <th width="60">是否联通柜台贴</th>
-            <th width="60">是否opp专区</th>
-            <th width="60">是否有金立专柜</th>
-            <th width="60">是否vivo专柜</th>
-            <th width="60">是否为华为专柜</th>
-            <th width="60">是否三星专柜</th>
-            <th width="60">是否苹果专柜</th>
-            <th width="60">是否魅族</th>
-            <th width="60">是否2g,3g专柜</th>
-            <th width="60">社会机型库存数量</th>
-            <th width="60">自由机型库存数量</th>
-        </tr>
-        </thead>
-        <tbody id="xuser-list">
-        </tbody>
-    </table>
+    <div style="overflow:auto; width:100%; height:100%;">
+        <table class="table table-border table-bordered table-bg">
+            <thead>
+            <tr>
+                <th scope="col" colspan="56">巡店记录查询</th>
+            </tr>
+            <tr class="text-c">
+                <th width="60">计划批次</th>
+                <th width="60">省份</th>
+                <th width="60">城市</th>
+                <th width="60">渠道名称</th>
+                <th width="60">公司名称</th>
+                <th width="60">店铺名称</th>
+                <th width="60">平台名称</th>
+                <th width="60">详细地址</th>
+                <th width="60">渠道管理员</th>
+                <th width="60">渠道管理员电话</th>
+                <th width="60">检查人</th>
+                <th width="60">检查时间</th>
+                <th width="60">经度</th>
+                <th width="60">纬度</th>
+                <th width="60">店铺是否存在</th>
+                <th width="60">店铺实际名称是否相符</th>
+                <th width="60">店铺实际巡查地址省</th>
+                <th width="60">店铺实际巡查地址城市</th>
+                <th width="60">店铺实际巡查地址</th>
+                <th width="60">店铺地域类型</th>
+                <th width="60">店铺门店类型</th>
+                <th width="60">店铺类型业态商圈</th>
+                <th width="60">店铺面积类型</th>
+                <th width="60">店铺人员规模</th>
+                <th width="60">近一个月是否变更</th>
+                <th width="60">忙时人数</th>
+                <th width="60">闲时人数</th>
+                <th width="60">营业员受理业务程度</th>
+                <th width="60">营业员对内部套餐策略数量程度</th>
+                <th width="60">终端营销策略数量</th>
+                <th width="60">对客户是否主动营销</th>
+                <th width="60">是否推出4g</th>
+                <th width="60">是否推出全网通</th>
+                <th width="60">是否主推机型</th>
+                <th width="60">是否干净卫生</th>
+                <th width="60">宣传是否合规</th>
+                <th width="60">店内动线是否设计合规</th>
+                <th width="60">月销售终端数量</th>
+                <th width="60">异网发展能力</th>
+                <th width="60">是否联通门头</th>
+                <th width="60">是否联通灯箱</th>
+                <th width="60">是否联通标牌</th>
+                <th width="60">是否联通二维码</th>
+                <th width="60">是否有实名制公告</th>
+                <th width="60">是否联通背景墙</th>
+                <th width="60">是否联通柜台贴</th>
+                <th width="60">是否opp专区</th>
+                <th width="60">是否有金立专柜</th>
+                <th width="60">是否vivo专柜</th>
+                <th width="60">是否为华为专柜</th>
+                <th width="60">是否三星专柜</th>
+                <th width="60">是否苹果专柜</th>
+                <th width="60">是否魅族</th>
+                <th width="60">是否2g,3g专柜</th>
+                <th width="60">社会机型库存数量</th>
+                <th width="60">自由机型库存数量</th>
+            </tr>
+            </thead>
+            <tbody id="xuser-list">
+            </tbody>
+        </table>
+    </div>
     <div class="mt-10">
         <div class="text-l f-l" id="pager-info"></div>
         <div class="text-r f-r" id="pager"></div>
@@ -325,62 +327,62 @@
             var $tr = $(html);
             var tdList = $tr.find("td");
             var k = 0;
-            $(tdList[k++]).text(obj.bizCheckDetail.planBatchName);
-            $(tdList[k++]).text(obj.bizStore.provinceName);
-            $(tdList[k++]).text(obj.bizStore.cityName);
-            $(tdList[k++]).text(obj.bizStore.channelName);
-            $(tdList[k++]).text(obj.bizStore.companyName);
-            $(tdList[k++]).text(obj.bizStore.storeName);
-            $(tdList[k++]).text(obj.bizStore.platformName);
-            $(tdList[k++]).text(obj.bizStore.addressDetail);
-            $(tdList[k++]).text(obj.bizStore.channelManagerName);
-            $(tdList[k++]).text(obj.bizStore.channelManagerPhone);
-            $(tdList[k++]).text(obj.bizCheckDetail.checkUserName);
-            $(tdList[k++]).text(obj.bizCheckDetail.checkTime);
-            $(tdList[k++]).text(obj.bizCheckDetail.checkLongitude);
-            $(tdList[k++]).text(obj.bizCheckDetail.checkLatitude);
-            $(tdList[k++]).text(obj.bizCheckDetail.storeExistsok);
-            $(tdList[k++]).text(obj.bizCheckDetail.storeRealnameok);
-            $(tdList[k++]).text(obj.bizCheckDetail.storeCheckProvinceName);
-            $(tdList[k++]).text(obj.bizCheckDetail.storeCheckCityName);
-            $(tdList[k++]).text(obj.bizCheckDetail.storeAddress);
-            $(tdList[k++]).text(checkRegionMap(obj.bizCheckDetail.storeRegiontype));
-            $(tdList[k++]).text(checkMendianMap(obj.bizCheckDetail.storeMendiantype));
-            $(tdList[k++]).text(checkYtsqMap(obj.bizCheckDetail.storeYtsqtype));
-            $(tdList[k++]).text(checkAreaMap(obj.bizCheckDetail.storeAreatype));
-            $(tdList[k++]).text(checkMembersMap(obj.bizCheckDetail.storeMemberstype));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeNmonthChangeok));
-            $(tdList[k++]).text(obj.bizCheckDetail.storeBusyUsercount);
-            $(tdList[k++]).text(obj.bizCheckDetail.storeFreeUsercount);
-            $(tdList[k++]).text(checkScopMap(obj.bizCheckDetail.storeMemberBusscope));
-            $(tdList[k++]).text(checkScopMap(obj.bizCheckDetail.storeMemberTaocanScope));
-            $(tdList[k++]).text(checkScopMap(obj.bizCheckDetail.storeMemberTerminalPolicy));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeMemeberActivesellok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.store4gok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeAllnetok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeFirstRecdTerminal));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeHealthok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeConductok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeDonglineok));
-            $(tdList[k++]).text(checkLiangMap(obj.bizCheckDetail.storeMonthSalecount));
-            $(tdList[k++]).text(checkLiangMap(obj.bizCheckDetail.storeDifExpandability));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeDoortouok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeDengxiangok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeBrandok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeQrcode));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeRealnameNoticeok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeBackwall));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeBartie));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqOppok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqJinliok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqVivook));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqHuaweiok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqSamsongok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqAppleok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZqMeizuok));
-            $(tdList[k++]).text(checkOkMap(obj.bizCheckDetail.storeZq2g3gok));
-            $(tdList[k++]).text(obj.bizCheckDetail.storeKccheckOutcount);
-            $(tdList[k++]).text(obj.bizCheckDetail.storeKccheckSelfcount);
+            $(tdList[k++]).html(obj.bizCheckDetail.planBatchName);
+            $(tdList[k++]).html(obj.bizStore.provinceName);
+            $(tdList[k++]).html(obj.bizStore.cityName);
+            $(tdList[k++]).html(obj.bizStore.channelName);
+            $(tdList[k++]).html(obj.bizStore.companyName);
+            $(tdList[k++]).html(obj.bizStore.storeName);
+            $(tdList[k++]).html(obj.bizStore.platformName);
+            $(tdList[k++]).html(obj.bizStore.addressDetail);
+            $(tdList[k++]).html(obj.bizStore.channelManagerName);
+            $(tdList[k++]).html(obj.bizStore.channelManagerPhone);
+            $(tdList[k++]).html(obj.bizCheckDetail.checkUserName);
+            $(tdList[k++]).html(obj.bizCheckDetail.checkTime);
+            $(tdList[k++]).html(obj.bizCheckDetail.checkLongitude);
+            $(tdList[k++]).html(obj.bizCheckDetail.checkLatitude);
+            $(tdList[k++]).html(obj.bizCheckDetail.storeExistsok);
+            $(tdList[k++]).html(obj.bizCheckDetail.storeRealnameok);
+            $(tdList[k++]).html(obj.bizCheckDetail.storeCheckProvinceName);
+            $(tdList[k++]).html(obj.bizCheckDetail.storeCheckCityName);
+            $(tdList[k++]).html(obj.bizCheckDetail.storeAddress);
+            $(tdList[k++]).html(checkRegionMap(obj.bizCheckDetail.storeRegiontype));
+            $(tdList[k++]).html(checkMendianMap(obj.bizCheckDetail.storeMendiantype));
+            $(tdList[k++]).html(checkYtsqMap(obj.bizCheckDetail.storeYtsqtype));
+            $(tdList[k++]).html(checkAreaMap(obj.bizCheckDetail.storeAreatype));
+            $(tdList[k++]).html(checkMembersMap(obj.bizCheckDetail.storeMemberstype));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeNmonthChangeok));
+            $(tdList[k++]).html(obj.bizCheckDetail.storeBusyUsercount);
+            $(tdList[k++]).html(obj.bizCheckDetail.storeFreeUsercount);
+            $(tdList[k++]).html(checkScopMap(obj.bizCheckDetail.storeMemberBusscope));
+            $(tdList[k++]).html(checkScopMap(obj.bizCheckDetail.storeMemberTaocanScope));
+            $(tdList[k++]).html(checkScopMap(obj.bizCheckDetail.storeMemberTerminalPolicy));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeMemeberActivesellok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.store4gok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeAllnetok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeFirstRecdTerminal));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeHealthok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeConductok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeDonglineok));
+            $(tdList[k++]).html(checkLiangMap(obj.bizCheckDetail.storeMonthSalecount));
+            $(tdList[k++]).html(checkLiangMap(obj.bizCheckDetail.storeDifExpandability));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeDoortouok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeDengxiangok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeBrandok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeQrcode));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeRealnameNoticeok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeBackwall));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeBartie));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZqOppok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZqJinliok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZqVivook));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZqHuaweiok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZqSamsongok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZqAppleok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZqMeizuok));
+            $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZq2g3gok));
+            $(tdList[k++]).html(obj.bizCheckDetail.storeKccheckOutcount);
+            $(tdList[k++]).html(obj.bizCheckDetail.storeKccheckSelfcount);
             $listBox.append($tr);
         }
     }

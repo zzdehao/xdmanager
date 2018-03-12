@@ -61,13 +61,13 @@ public class CheckController extends BaseController {
     private String uploadDir;
 
     @RequestMapping(value = "/check/list/page", method = {RequestMethod.GET})
-    public ModelAndView checkListPage(HttpServletResponse response, HttpServletRequest request, Upload upload) throws Exception {
+    public ModelAndView checkListPage(HttpServletResponse response, HttpServletRequest request) throws Exception {
         return new ModelAndView("biz/check/check_list");
     }
 
     @RequestMapping(value = "/check/list/query", method = {RequestMethod.GET})
     @ResponseBody
-    public Object checkListPageQuery(HttpServletResponse response, HttpServletRequest request, Upload upload) throws Exception {
+    public Object checkListPageQuery(HttpServletResponse response, HttpServletRequest request) throws Exception {
         BizCheckDetail bizCheckDetail = new BizCheckDetail();
         List<BizCheckDetailResponse> list = this.checkService.findList(bizCheckDetail,1000, 0);
         return list;
@@ -97,7 +97,7 @@ public class CheckController extends BaseController {
     }
 
     @RequestMapping(value = "/check/route", method = {RequestMethod.GET})
-    public ModelAndView routeCheck(HttpServletResponse response, HttpServletRequest request, Upload upload) throws Exception {
+    public ModelAndView routeCheck(HttpServletResponse response, HttpServletRequest request) throws Exception {
         return new ModelAndView("biz/check/check_route");
     }
 
