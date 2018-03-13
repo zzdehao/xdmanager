@@ -100,7 +100,8 @@
      */
     /*管理员-增加*/
     function xuser_add(title,url,w,h){
-        layer_show(title,url,w,h);
+        window.location.href=url;
+        //layer_show(title,url,w,h);
     }
     /*管理员-删除*/
     function xuser_del(obj,id){
@@ -124,7 +125,8 @@
     }
     /*管理员-编辑*/
     function xuser_edit(title,url,w,h){
-        layer_show(title,url,w,h);
+        //layer_show(title,url,w,h);
+        window.location.href=url;
     }
     $(function () {
         /**/

@@ -94,13 +94,19 @@
 		</div>
 		<div class="row cl">
 			<div class="col-9 col-offset-3">
-				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;修改&nbsp;&nbsp;">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				&nbsp;&nbsp;
+				<input class="btn btn-primary radius" onclick="javascript:backgo();" type="button" value="&nbsp;&nbsp;返回&nbsp;&nbsp;">
+			</div>
 			</div>
 		</div>
 	</form>
 </div>
 <%@include file="/footer.jsp" %>
 <script type="text/javascript">
+	function backgo(){
+		window.location.href="import/toXuserList";
+	}
 	function loadP(provinceCode) {
 		if(provinceCode=='all'){
 			return;
@@ -214,8 +220,11 @@
 							//alert(parent.$(".show_iframe:visible > iframe")[0].window);
 							//parent.$(".show_iframe:visible > iframe").attr("src" ,parent.$(".show_iframe:visible > iframe")[0].src );
 							parent.layer.msg("保存成功,正在刷新数据请稍后……",{icon:1,time: 2000,shade: [0.1,'#fff']},function(){
+								/**
 								parent.$(".show_iframe:visible > iframe").contents().find("#search").click() ;
 								parent.layer.close(index);
+							    **/
+								window.location.href="import/toXuserList";
 							}) ;
 
 						}else{

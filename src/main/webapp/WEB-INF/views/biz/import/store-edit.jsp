@@ -34,11 +34,19 @@
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>渠道编码：</label>
 			<div class="formControls col-5">
+				<c:if test="${empty store.id}">
 				<input type="text" class="input-text" ajaxurl="import/validChannelCode"
 					   value="${store.channelCode}" placeholder="渠道编码"
 					   id="channelCode" name="channelCode" datatype="*2-16"
 					   nullmsg="渠道编码不能为空"
 					   sucmsg="渠道编码验证通过！"  errormsg="渠道编码已经存在！">
+				</c:if>
+				<c:if test="${not empty store.id}">
+				<input type="text" class="input-text"  readonly
+					   value="${store.channelCode}" placeholder="渠道编码"
+					   id="channelCode" name="channelCode" datatype="*2-16"
+					   nullmsg="渠道编码不能为空">
+				</c:if>
 			</div>
 			<div class="col-4"></div>
 		</div>
@@ -138,14 +146,19 @@
 			<div class="col-4"></div>
 		</div>
 		<div class="row cl">
-			<div class="col-9 col-offset-3">
+			<div class="col-9 col-offset-4">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				&nbsp;&nbsp;
+				<input class="btn btn-primary radius" onclick="javascript:backgo();" type="button" value="&nbsp;&nbsp;返回&nbsp;&nbsp;">
 			</div>
 		</div>
 	</form>
 </div>
 <%@include file="/footer.jsp" %>
 <script type="text/javascript">
+	function backgo(){
+		window.location.href="import/toStoreList";
+	}
 	function loadP(provinceCode) {
 		if(provinceCode=='all'){
 			return;
@@ -249,8 +262,11 @@
 						if(data.s == true){
 							index = parent.layer.getFrameIndex(window.name);
 							parent.layer.msg("保存成功,正在刷新数据请稍后……",{icon:1,time: 2000,shade: [0.1,'#fff']},function(){
+								/**
 								parent.$(".show_iframe:visible > iframe").contents().find("#search").click() ;
 								parent.layer.close(index);
+								 **/
+								window.location.href='import/toStoreList'
 							}) ;
 
 						}else{
@@ -258,7 +274,6 @@
 						}
 					},
 				}) ;
-				//form[0].submit();
 				return false ;
 			}
 		});

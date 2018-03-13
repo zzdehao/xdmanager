@@ -124,7 +124,8 @@
      */
     /*管理员-增加*/
     function store_add(title,url,w,h){
-        layer_show(title,url,w,h);
+        window.location.href=url;
+        //layer_show(title,url,w,h);
     }
     /*管理员-删除*/
     function store_del(obj,id){
@@ -148,7 +149,8 @@
     }
     /*管理员-编辑*/
     function store_edit(title,url,w,h){
-        layer_show(title,url,w,h);
+        window.location.href=url;
+        //layer_show(title,url,w,h);
     }
     $(function () {
         /**/
