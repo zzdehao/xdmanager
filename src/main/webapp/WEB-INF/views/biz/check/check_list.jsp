@@ -16,9 +16,12 @@
 <div class="pd-20">
     <div class="text-c mb-10">
         <form id="form" action="<%=request.getContextPath()%>/check/export">
-        用户名称：
-        <input type="text" placeholder="用户名或电话" name="key"  id="q"
-               class="input-text" style="width:172px;margin-right: 10px;">
+            店铺名称：
+        <input type="text" placeholder="店铺名称" name=""  class="input-text" style="width:172px;margin-right: 10px;">
+            批次号：
+        <input type="text" placeholder="批次号"  name="" class="input-text" style="width:172px;margin-right: 10px;">
+            渠道类型：
+        <input type="text" placeholder="渠道类型" name="" class="input-text" style="width:172px;margin-right: 10px;">
         <button type="button" class="btn btn-success" id="search" name="" onclick="loadData(1) ;">
             <i class="Hui-iconfont">&#xe665;</i>查询
         </button>
