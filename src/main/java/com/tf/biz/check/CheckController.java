@@ -6,14 +6,11 @@ import com.tf.biz.check.entity.BizCheckPlan;
 import com.tf.biz.check.entity.BizCheckPlanExample;
 import com.tf.biz.check.param.BizCheckDetailRequest;
 import com.tf.biz.check.param.BizCheckDetailResponse;
-import com.tf.biz.imp.pojo.FilePath;
 import com.tf.biz.store.StoreService;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.entity.BizStoreExample;
 import com.tf.tadmin.controller.BaseController;
-import com.tf.tadmin.entity.Upload;
-import com.tf.tadmin.service.UploadService;
-import org.apache.commons.lang3.StringUtils;
+import com.tf.tadmin.entity.Pager;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -31,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,16 +62,14 @@ public class CheckController extends BaseController {
 
     @RequestMapping(value = "/check/list/query", method = {RequestMethod.GET})
     @ResponseBody
-    public Object checkListPageQuery(HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public Pager<BizCheckDetailResponse> checkListPageQuery(HttpServletResponse response, HttpServletRequest request, @RequestHeader Integer limit, @RequestHeader Integer offset) throws Exception {
         BizCheckDetail bizCheckDetail = new BizCheckDetail();
-        List<BizCheckDetailResponse> list = this.checkService.findList(bizCheckDetail,1000, 0);
-        Map obj = new HashMap<>();
-        obj.put("list", list);
-        return obj;
+        Pager<BizCheckDetailResponse> pager = this.checkService.findList(bizCheckDetail, limit, offset);
+        return pager;
     }
 
     @RequestMapping(value = "/check/export", method = {RequestMethod.GET})
-    public void exportCheck( HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void exportCheck(HttpServletResponse response, HttpServletRequest request) throws Exception {
         response.reset();
         response.setHeader("Content-Disposition", "attachment;filename=" + new String(this.fileName.getBytes(), "iso-8859-1") + ".xlsx");
         response.setContentType("application/vnd.ms-excel;charset=UTF-8");
@@ -84,7 +77,7 @@ public class CheckController extends BaseController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
         BizCheckDetail bizCheckDetail = new BizCheckDetail();
-        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail,1000, 0);
+        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail);
         OutputStream output;
         try {
             output = response.getOutputStream();
@@ -111,12 +104,12 @@ public class CheckController extends BaseController {
         BizCheckDetailExample checkDetailExample = new BizCheckDetailExample();
         BizCheckDetailExample.Criteria criteria = checkDetailExample.createCriteria();
 
-        if(checkDetailRequest.getBatchId() != null){
+        if (checkDetailRequest.getBatchId() != null) {
             BizCheckPlanExample checkPlanExample = new BizCheckPlanExample();
             checkPlanExample.createCriteria().andBatchIdEqualTo(checkDetailRequest.getBatchId());
             List<BizCheckPlan> checkPlanList = this.checkService.findCheckPlan(checkPlanExample);
-            List<Long> planIdList  = checkPlanList.stream().map(BizCheckPlan::getId).collect(Collectors.toList());
-            if(CollectionUtils.isEmpty(planIdList)){
+            List<Long> planIdList = checkPlanList.stream().map(BizCheckPlan::getId).collect(Collectors.toList());
+            if (CollectionUtils.isEmpty(planIdList)) {
                 return reList;
             }
             criteria.andPlanIdIn(planIdList);
@@ -125,7 +118,7 @@ public class CheckController extends BaseController {
         this.buildCheckDetailCriteria(criteria, checkDetailRequest);
         checkDetailExample.setOrderByClause("check_time");
         List<BizCheckDetail> list = this.checkService.findCheckDetail(checkDetailExample);
-        if(CollectionUtils.isEmpty(list)){
+        if (CollectionUtils.isEmpty(list)) {
             return reList;
         }
 
@@ -133,7 +126,7 @@ public class CheckController extends BaseController {
         BizStoreExample exampleStore = new BizStoreExample();
         exampleStore.createCriteria().andIdIn(storeIdList);
         List<BizStore> storeList = this.storeService.findStore(exampleStore);
-        if(CollectionUtils.isEmpty(storeList)){
+        if (CollectionUtils.isEmpty(storeList)) {
             return reList;
         }
         Map<Long, BizStore> storeMap = storeList.stream().collect(Collectors.toMap(BizStore::getId, Function.identity()));
@@ -142,7 +135,7 @@ public class CheckController extends BaseController {
         checkDetailMap.forEach((k, v) -> {
             List<Map<String, Object>> listTemp = new ArrayList<>();
             v.forEach(l -> {
-                listTemp.add(new HashMap(){{
+                listTemp.add(new HashMap() {{
                     put("detail", l);
                     put("store", storeMap.get(l.getStoreId()));
                 }});
@@ -153,15 +146,15 @@ public class CheckController extends BaseController {
         return reList;
     }
 
-    private void buildCheckDetailCriteria(BizCheckDetailExample.Criteria criteria, BizCheckDetailRequest checkDetailRequest){
-        if(checkDetailRequest.getPlanId() != null){
+    private void buildCheckDetailCriteria(BizCheckDetailExample.Criteria criteria, BizCheckDetailRequest checkDetailRequest) {
+        if (checkDetailRequest.getPlanId() != null) {
             criteria.andPlanIdEqualTo(checkDetailRequest.getPlanId());
         }
-        if(checkDetailRequest.getStartTime() != null && checkDetailRequest.getEndTime() != null){
+        if (checkDetailRequest.getStartTime() != null && checkDetailRequest.getEndTime() != null) {
             criteria.andCheckTimeBetween(checkDetailRequest.getStartTime(), checkDetailRequest.getEndTime());
-        }else if(checkDetailRequest.getStartTime() != null){
+        } else if (checkDetailRequest.getStartTime() != null) {
             criteria.andCheckTimeGreaterThanOrEqualTo(checkDetailRequest.getStartTime());
-        }else if(checkDetailRequest.getEndTime() != null){
+        } else if (checkDetailRequest.getEndTime() != null) {
             criteria.andCheckTimeLessThanOrEqualTo(checkDetailRequest.getEndTime());
         }
 

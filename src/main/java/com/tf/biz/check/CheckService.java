@@ -8,6 +8,7 @@ import com.tf.biz.check.param.BizCheckDetailResponse;
 import com.tf.biz.store.StoreService;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.entity.BizStoreExample;
+import com.tf.tadmin.entity.Pager;
 import com.tf.tadmin.service.DicService;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,26 +103,38 @@ public class CheckService {
 
 
     @Transactional(readOnly = true)
-    XSSFWorkbook createExcel(BizCheckDetail checkDetail, Integer limit, Integer offset) {
+    XSSFWorkbook createExcel(BizCheckDetail checkDetail) {
 
-        List<BizCheckDetailResponse> checkDetailResponses = this.findList(checkDetail, limit, offset);
+        List<BizCheckDetailResponse> checkDetailResponses = this.findList(checkDetail, null, null).getRows();
 
         return buildExcel(checkDetailResponses);
     }
 
-    List<BizCheckDetailResponse> findList(BizCheckDetail checkDetail, Integer limit, Integer offset) {
 
-        List<BizCheckDetailResponse> checkDetailResponses = new ArrayList<>();
+    Pager<BizCheckDetailResponse> findList(BizCheckDetail checkDetail, Integer limit, Integer offset) {
+
+        Pager pager = new Pager();
 
         BizCheckDetailExample detailExample = new BizCheckDetailExample();
-        detailExample.setLimit(limit);
-        detailExample.setOffset(offset);
+
+        Long count = this.bizCheckDetailMapper.countByExample(detailExample);
+        if(count.longValue() == 0){
+            return pager;
+        }
+        pager.setTotal(count.intValue());
+
+        if(limit != null){
+            detailExample.setLimit(limit);
+        }
+        if(offset != null){
+            detailExample.setOffset(offset);
+        }
         detailExample.setOrderByClause("check_time desc");
 
         //检查详情列表
         List<BizCheckDetail> detailList = this.bizCheckDetailMapper.selectByExample(detailExample);
         if (CollectionUtils.isEmpty(detailList)) {
-            return checkDetailResponses;
+            return pager;
         }
         //店铺ID列表
         List<Long> storeIdList = detailList.stream().map(BizCheckDetail::getStoreId).distinct().collect(Collectors.toList());
@@ -130,11 +143,11 @@ public class CheckService {
         exampleStore.createCriteria().andIdIn(storeIdList);
         List<BizStore> storeList = this.storeService.findStore(exampleStore);
         if (CollectionUtils.isEmpty(storeList)) {
-            return checkDetailResponses;
+            return pager;
         }
         //店铺Map
         Map<Long, BizStore> storeMap = storeList.stream().collect(Collectors.toMap(BizStore::getId, Function.identity()));
-
+        List<BizCheckDetailResponse> checkDetailResponses = new ArrayList<>();
         detailList.forEach(d -> {
             BizCheckDetailResponse checkDetailColResponse = new BizCheckDetailResponse();
             checkDetailResponses.add(checkDetailColResponse);
@@ -142,7 +155,9 @@ public class CheckService {
             checkDetailColResponse.setBizCheckDetail(d);
         });
 
-        return checkDetailResponses;
+        pager.setRows(checkDetailResponses);
+
+        return pager;
     }
 
     private String getMapValue(Map<Integer, String> map, Integer key){

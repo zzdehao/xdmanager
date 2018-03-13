@@ -287,23 +287,23 @@
 
     }
 
-    Handlebars.registerHelper("checkOkMap" , checkOkMap) ;
-    Handlebars.registerHelper("checkRegionMap" , checkRegionMap) ;
-    Handlebars.registerHelper("checkMendianMap" , checkMendianMap) ;
-    Handlebars.registerHelper("checkYtsqMap" , checkYtsqMap) ;
-    Handlebars.registerHelper("checkAreaMap" , checkAreaMap) ;
-    Handlebars.registerHelper("checkMembersMap" , checkMembersMap) ;
-    Handlebars.registerHelper("checkScopMap" , checkScopMap) ;
-    Handlebars.registerHelper("checkLiangMap" , checkLiangMap) ;
-
-
     function loadData(page) {
+        var limit = 20;
         page = page || 1;
+        var offset = (page - 1) * limit;
         var index = parent.layer.load();
-        $.getJSON("check/list/query", {
-            page: page
-        }, function (data) {
-            let list = data.list;
+
+        $.ajax({
+            url: 'check/list/query',
+            method: 'GET',
+            cache:false,
+            dataType: 'json',
+            headers: {
+                'limit': limit,
+                'offset':offset
+            }
+        }).done(function (data) {
+            let list = data.rows;
             parent.layer.close(index);buildTR(list);
             laypage({
                 cont: 'pager', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -317,6 +317,26 @@
                 }
             });
         });
+
+
+
+//        $.getJSON("check/list/query", {
+//            page: page
+//        }, function (data) {
+//            let list = data.list;
+//            parent.layer.close(index);buildTR(list);
+//            laypage({
+//                cont: 'pager', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+//                pages: data.pages, //通过后台拿到的总页数
+//                curr: page || 1, //当前页
+//                jump: function (obj, first) { //触发分页后的回调
+//                    $("#pager-info").html('共' + data.total + '条,' + obj.pages + '页,当前第' + obj.curr + '页');
+//                    if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+//                        loadData(obj.curr);
+//                    }
+//                }
+//            });
+//        });
     }
 
     function buildTR(list){
