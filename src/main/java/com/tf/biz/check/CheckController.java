@@ -70,7 +70,9 @@ public class CheckController extends BaseController {
     public Object checkListPageQuery(HttpServletResponse response, HttpServletRequest request) throws Exception {
         BizCheckDetail bizCheckDetail = new BizCheckDetail();
         List<BizCheckDetailResponse> list = this.checkService.findList(bizCheckDetail,1000, 0);
-        return list;
+        Map obj = new HashMap<>();
+        obj.put("list", list);
+        return obj;
     }
 
     @RequestMapping(value = "/check/export", method = {RequestMethod.GET})

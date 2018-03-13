@@ -27,68 +27,68 @@
         </form>
     </div>
     <div style="overflow:auto; width:100%; height:100%;">
-        <table class="table table-border table-bordered table-bg">
+        <table class="table table-border table-bordered table-bg" width="100%">
             <thead>
             <tr>
                 <th scope="col" colspan="56">巡店记录查询</th>
             </tr>
             <tr class="text-c">
-                <th width="60">计划批次</th>
-                <th width="60">省份</th>
-                <th width="60">城市</th>
-                <th width="60">渠道名称</th>
-                <th width="60">公司名称</th>
-                <th width="60">店铺名称</th>
-                <th width="60">平台名称</th>
-                <th width="60">详细地址</th>
-                <th width="60">渠道管理员</th>
-                <th width="60">渠道管理员电话</th>
-                <th width="60">检查人</th>
-                <th width="60">检查时间</th>
-                <th width="60">经度</th>
-                <th width="60">纬度</th>
-                <th width="60">店铺是否存在</th>
-                <th width="60">店铺实际名称是否相符</th>
-                <th width="60">店铺实际巡查地址省</th>
-                <th width="60">店铺实际巡查地址城市</th>
-                <th width="60">店铺实际巡查地址</th>
-                <th width="60">店铺地域类型</th>
-                <th width="60">店铺门店类型</th>
-                <th width="60">店铺类型业态商圈</th>
-                <th width="60">店铺面积类型</th>
-                <th width="60">店铺人员规模</th>
-                <th width="60">近一个月是否变更</th>
-                <th width="60">忙时人数</th>
-                <th width="60">闲时人数</th>
-                <th width="60">营业员受理业务程度</th>
-                <th width="60">营业员对内部套餐策略数量程度</th>
-                <th width="60">终端营销策略数量</th>
-                <th width="60">对客户是否主动营销</th>
-                <th width="60">是否推出4g</th>
-                <th width="60">是否推出全网通</th>
-                <th width="60">是否主推机型</th>
-                <th width="60">是否干净卫生</th>
-                <th width="60">宣传是否合规</th>
-                <th width="60">店内动线是否设计合规</th>
-                <th width="60">月销售终端数量</th>
-                <th width="60">异网发展能力</th>
-                <th width="60">是否联通门头</th>
-                <th width="60">是否联通灯箱</th>
-                <th width="60">是否联通标牌</th>
-                <th width="60">是否联通二维码</th>
-                <th width="60">是否有实名制公告</th>
-                <th width="60">是否联通背景墙</th>
-                <th width="60">是否联通柜台贴</th>
-                <th width="60">是否opp专区</th>
-                <th width="60">是否有金立专柜</th>
-                <th width="60">是否vivo专柜</th>
-                <th width="60">是否为华为专柜</th>
-                <th width="60">是否三星专柜</th>
-                <th width="60">是否苹果专柜</th>
-                <th width="60">是否魅族</th>
-                <th width="60">是否2g,3g专柜</th>
-                <th width="60">社会机型库存数量</th>
-                <th width="60">自由机型库存数量</th>
+                <th width="120">计划批次</th>
+                <th width="120">省份</th>
+                <th width="120">城市</th>
+                <th width="120">渠道名称</th>
+                <th width="120">公司名称</th>
+                <th width="120">店铺名称</th>
+                <th width="120">平台名称</th>
+                <th width="120">详细地址</th>
+                <th width="120">渠道管理员</th>
+                <th width="120">渠道管理员电话</th>
+                <th width="120">检查人</th>
+                <th width="120">检查时间</th>
+                <th width="120">经度</th>
+                <th width="120">纬度</th>
+                <th width="120">店铺是否存在</th>
+                <th width="120">店铺实际名称是否相符</th>
+                <th width="120">店铺实际巡查地址省</th>
+                <th width="120">店铺实际巡查地址城市</th>
+                <th width="120">店铺实际巡查地址</th>
+                <th width="120">店铺地域类型</th>
+                <th width="120">店铺门店类型</th>
+                <th width="120">店铺类型业态商圈</th>
+                <th width="120">店铺面积类型</th>
+                <th width="120">店铺人员规模</th>
+                <th width="120">近一个月是否变更</th>
+                <th width="120">忙时人数</th>
+                <th width="120">闲时人数</th>
+                <th width="120">营业员受理业务程度</th>
+                <th width="120">营业员对内部套餐策略数量程度</th>
+                <th width="120">终端营销策略数量</th>
+                <th width="120">对客户是否主动营销</th>
+                <th width="120">是否推出4g</th>
+                <th width="120">是否推出全网通</th>
+                <th width="120">是否主推机型</th>
+                <th width="120">是否干净卫生</th>
+                <th width="120">宣传是否合规</th>
+                <th width="120">店内动线是否设计合规</th>
+                <th width="120">月销售终端数量</th>
+                <th width="120">异网发展能力</th>
+                <th width="120">是否联通门头</th>
+                <th width="120">是否联通灯箱</th>
+                <th width="120">是否联通标牌</th>
+                <th width="120">是否联通二维码</th>
+                <th width="120">是否有实名制公告</th>
+                <th width="120">是否联通背景墙</th>
+                <th width="120">是否联通柜台贴</th>
+                <th width="120">是否opp专区</th>
+                <th width="120">是否有金立专柜</th>
+                <th width="120">是否vivo专柜</th>
+                <th width="120">是否为华为专柜</th>
+                <th width="120">是否三星专柜</th>
+                <th width="120">是否苹果专柜</th>
+                <th width="120">是否魅族</th>
+                <th width="120">是否2g,3g专柜</th>
+                <th width="120">社会机型库存数量</th>
+                <th width="120">自由机型库存数量</th>
             </tr>
             </thead>
             <tbody id="xuser-list">
@@ -303,7 +303,8 @@
         $.getJSON("check/list/query", {
             page: page
         }, function (data) {
-            parent.layer.close(index);buildTR(data);
+            let list = data.list;
+            parent.layer.close(index);buildTR(list);
             laypage({
                 cont: 'pager', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                 pages: data.pages, //通过后台拿到的总页数
