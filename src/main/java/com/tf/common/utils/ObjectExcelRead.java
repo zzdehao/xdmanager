@@ -100,7 +100,6 @@ public class ObjectExcelRead {
 				if(endcol!=0){
 					cellNum=endcol;
 				}
-				//System.out.println("cellNum:"+cellNum);
 				for (int j = startcol; j < cellNum; j++) {
 
 					Cell cell = row.getCell(Short.parseShort(j + ""));
@@ -111,7 +110,6 @@ public class ObjectExcelRead {
 						cellValue = "";
 					}
 					varpd.put("var"+j, cellValue.trim());
-
 				}
 				varList.add(varpd);
 			}

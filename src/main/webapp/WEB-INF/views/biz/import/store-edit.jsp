@@ -28,14 +28,17 @@
 </head>
 <body>
 <div class="pd-5">
-	<form action="" method="post" class="form form-horizontal" id="form-store-add">
+	<form action="import/validChannelCode" method="post"
+		  class="form form-horizontal" id="form-store-add">
 		<input type="hidden" name="id" id = "id"  value="${store.id}">
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>渠道编码：</label>
 			<div class="formControls col-5">
-				<input type="text" class="input-text"
-					   value="${store.channelCode}" placeholder=""
-					   id="channelCode" name="channelCode" datatype="*2-16" nullmsg="渠道编码不能为空">
+				<input type="text" class="input-text" ajaxurl="import/validChannelCode"
+					   value="${store.channelCode}" placeholder="渠道编码"
+					   id="channelCode" name="channelCode" datatype="*2-16"
+					   nullmsg="渠道编码不能为空"
+					   sucmsg="渠道编码验证通过！"  errormsg="渠道编码已经存在！">
 			</div>
 			<div class="col-4"></div>
 		</div>
@@ -49,24 +52,20 @@
 			<div class="col-4"></div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-3"><span class="c-red">*</span>地市：</label>
-			<div class="formControls col-5">
-				<input type="text" class="input-text"
-					   value="${store.cityName}" placeholder=""
-					   id="cityName" name="cityName" datatype="*2-16" nullmsg="地市不能为空">
+			<label class="form-label col-3"><span class="c-red">*</span>省：</label>
+			<div class="formControls col-3" id = "provinceDiv">
+				<select id="provinceCode"  name="provinceCode" class="input-text" style="width: 150px;">
+					<option value="" id="oppro">请选择省份:</option>
+				</select>
+			</div>
+			<div class="formControls col-3" id = "cityDiv">
+				<span class="c-red">*</span>市：
+				<select id="cityCode" name="cityCode" class="input-text" style="width: 145px;">
+					<option value="">请选择城市:</option>
+				</select>
 			</div>
 			<div class="col-4"></div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-3"><span class="c-red">*</span>区县分公司名称：</label>
-			<div class="formControls col-5">
-				<input type="text" class="input-text"
-					   value="${store.companyName}" placeholder=""
-					   id="companyName" name="companyName" datatype="*2-16" nullmsg="区县分公司名称不能为空">
-			</div>
-			<div class="col-4"></div>
-		</div>
-
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>区县分公司编码：</label>
 			<div class="formControls col-5">
@@ -147,7 +146,87 @@
 </div>
 <%@include file="/footer.jsp" %>
 <script type="text/javascript">
+	function loadP(provinceCode) {
+		if(provinceCode=='all'){
+			return;
+		}
+		$.ajax({
+			type : "get",
+			url : "yewu/province/getProvince",
+			cache : false,
+			async : true,
+			data:{code:''},
+			dataType : "json",
+			success : function(datas) {
+				if (datas.length > 0) {
+					for ( var i = 0; i < datas.length; i++) {
+						var code = datas[i].code;
+						var name=datas[i].name;
+						if(provinceCode) {
+							if(code==provinceCode) {
+								$("#provinceCode").append("<option value=" + code + " selected>" + name + "</option>");
+							}else{
+								$("#provinceCode").append("<option value=" + code + ">" + name + "</option>");
+							}
+						}else{
+							$("#provinceCode").append("<option value=" + code + ">" + name + "</option>");
+						}
+					}
+				}
+			},
+			error : function() {
+				alert("operation failed!");
+			}
+		});
+	}
+	function loadC(cityCode,provinceCode) {
+		if(!provinceCode){
+			return;
+		}
+		if(provinceCode=='all'){
+			return;
+		}
+		$.ajax({
+			type : "get",
+			url : "yewu/province/getCity",
+			cache : false,
+			async : true,
+			data:{provinceCode:provinceCode},
+			dataType : "json",
+			success : function(datas) {
+				if (datas.length > 0) {
+					$("#cityCode").empty();
+					$("#cityCode").append("<option value=0>请选择市</option>");
+					for ( var i = 0; i < datas.length; i++) {
+						var code = datas[i].code;
+						var name=datas[i].name;
+						if(provinceCode!='') {
+							if(code==cityCode) {
+								$("#cityCode").append("<option value=" + code + " selected>" + name + "</option>");
+							}else{
+								$("#cityCode").append("<option value=" + code + ">" + name + "</option>");
+							}
+						}else{
+							$("#cityCode").append("<option value=" + code + ">" + name + "</option>");
+						}
+					}
+				}
+			},
+			error : function() {
+				alert("operation failed!");
+			}
+		});
+	}
 	$(function(){
+
+		loadP('${store.provinceCode}');
+		loadC('${store.cityCode}','${store.provinceCode}');
+		$("#provinceCode").change(function(){
+			var pcode = $("#provinceCode").val();
+			//$("#cityCode").empty();
+			loadC('',pcode);
+		});
+
 		var id = $("#id").val();
 		var channelType = '${store.channelType}';
 		var isValidChannel = '${store.isValidChannel}';
