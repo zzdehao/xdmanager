@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.tf.biz.imp.pojo.FilePath;
+import com.tf.common.utils.FileDownload;
 import com.tf.common.utils.Tools;
 import com.tf.tadmin.entity.SessionUser;
 import com.tf.tadmin.utils.DateUtils;
@@ -25,30 +27,31 @@ import com.tf.tadmin.utils.Constants;
 @Component
 public class BaseController {
 
+    @Value("${upload.dir}")
+    protected String uploadDir;
+
+    @Value("${upload.file.preffix}")
+    protected String uploadPreffix;
+
+    @Value("${download.file.preffix}")
+    protected String downLoadPreffix;
+
+
     //定位应用的省份id
     @Value("${location.provinceCode}")
     private String provinceCode ;
 
 
+
     @Value("${adminPath}")
     private String adminPath ;
-	/**
-	 * @param url
-	 * @return
-	 */
-	protected String redirect(String url){
-		return "redirect:" + url ;
-	}
 
-	/**
-	 * 
-	 * @param url
-	 * @return
-	 */
-	protected String forward(String url){
-		return "forward:" + url ;
-	}
-	
+
+    protected FilePath getUploadFilePath(String flag){
+        FilePath filePath = new FilePath(this.uploadPreffix+"-"+flag,this.uploadPreffix+"-"+flag);
+        return filePath;
+    }
+
 	protected Message returnSuccess(){
 		Message message = new Message(true, "操作成功!") ;
 		return message ;

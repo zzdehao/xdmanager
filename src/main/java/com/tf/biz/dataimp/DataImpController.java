@@ -1,5 +1,6 @@
 package com.tf.biz.dataimp;
 import com.tf.biz.check.entity.BizCheckPlan;
+import com.tf.biz.imp.ImportService;
 import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.entity.BizImportBatch;
 import com.tf.biz.imp.pojo.FilePath;
@@ -9,22 +10,30 @@ import com.tf.tadmin.controller.BaseController;
 import com.tf.tadmin.entity.Admin;
 import com.tf.tadmin.entity.Message;
 import com.tf.tadmin.entity.Pager;
+import com.tf.tadmin.entity.SessionUser;
 import com.tf.tadmin.service.AdminService;
+import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.Constants;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 /**
  * Created by wugq on 2018/3/5.
  * 导入
@@ -43,8 +52,6 @@ public class DataImpController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${upload.dir}")
-    private String uploadDir;
     @Autowired
     private StoreService storeService;
     @Autowired
@@ -52,6 +59,8 @@ public class DataImpController extends BaseController {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private ImportService importService;
 
 
     /**************************1-导入人员****************************************/
@@ -61,6 +70,7 @@ public class DataImpController extends BaseController {
         this.setBizView(mav, "import/userfile-index");
         return mav;
     }
+
 
     /**
      * 分页查询
@@ -139,6 +149,31 @@ public class DataImpController extends BaseController {
             ex.printStackTrace();
         }
         return mav;
+    }
+
+    /**
+     * 删除文件
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delUserFile/{id}" , method = {RequestMethod.POST})
+    public @ResponseBody Message delUserFile(@PathVariable Integer id){
+        final Date now = new Date();
+        final SessionUser sessionUser = ShiroUtils.getSessionUser();
+        final int userId = sessionUser.getId();
+        final String name = sessionUser.getName();
+        try{
+            BizImportBatch bizBatch = new BizImportBatch();
+            bizBatch.setId(Long.parseLong(id.toString()));
+            bizBatch.setIsDeleted(1);
+            bizBatch.setDeleteTime(now);
+            bizBatch.setDeleteUserId(userId);
+            bizBatch.setDeleteUserName(name);
+            this.impService.update(bizBatch);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new Message(1) ;
     }
 
     /**********************2-导入店铺*****************************************/
@@ -496,12 +531,32 @@ public class DataImpController extends BaseController {
         this.setBizView(mav, "import/xuser-edit");
         return mav;
     }
+    /**
+     * 下载文件
+     * @param request
+     * @param response
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getDownFile/{id}" , method = {RequestMethod.POST})
+    public ResponseEntity<byte[]>  getDownFile(HttpServletRequest request,
+                            HttpServletResponse response,
+                            @PathVariable Integer id) throws  Exception{
+        BizImportBatch batch =  this.importService.getImportBatch(Long.parseLong(id.toString()));
+        if(batch!=null) {
+            String path = this.downLoadPreffix + batch.getFilePath();
+            File file = new File(path);
+            HttpHeaders headers = new HttpHeaders();
+            String fileName = new String(batch.getFileName().getBytes("UTF-8"), "iso-8859-1");//为了解决中文名称乱码问题
+            headers.setContentDispositionFormData("attachment", fileName);
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+                    headers, HttpStatus.CREATED);
+        }
+        return null;
 
-
-
-
-
-
+    }
 
 
 }

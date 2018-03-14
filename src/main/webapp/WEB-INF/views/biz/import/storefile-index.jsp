@@ -62,7 +62,7 @@
         <td>{{createTime}}</td>
         <td>{{remark}}</td>
         <td class="td-manage">
-            <input class="btn btn-danger size-S radius" type="button" value="删除" onclick="javascript:alert({{id}});"/>
+            <input class="btn btn-danger size-S radius" type="button" value="删除" onclick="file_del(this,{{id}});"/>
             <input class="btn btn-link radius" type="button" onclick="javascript:alert({{id}});" value="查看"/>
         </td>
     </tr>
@@ -99,6 +99,25 @@
             return;
         }
         window.location.href = "<%=request.getContextPath()%>/import/toImpStorePage?importType="+importType;
+    }
+    function file_del(obj,id){
+        parent.layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                url:"import/delUserFile/" + id,
+                type:'post',
+                async:false ,
+                cache:false ,
+                dataType:"json",
+                success:function(data){
+                    if(data.s == true){
+                        $(obj).parents("tr").remove();
+                        parent.layer.msg('已删除!',{icon:1,time:1000});
+                    }else{
+                        parent.layer.alert(data.m , {icon: 2,title:"系统提示"});
+                    }
+                },
+            });
+        });
     }
     $(function () {
         /**/

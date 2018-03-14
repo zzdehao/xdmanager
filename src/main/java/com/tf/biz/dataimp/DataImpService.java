@@ -23,7 +23,6 @@ import com.tf.tadmin.mapper.RoleMapper;
 import com.tf.tadmin.service.BaseService;
 import com.tf.tadmin.shiro.ShiroUtils;
 import com.tf.tadmin.utils.Constants;
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -68,7 +66,6 @@ public class DataImpService extends BaseService {
     private BizCheckPlanMapper checkPlanMapper;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     public Long getStoreByChannelCodeCount(String channelCode) {
         BizStoreExample express = new BizStoreExample();
         BizStoreExample.Criteria queryExpress = express.createCriteria();
@@ -179,8 +176,11 @@ public class DataImpService extends BaseService {
                 admin.setRoleCode(initRoleCode);
                 admin.setNickname(userPo.getFiveLevelphone());
                 admin.setPassword(MD5.getMD5(initPassword));
-                userData.add(admin);
-                importData.add(userPo);
+                //检查人员是否存在
+                if(!checkExist(userPo)) {
+                    userData.add(admin);
+                    importData.add(userPo);
+                }
             }
             //保存数据
             final Date now = new Date();
@@ -212,6 +212,15 @@ public class DataImpService extends BaseService {
     }
 
     /**
+     * 检查人员是否存在
+     * @param users
+     * @return
+     */
+    private boolean checkExist(BizImportUser users){
+        return false;
+    }
+
+    /**
      * 上传文件列表
      *
      * @param start
@@ -230,6 +239,7 @@ public class DataImpService extends BaseService {
         express.setOrderByClause(" create_time desc ");
         //增加查询条件
         BizImportBatchExample.Criteria queryExpress = express.createCriteria();
+        queryExpress.andIsDeletedIsNull();
         if (param != null) {
             Object obj = param.get("importTypes");
             if (obj != null) {
@@ -416,5 +426,9 @@ public class DataImpService extends BaseService {
 
     public int delStore(Integer id) {
         return this.bizStoreMapper.deleteByPrimaryKey(Long.parseLong(id.toString()));
+    }
+
+    public int update(BizImportBatch bizImportBatch){
+       return this.batchMapper.updateByPrimaryKeySelective(bizImportBatch);
     }
 }

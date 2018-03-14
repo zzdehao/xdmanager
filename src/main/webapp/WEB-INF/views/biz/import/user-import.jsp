@@ -55,7 +55,7 @@
                 </div>
                 <div style="border: 1px;">
                     <div class="form-group" style="margin-top: 5px;">
-                            <a href="<%=request.getContextPath()%>/template/1-user.xlsx"
+                            <a href="<%=request.getContextPath()%>/template/bak/1-user.xlsx"
                                style="color: red;">下载导入${importTypeName}模版</a>
                     </div>
                     <div class="form-group">

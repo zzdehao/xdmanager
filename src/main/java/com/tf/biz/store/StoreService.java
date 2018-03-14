@@ -87,9 +87,9 @@ public class StoreService {
                 //bizStore.setChannelType(ImportEnum.ImportType.SELF_CHANNEL.getCode());
                 /**
                  *
-                 ID
                  渠道编码
-                 地市
+                 省
+                 市
                  区县分公司名称
                  区县分公司编码
                  渠道名称
@@ -97,27 +97,35 @@ public class StoreService {
                  详细地址
                  备注
                  是否是有效渠道
-                 人员匹配(渠道经理)
+                 人员匹配（渠道经理）
                  渠道经理电话
                  巡店人
                  巡店人电话
                  */
-                String cid = ExcelUtil.getFromCell(row.getCell(i++));
                 String ccode = ExcelUtil.getFromCell(row.getCell(i++));
-                String ds=ExcelUtil.getFromCell(row.getCell(i++));
-                if(!StringUtils.isEmpty(cid)
-                        &&!StringUtils.isEmpty(ccode)
-                        &&!StringUtils.isEmpty(ds)) {
-                    bizStore.setChannelId(Integer.valueOf(cid)); //渠道ID
+                if(!StringUtils.isEmpty(ccode)) {
+                    bizStore.setChannelId(0); //渠道ID
                     bizStore.setChannelCode(ccode); //渠道编码
-                    bizStore.setCityCode(null); //地市
-                    bizStore.setCityName(ds); //地市
+                    bizStore.setProvinceCode(null);//省
+                    bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++)));
+                    bizStore.setCityCode(null);
+                    bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //市
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
-                    bizStore.setChannelType(Integer.valueOf(ExcelUtil.getFromCell(row.getCell(i++)))); //渠道类型
-                    bizStore.setProvinceCode(null); //省ID
-                    bizStore.setProvinceName(null); //省名称
+                    String channelType=ExcelUtil.getFromCell(row.getCell(i++));
+                    if("自有渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.SELF.getCode()); //渠道类型
+
+                    }
+                    if("社会渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.WORLD.getCode()); //渠道类型
+
+                    }
+                    if("小微渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.SMALL.getCode()); //渠道类型
+
+                    }
                     bizStore.setAddressDetail(ExcelUtil.getFromCell(row.getCell(i++))); //详细地址
                     bizStore.setRemark(ExcelUtil.getFromCell(row.getCell(i++)));//备注
 
@@ -142,9 +150,8 @@ public class StoreService {
                 //bizStore.setChannelType(ImportEnum.ImportType.WORLD_CHANNEL.getCode());
                 /**
                  *
-                 ID
                  渠道编码
-                 地市
+                 省市
                  区县分公司名称
                  区县分公司编码
                  渠道名称
@@ -158,24 +165,30 @@ public class StoreService {
                  巡店人
                  巡店人电话
                  */
-                String cid = ExcelUtil.getFromCell(row.getCell(i++));
                 String ccode = ExcelUtil.getFromCell(row.getCell(i++));
-                String ds=ExcelUtil.getFromCell(row.getCell(i++));
-                if(!StringUtils.isEmpty(cid)
-                        &&!StringUtils.isEmpty(ccode)
-                        &&!StringUtils.isEmpty(ds)) {
-
-
-                    bizStore.setChannelId(Integer.valueOf(cid)); //渠道ID
+                if(!StringUtils.isEmpty(ccode)) {
+                    bizStore.setChannelId(0); //渠道ID
                     bizStore.setChannelCode(ccode); //渠道编码
+                    bizStore.setProvinceCode(null); //省ID
+                    bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++))); //省名称
                     bizStore.setCityCode(null); //地市id
-                    bizStore.setCityName(ds); //地市
+                    bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //市
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
-                    bizStore.setChannelType(Integer.valueOf(ExcelUtil.getFromCell(row.getCell(i++)))); //渠道类型
-                    bizStore.setProvinceCode(null); //省ID
-                    bizStore.setProvinceName(null); //省名称
+                    String channelType=ExcelUtil.getFromCell(row.getCell(i++));
+                    if("自有渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.SELF.getCode()); //渠道类型
+
+                    }
+                    if("社会渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.WORLD.getCode()); //渠道类型
+
+                    }
+                    if("小微渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.SMALL.getCode()); //渠道类型
+
+                    }
                     //diff
                     bizStore.setStoreName(ExcelUtil.getFromCell(row.getCell(i++))); //店铺名称
                     bizStore.setAddressDetail(ExcelUtil.getFromCell(row.getCell(i++))); //详细地址
@@ -200,11 +213,11 @@ public class StoreService {
             else if(importType==ImportEnum.ImportType.SMALL_CHANNEL) {
                 //bizStore.setChannelType(ImportEnum.ImportType.SMALL_CHANNEL.getCode());
                 /**
-                 ID
                  渠道编码
                  平台商名称
                  平台商编码
-                 地市
+                 省
+                 市
                  区县分公司名称
                  区县分公司编码
                  渠道名称
@@ -217,25 +230,31 @@ public class StoreService {
                  巡店人
                  巡店人电话
                  */
-                String cid = ExcelUtil.getFromCell(row.getCell(i++));
                 String ccode = ExcelUtil.getFromCell(row.getCell(i++));
-                if(!StringUtils.isEmpty(cid)
-                        &&!StringUtils.isEmpty(ccode)
-                        ) {
-
-                    bizStore.setChannelId(Integer.valueOf(cid)); //渠道ID
+                if(!StringUtils.isEmpty(ccode)) {
+                    bizStore.setChannelId(0); //渠道ID
                     bizStore.setChannelCode(ccode); //渠道编码
                     //diff
                     bizStore.setPlatformName(ExcelUtil.getFromCell(row.getCell(i++)));//平台商名称
                     bizStore.setPlatformCode(ExcelUtil.getFromCell(row.getCell(i++)));//平台商编码
+                    bizStore.setProvinceCode(null); //省ID
+                    bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++))); //省名称
                     bizStore.setCityCode(null); //地市
                     bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //地市
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
-                    bizStore.setChannelType(Integer.valueOf(ExcelUtil.getFromCell(row.getCell(i++)))); //渠道类型
-                    bizStore.setProvinceCode(null); //省ID
-                    bizStore.setProvinceName(null); //省名称
+
+                    String channelType=ExcelUtil.getFromCell(row.getCell(i++));
+                    if("自有渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.SELF.getCode()); //渠道类型
+                    }
+                    if("社会渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.WORLD.getCode()); //渠道类型
+                    }
+                    if("小微渠道".equals(channelType)) {
+                        bizStore.setChannelType(ImportEnum.ChannelType.SMALL.getCode()); //渠道类型
+                    }
                     bizStore.setAddressDetail(ExcelUtil.getFromCell(row.getCell(i++))); //详细地址
                     bizStore.setRemark(ExcelUtil.getFromCell(row.getCell(i++)));//备注
 

@@ -96,4 +96,8 @@ public class ImportService {
         return this.bizImportBatchMapper.selectByExample(example);
     }
 
+    public BizImportBatch getImportBatch(Long id){
+        return this.bizImportBatchMapper.selectByPrimaryKey(id);
+    }
+
 }

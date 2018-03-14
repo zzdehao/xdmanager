@@ -61,7 +61,7 @@
                            id="maxDate" class="input-text Wdate" style="width:186px;">
                 </div>
                 <div class="form-group" style="margin-top: 5px;">
-                        <a href="<%=request.getContextPath()%>/template/5-plan.xlsx"
+                        <a href="<%=request.getContextPath()%>/template/bak/5-plan.xlsx"
                            style="color: red;">下载导入巡检计划导入模版</a>
 
                 </div>
