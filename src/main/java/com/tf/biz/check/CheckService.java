@@ -335,8 +335,8 @@ public class CheckService {
             cell = headRow.createCell(k++);
             cell.setCellValue(checkLatitude);
 
-            String storeExistsok = this.checkRegionMap.get(checkDetailResponse.getBizCheckDetail().getStoreExistsok());
-            String storeRealnameok = this.checkRegionMap.get(checkDetailResponse.getBizCheckDetail().getStoreRealnameok());
+            String storeExistsok = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreExistsok());
+            String storeRealnameok = this.checkOkMap.get(checkDetailResponse.getBizCheckDetail().getStoreRealnameok());
             String storeCheckProvinceName = checkDetailResponse.getBizCheckDetail().getStoreCheckProvinceName();
             String storeCheckCityName = checkDetailResponse.getBizCheckDetail().getStoreCheckCityName();
             String storeAddress = checkDetailResponse.getBizCheckDetail().getStoreAddress();
