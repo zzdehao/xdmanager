@@ -205,7 +205,7 @@
 
         let endTime = $("#endTime").val();
         if(endTime != ""){
-            formData.endTime = endTime + " 59:59:59"
+            formData.endTime = endTime + " 23:59:59"
         }
 
         let form = JSON.stringify(formData);

@@ -62,22 +62,22 @@ public class CheckController extends BaseController {
 
     @RequestMapping(value = "/check/list/query", method = {RequestMethod.GET})
     @ResponseBody
-    public Pager<BizCheckDetailResponse> checkListPageQuery(HttpServletResponse response, HttpServletRequest request, @RequestHeader Integer limit, @RequestHeader Integer offset) throws Exception {
-        BizCheckDetail bizCheckDetail = new BizCheckDetail();
-        Pager<BizCheckDetailResponse> pager = this.checkService.findList(bizCheckDetail, limit, offset);
+    public Pager<BizCheckDetailResponse> checkListPageQuery(@RequestParam Map<String, String> param, @RequestHeader Integer limit, @RequestHeader Integer offset) throws Exception {
+
+        Pager<BizCheckDetailResponse> pager = this.checkService.findList(param, limit, offset);
         return pager;
     }
 
     @RequestMapping(value = "/check/export", method = {RequestMethod.GET})
-    public void exportCheck(HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void exportCheck(@RequestParam Map<String, String> param, HttpServletResponse response) throws Exception {
         response.reset();
         response.setHeader("Content-Disposition", "attachment;filename=" + new String(this.fileName.getBytes(), "iso-8859-1") + ".xlsx");
         response.setContentType("application/vnd.ms-excel;charset=UTF-8");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
-        BizCheckDetail bizCheckDetail = new BizCheckDetail();
-        XSSFWorkbook workBook = this.checkService.createExcel(bizCheckDetail);
+
+        XSSFWorkbook workBook = this.checkService.createExcel(param);
         OutputStream output;
         try {
             output = response.getOutputStream();

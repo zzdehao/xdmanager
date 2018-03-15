@@ -37,10 +37,13 @@
                         </select>
                     </div>
                 </div><div class="queryItemBox">
-                    <label for="channelId">渠道类型：</label>
+                    <label for="channelCode">渠道类型：</label>
                     <div class="select-box" style="width: 160px;">
-                        <select id="channelId" name="channelId" class="select">
+                        <select id="channelCode" name="channelCode" class="select">
                             <option value="">全部</option>
+                            <option value="31">自有渠道</option>
+                            <option value="32">社会渠道</option>
+                            <option value="33">小微渠道</option>
                         </select>
                     </div>
                 </div><div class="queryItemBox">
@@ -49,7 +52,7 @@
                            style="width:160px;">
                 </div><div class="queryItemBox">
                     <label for="checkUserName">检查人：</label>
-                    <input type="text" placeholder="店铺名称" id="checkUserName" name="checkUserName" class="input-text"
+                    <input type="text" placeholder="巡检人" id="checkUserName" name="checkUserName" class="input-text"
                            style="width:160px;">
                 </div><div class="queryItemBox">
                     <label for="provinceCode">省份：</label>
@@ -65,6 +68,14 @@
                             <option value="">全部</option>
                         </select>
                     </div>
+                </div><div class="queryItemBox">
+                    <label for="startTime">开始时间：</label>
+                    <input type="text" placeholder="开始时间" id="startTime" name="startTime" class="input-text"
+                           onClick="WdatePicker()" readonly style="width:160px; cursor: pointer">
+                </div><div class="queryItemBox">
+                    <label for="endTime">结束时间：</label>
+                    <input type="text" placeholder="结束时间" id="endTime" name="endTime" class="input-text"
+                           onClick="WdatePicker()" readonly style="width:160px; cursor: pointer">
                 </div></div>
 
             <button type="button" class="btn btn-success" id="search" name="" onclick="loadData(1) ;">
@@ -107,8 +118,8 @@
                 <th width="120" nowrap keyName="storeAreatype" queryMap="areaMap">店铺面积类型</th>
                 <th width="120" nowrap keyName="storeMemberstype" queryMap="membersMap">店铺人员规模</th>
                 <th width="120" nowrap keyName="storeNmonthChangeok" queryMap="okMap">近一个月是否变更</th>
-                <th width="120" nowrap keyName="" queryMap="okMap">忙时人数</th>
-                <th width="120" nowrap keyName="" queryMap="okMap">闲时人数</th>
+                <th width="120" nowrap>忙时人数</th>
+                <th width="120" nowrap>闲时人数</th>
                 <th width="120" nowrap keyName="storeMemberBusscope" queryMap="scopMap">营业员受理业务程度</th>
                 <th width="120" nowrap keyName="storeMemberTaocanScope" queryMap="scopMap">营业员对内部套餐策略数量程度</th>
                 <th width="120" nowrap keyName="storeMemberTerminalPolicy" queryMap="scopMap">终端营销策略数量</th>
@@ -344,7 +355,8 @@
             headers: {
                 'limit': limit,
                 'offset': offset
-            }
+            },
+            data:queryData
         }).done(function (data) {
             let list = data.rows;
             parent.layer.close(index);
@@ -364,9 +376,12 @@
     }
 
     function buildTR(list) {
-        var html = $("#temp").find("tbody").html();
         var $listBox = $("#xuser-list");
         $listBox.empty();
+        if(!list){
+            return;
+        }
+        var html = $("#temp").find("tbody").html();
         for (var i = 0; i < list.length; i++) {
             var obj = list[i];
             var $tr = $(html);
@@ -454,6 +469,7 @@
             //$("#cityCode").empty();
             loadC('',pcode);
         });
+        getBatch();
     });
 
     function buildQuery() {
@@ -548,6 +564,27 @@
             error : function() {
                 alert("operation failed!");
             }
+        });
+    }
+    var batchUrl = "common/batch?typeList=31,32,33";
+    function getBatch(){
+        $.get(batchUrl, function(data){
+            console.info(data)
+            let codes = ['31', '32', '33'];
+            let $batch = $("#batchId");
+            codes.forEach(function(b){
+                let batch = data[b];
+                console.info(batch);
+                if(!batch){
+                    return;
+                }
+                for(let i = 0; i < batch.length; i++){
+                    let $option = $("<option></option>");
+                    $option.val(batch[i].id);
+                    $option.text(batch[i].batchName);
+                    $batch.append($option);
+                }
+            })
         });
     }
 

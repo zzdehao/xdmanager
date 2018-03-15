@@ -8,8 +8,10 @@ import com.tf.biz.check.param.BizCheckDetailResponse;
 import com.tf.biz.store.StoreService;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.entity.BizStoreExample;
+import com.tf.common.utils.Tools;
 import com.tf.tadmin.entity.Pager;
 import com.tf.tadmin.service.DicService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,12 +40,12 @@ public class CheckService {
     @Autowired
     private BizCheckDetailMapper bizCheckDetailMapper;
 
-    private Map<Integer, String> checkOkMap = new HashMap(){{
+    private Map<Integer, String> checkOkMap = new HashMap() {{
         put(1, "是");
         put(2, "否");
     }};
 
-    private Map<Integer, String> checkRegionMap = new HashMap(){{
+    private Map<Integer, String> checkRegionMap = new HashMap() {{
         put(1, "城区");
         put(2, "城郊");
         put(3, "县城");
@@ -51,7 +53,7 @@ public class CheckService {
         put(5, "其他");
     }};
 
-    private Map<Integer, String> checkMendianMap = new HashMap(){{
+    private Map<Integer, String> checkMendianMap = new HashMap() {{
         put(1, "联通专营终端卖场");
         put(2, "联通专营");
         put(3, "开放型终端卖场");
@@ -61,7 +63,7 @@ public class CheckService {
         put(7, "电信排他终端卖场");
     }};
 
-    private Map<Integer, String> checkYtsqMap = new HashMap(){{
+    private Map<Integer, String> checkYtsqMap = new HashMap() {{
         put(1, "通讯商圈");
         put(2, "商业区");
         put(3, "学校");
@@ -71,28 +73,28 @@ public class CheckService {
         put(7, "其他");
     }};
 
-    private Map<Integer, String> checkAreaMap = new HashMap(){{
+    private Map<Integer, String> checkAreaMap = new HashMap() {{
         put(1, "20平米以下");
         put(2, "20-50平米");
         put(3, "50-100平米");
         put(4, "100平米以上");
     }};
 
-    private Map<Integer, String> checkMembersMap = new HashMap(){{
+    private Map<Integer, String> checkMembersMap = new HashMap() {{
         put(1, "3人以下");
         put(2, "4-6人");
         put(3, "7-10人");
         put(4, "大于10人");
     }};
 
-    private Map<Integer, String> checkScopMap = new HashMap(){{
+    private Map<Integer, String> checkScopMap = new HashMap() {{
         put(1, "非常熟练");
         put(2, "一般熟练");
         put(3, "不太熟练");
         put(4, "不熟练");
     }};
 
-    private Map<Integer, String> checkLiangMap = new HashMap(){{
+    private Map<Integer, String> checkLiangMap = new HashMap() {{
         put(1, "0");
         put(2, "<20");
         put(3, "20-50");
@@ -101,32 +103,33 @@ public class CheckService {
     }};
 
 
-
     @Transactional(readOnly = true)
-    XSSFWorkbook createExcel(BizCheckDetail checkDetail) {
+    XSSFWorkbook createExcel(Map<String, String> param) {
 
-        List<BizCheckDetailResponse> checkDetailResponses = this.findList(checkDetail, null, null).getRows();
+        List<BizCheckDetailResponse> checkDetailResponses = this.findList(param, null, null).getRows();
 
         return buildExcel(checkDetailResponses);
     }
 
 
-    Pager<BizCheckDetailResponse> findList(BizCheckDetail checkDetail, Integer limit, Integer offset) {
+    Pager<BizCheckDetailResponse> findList(Map<String, String> param, Integer limit, Integer offset) {
 
         Pager pager = new Pager();
 
         BizCheckDetailExample detailExample = new BizCheckDetailExample();
+        this.buildDetailExample(param, detailExample);
 
         Long count = this.bizCheckDetailMapper.countByExample(detailExample);
-        if(count.longValue() == 0){
+
+        if (count.longValue() == 0) {
             return pager;
         }
         pager.setTotal(count.intValue());
 
-        if(limit != null){
+        if (limit != null) {
             detailExample.setLimit(limit);
         }
-        if(offset != null){
+        if (offset != null) {
             detailExample.setOffset(offset);
         }
         detailExample.setOrderByClause("check_time desc");
@@ -140,7 +143,8 @@ public class CheckService {
         List<Long> storeIdList = detailList.stream().map(BizCheckDetail::getStoreId).distinct().collect(Collectors.toList());
 
         BizStoreExample exampleStore = new BizStoreExample();
-        exampleStore.createCriteria().andIdIn(storeIdList);
+        BizStoreExample.Criteria criteria = this.buildStoreExample(param, exampleStore);
+        criteria.andIdIn(storeIdList);
         List<BizStore> storeList = this.storeService.findStore(exampleStore);
         if (CollectionUtils.isEmpty(storeList)) {
             return pager;
@@ -149,10 +153,14 @@ public class CheckService {
         Map<Long, BizStore> storeMap = storeList.stream().collect(Collectors.toMap(BizStore::getId, Function.identity()));
         List<BizCheckDetailResponse> checkDetailResponses = new ArrayList<>();
         detailList.forEach(d -> {
+            BizStore bizStore = storeMap.get(d.getStoreId());
+            if (bizStore == null) {
+                return;
+            }
             BizCheckDetailResponse checkDetailColResponse = new BizCheckDetailResponse();
-            checkDetailResponses.add(checkDetailColResponse);
-            checkDetailColResponse.setBizStore(storeMap.get(d.getStoreId()));
+            checkDetailColResponse.setBizStore(bizStore);
             checkDetailColResponse.setBizCheckDetail(d);
+            checkDetailResponses.add(checkDetailColResponse);
         });
 
         pager.setRows(checkDetailResponses);
@@ -160,11 +168,152 @@ public class CheckService {
         return pager;
     }
 
-    private String getMapValue(Map<Integer, String> map, Integer key){
+    private BizStoreExample.Criteria buildStoreExample(Map<String, String> param, BizStoreExample storeExample) {
+        BizStoreExample.Criteria criteria = storeExample.createCriteria();
+        if (StringUtils.isNotBlank(param.get("channelCode"))) {
+            criteria.andChannelCodeEqualTo(param.get("channelCode"));
+        }
+        if (StringUtils.isNotBlank(param.get("storeName"))) {
+            criteria.andStoreNameLike("%" + param.get("storeName") + "%");
+        }
+        if (StringUtils.isNotBlank(param.get("provinceCode"))) {
+            criteria.andProvinceCodeEqualTo(Integer.parseInt(param.get("provinceCode")));
+        }
+        if (StringUtils.isNotBlank(param.get("cityCode"))) {
+            criteria.andCityCodeEqualTo(Integer.parseInt(param.get("cityCode")));
+        }
+        return criteria;
+    }
+
+    private BizCheckDetailExample.Criteria buildDetailExample(Map<String, String> param, BizCheckDetailExample detailExample) {
+        BizCheckDetailExample.Criteria criteria = detailExample.createCriteria();
+        if (StringUtils.isNotBlank(param.get("batchId"))) {
+            criteria.andPlanBatchIdEqualTo(Long.parseLong(param.get("batchId")));
+        }
+        if (StringUtils.isNotBlank(param.get("checkUserName"))) {
+            criteria.andCheckUserPhoneLike("%" + param.get("checkUserName") + "%");
+        }
+        if (StringUtils.isNotBlank(param.get("startTime")) && StringUtils.isNotBlank(param.get("endTime"))) {
+            Date startDate = Tools.str2Date(param.get("startTime") + " 00:00:00");
+            Date endDate = Tools.str2Date(param.get("endTime") + " 23:59:59");
+            criteria.andCheckTimeBetween(startDate, endDate);
+        } else if (StringUtils.isNotBlank(param.get("startTime"))) {
+            Date startDate = Tools.str2Date(param.get("startTime") + " 00:00:00");
+            criteria.andCheckTimeGreaterThanOrEqualTo(startDate);
+        } else if (StringUtils.isNotBlank(param.get("endTime"))) {
+            Date endDate = Tools.str2Date(param.get("endTime") + " 23:59:59");
+            criteria.andCheckTimeLessThanOrEqualTo(endDate);
+        }
+        if (StringUtils.isNotBlank(param.get("storeExistsok"))) {
+            criteria.andStoreExistsokEqualTo(Integer.parseInt(param.get("storeExistsok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeRealnameok"))) {
+            criteria.andStoreRealnameokEqualTo(Integer.parseInt(param.get("storeRealnameok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeMendiantype"))) {
+            criteria.andStoreMendiantypeEqualTo(Integer.parseInt(param.get("storeMendiantype")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeYtsqtype"))) {
+            criteria.andStoreYtsqtypeEqualTo(Integer.parseInt(param.get("storeYtsqtype")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeAreatype"))) {
+            criteria.andStoreAreatypeEqualTo(Integer.parseInt(param.get("storeAreatype")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeMemberstype"))) {
+            criteria.andStoreMemberstypeEqualTo(Integer.parseInt(param.get("storeMemberstype")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeNmonthChangeok"))) {
+            criteria.andStoreNmonthChangeokEqualTo(Integer.parseInt(param.get("storeNmonthChangeok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeMemberBusscope"))) {
+            criteria.andStoreMemberBusscopeEqualTo(Integer.parseInt(param.get("storeMemberBusscope")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeMemberTaocanScope"))) {
+            criteria.andStoreMemberTaocanScopeEqualTo(Integer.parseInt(param.get("storeMemberTaocanScope")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeMemberTerminalPolicy"))) {
+            criteria.andStoreMemberTerminalPolicyEqualTo(Integer.parseInt(param.get("storeMemberTerminalPolicy")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeMemeberActivesellok"))) {
+            criteria.andStoreMemeberActivesellokEqualTo(Integer.parseInt(param.get("storeMemeberActivesellok")));
+        }
+        if (StringUtils.isNotBlank(param.get("store4gok"))) {
+            criteria.andStore4gokEqualTo(Integer.parseInt(param.get("store4gok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeAllnetok"))) {
+            criteria.andStoreAllnetokEqualTo(Integer.parseInt(param.get("storeAllnetok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeFirstRecdTerminal"))) {
+            criteria.andStoreFirstRecdTerminalEqualTo(Integer.parseInt(param.get("storeFirstRecdTerminal")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeHealthok"))) {
+            criteria.andStoreHealthokEqualTo(Integer.parseInt(param.get("storeHealthok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeConductok"))) {
+            criteria.andStoreConductokEqualTo(Integer.parseInt(param.get("storeConductok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeDonglineok"))) {
+            criteria.andStoreDonglineokEqualTo(Integer.parseInt(param.get("storeDonglineok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeMonthSalecount"))) {
+            criteria.andStoreMonthSalecountEqualTo(Integer.parseInt(param.get("storeMonthSalecount")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeDifExpandability"))) {
+            criteria.andStoreDifExpandabilityEqualTo(Integer.parseInt(param.get("storeDifExpandability")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeDoortouok"))) {
+            criteria.andStoreDoortouokEqualTo(Integer.parseInt(param.get("storeDoortouok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeDengxiangok"))) {
+            criteria.andStoreDengxiangokEqualTo(Integer.parseInt(param.get("storeDengxiangok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeBrandok"))) {
+            criteria.andStoreBrandokEqualTo(Integer.parseInt(param.get("storeBrandok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeQrcode"))) {
+            criteria.andStoreQrcodeEqualTo(Integer.parseInt(param.get("storeQrcode")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeRealnameNoticeok"))) {
+            criteria.andStoreRealnameokEqualTo(Integer.parseInt(param.get("storeRealnameNoticeok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeBackwall"))) {
+            criteria.andStoreBackwallEqualTo(Integer.parseInt(param.get("storeBackwall")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeBartie"))) {
+            criteria.andStoreBartieEqualTo(Integer.parseInt(param.get("storeBartie")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZqOppok"))) {
+            criteria.andStoreZqOppokEqualTo(Integer.parseInt(param.get("storeZqOppok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZqJinliok"))) {
+            criteria.andStoreZqJinliokEqualTo(Integer.parseInt(param.get("storeZqJinliok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZqVivook"))) {
+            criteria.andStoreZqVivookEqualTo(Integer.parseInt(param.get("storeZqVivook")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZqHuaweiok"))) {
+            criteria.andStoreZqHuaweiokEqualTo(Integer.parseInt(param.get("storeZqHuaweiok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZqSamsongok"))) {
+            criteria.andStoreZqSamsongokEqualTo(Integer.parseInt(param.get("storeZqSamsongok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZqAppleok"))) {
+            criteria.andStoreZqAppleokEqualTo(Integer.parseInt(param.get("storeZqAppleok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZqMeizuok"))) {
+            criteria.andStoreZqMeizuokEqualTo(Integer.parseInt(param.get("storeZqMeizuok")));
+        }
+        if (StringUtils.isNotBlank(param.get("storeZq2g3gok"))) {
+            criteria.andStoreZq2g3gokEqualTo(Integer.parseInt(param.get("storeZq2g3gok")));
+        }
+        return criteria;
+    }
+
+    private String getMapValue(Map<Integer, String> map, Integer key) {
         return map.get(key);
     }
 
-    private XSSFWorkbook buildExcel( List<BizCheckDetailResponse> checkDetailResponses) {
+    private XSSFWorkbook buildExcel(List<BizCheckDetailResponse> checkDetailResponses) {
 //        FileOutputStream fileOut = null;
 //        BufferedImage bufferImg = null;
 
@@ -287,7 +436,9 @@ public class CheckService {
         cell = headRow.createCell(n++);
         cell.setCellValue("自由机型库存数量");
 
-
+        if (CollectionUtils.isEmpty(checkDetailResponses)) {
+            return workBook;
+        }
         for (int i = 0, size = checkDetailResponses.size(); i < size; i++) {
             BizCheckDetailResponse checkDetailResponse = checkDetailResponses.get(i);
             String planBatchName = checkDetailResponse.getBizCheckDetail().getPlanBatchName();
