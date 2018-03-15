@@ -38,7 +38,7 @@
 			</div>
 			<div class="col-4"> </div>
 		</div>
-		<div class="row cl">
+		<div class="row c1">
 			<label class="form-label col-3"><span class="c-red">*</span>账号：</label>
 			<div class="formControls col-5">
 				<input type="text" class="input-text" readonly value="${admin.name}" placeholder="" id="name" name="name" datatype="*5-16" nullmsg="账号不能为空">
@@ -107,30 +107,19 @@
 	function backgo(){
 		window.location.href="import/toXuserList";
 	}
+	$(function(){
+        getCheckDetail();
+	});
 	function getCheckDetail() {
 		var id = "${id}";
 		$.ajax({
 			type : "get",
-			url : "check/detail/query/",
+			url : "check/detail/query/" + id,
 			cache : false,
 			async : true,
 			dataType : "json",
-			success : function(datas) {
-				if (datas.length > 0) {
-					for ( var i = 0; i < datas.length; i++) {
-						var code = datas[i].code;
-						var name=datas[i].name;
-						if(provinceCode) {
-							if(code==provinceCode) {
-								$("#provinceCode").append("<option value=" + code + " selected>" + name + "</option>");
-							}else{
-								$("#provinceCode").append("<option value=" + code + ">" + name + "</option>");
-							}
-						}else{
-							$("#provinceCode").append("<option value=" + code + ">" + name + "</option>");
-						}
-					}
-				}
+			success : function(data) {
+				console.info(data);
 			},
 			error : function() {
 				alert("operation failed!");

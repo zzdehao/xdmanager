@@ -156,8 +156,7 @@ public class CheckController extends BaseController {
     @RequestMapping(value = "/check/detail/query/{id}", method = {RequestMethod.GET})
     @ResponseBody
     public Object checkDetailQuery(@PathVariable Long id) throws Exception {
-
-        return null;
+        return this.checkService.findById(id);
     }
 
     private void buildCheckDetailCriteria(BizCheckDetailExample.Criteria criteria, BizCheckDetailRequest checkDetailRequest) {

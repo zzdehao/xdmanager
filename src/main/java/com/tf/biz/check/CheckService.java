@@ -168,6 +168,15 @@ public class CheckService {
         return pager;
     }
 
+    public BizCheckDetailResponse findById(Long id){
+        BizCheckDetail checkDetail = this.bizCheckDetailMapper.selectByPrimaryKey(id);
+        BizStore store = this.storeService.getStoreById(checkDetail.getStoreId().intValue());
+        BizCheckDetailResponse checkDetailColResponse = new BizCheckDetailResponse();
+        checkDetailColResponse.setBizCheckDetail(checkDetail);
+        checkDetailColResponse.setBizStore(store);
+        return checkDetailColResponse;
+    }
+
     private BizStoreExample.Criteria buildStoreExample(Map<String, String> param, BizStoreExample storeExample) {
         BizStoreExample.Criteria criteria = storeExample.createCriteria();
         if (StringUtils.isNotBlank(param.get("channelCode"))) {
