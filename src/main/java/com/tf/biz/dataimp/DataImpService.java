@@ -3,6 +3,7 @@ package com.tf.biz.dataimp;
 import com.tf.biz.check.entity.BizCheckPlan;
 import com.tf.biz.check.entity.BizCheckPlanExample;
 import com.tf.biz.check.mapper.BizCheckPlanMapper;
+import com.tf.biz.common.StaticDataMap;
 import com.tf.biz.dataimp.entity.BizImportUser;
 import com.tf.biz.dataimp.entity.BizImportUserExample;
 import com.tf.biz.dataimp.mapper.BizImportUserMapper;
@@ -66,6 +67,7 @@ public class DataImpService extends BaseService {
     private BizCheckPlanMapper checkPlanMapper;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public Long getStoreByChannelCodeCount(String channelCode) {
         BizStoreExample express = new BizStoreExample();
         BizStoreExample.Criteria queryExpress = express.createCriteria();
@@ -93,12 +95,22 @@ public class DataImpService extends BaseService {
         return pager;
     }
 
+    private String getTrim(Map data, String var) {
+        Object obj = data.get(var);
+        if (obj == null) {
+            return "";
+        } else {
+            return (String) obj;
+        }
+    }
+
     /**
      * 上传文件以及解析
      * 放入临时表
      * 并放入用户表
      * 注意:
      * 初始密码为:11111111 初始角色为:general
+     * 初始导入 （省   市   姓名  手机号）
      *
      * @return
      */
@@ -106,9 +118,11 @@ public class DataImpService extends BaseService {
     public boolean saveImpUserData(MultipartFile multipartFile,
                                    FilePath filePath, Map<String, Object> param)
             throws IOException, InvalidFormatException {
-        String batchName=importService.createBatchId(ImportEnum.ImportType.USER.getTypeName());
-        Map<String,String> paramMap = new HashMap<String,String>();
-        paramMap.put("batchName",batchName);
+
+        Map<String, String> provinceAndCityMap = StaticDataMap.provinceAndCityNameToCodeMapping;
+        String batchName = importService.createBatchId(ImportEnum.ImportType.USER.getTypeName());
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("batchName", batchName);
         Long batchId = this.importService.save(multipartFile, filePath, ImportEnum.ImportType.USER.getCode(),
                 paramMap);
         //解析文件
@@ -119,105 +133,126 @@ public class DataImpService extends BaseService {
          * @param endcol   //结束列号
          * @param sheetnum //sheet
          */
-        List<Map> readDatas = (List) ObjectExcelRead.readExcelInputStream(inputStream, 1, 0, 13, 0);
+        List<Map> readDatas = (List) ObjectExcelRead.readExcelInputStream(inputStream, 2, 0, 4, 0);
         System.out.println("readDatas:" + readDatas.size());
-        List<BizImportUser> importData = new ArrayList<BizImportUser>();
-        List<Admin> userData = new ArrayList<Admin>();
-        if (readDatas != null && readDatas.size() > 0) {
-            Role role = roleMapper.getByRoleCode(initRoleCode);
-            BizImportUser userPo = null;
-            Admin admin = null;
-            for (Map data : readDatas) {
-                userPo = new BizImportUser();
-                admin = new Admin();
-                admin.setBlz2(batchName);
-                admin.setBlz1(batchId.toString());
-                userPo.setBatchId(batchId);
-                //检查数据项 姓名  手机号码
-                String uname = (String) data.get("var0");
-                String phone = (String) data.get("var6");
-                if (StringUtils.isEmpty(uname) && StringUtils.isEmpty(phone)) {
-                    continue;
-                }
-                userPo.setUserName((String) data.get("var0"));//姓名
-                admin.setTrueName(userPo.getUserName());
+        try {
+            List<BizImportUser> importData = new ArrayList<BizImportUser>();
+            List<Admin> userData = new ArrayList<Admin>();
+            if (readDatas != null && readDatas.size() > 0) {
+                Role role = roleMapper.getByRoleCode(initRoleCode);
+                BizImportUser userPo = null;
+                Admin admin = null;
+                for (Map data : readDatas) {
+                    //省
+                    String pName = getTrim(data, "var0");
+                    //市
 
-                userPo.setUserId((String) data.get("var1"));//UserID
-                admin.setBlz2(userPo.getUserId().toString());
-                userPo.setProvinceName((String) data.get("var2"));//省（I级）_2
-                admin.setProvinceName(userPo.getProvinceName());
-                userPo.setCityName((String) data.get("var3"));//地市（二级）_3
-                admin.setCityName(userPo.getCityName());
-                userPo.setThreelevelName((String) data.get("var4"));//联通/代理商/其它（三级）_1
-                admin.setBusTypename(userPo.getThreelevelName());
-                userPo.setFourLevelname((String) data.get("var5"));//部门/团队/网格（四级）_1
-                admin.setDeptName(userPo.getFourLevelname());
-                userPo.setFiveLevelphone((String) data.get("var6"));//联系电话（五级）
-                admin.setTel(userPo.getFiveLevelphone());
-                //导入人员账号name为tel
-                admin.setName(userPo.getFiveLevelphone());
-                userPo.setSecondPhone((String) data.get("var7"));//第二联系电话
-                admin.setTel2(userPo.getSecondPhone());
-                userPo.setDutyName((String) data.get("var8"));//职务
-                admin.setDutyName(userPo.getDutyName());
-                userPo.setGridName((String) data.get("var9"));//网格名称
-                admin.setGridName(userPo.getGridName());
-                userPo.setGridCode((String) data.get("var10"));//网格代码
-                admin.setGridCode(userPo.getGridCode());
+                    String cityName = getTrim(data, "var1");
+                    //姓名
+                    String uname = getTrim(data, "var2");
+                    //手机号
+                    String tel = getTrim(data, "var3");
+                    userPo = new BizImportUser();
+                    userPo.setBatchId(batchId);
+                    admin = new Admin();
+                    admin.setBlz2(batchName);
+                    admin.setBlz1(batchId.toString());
+                    if (StringUtils.isEmpty(uname) && StringUtils.isEmpty(tel)) {
+                        continue;
+                    }
+                    userPo.setUserName(uname);//姓名
+                    userPo.setUserId("");//UserID
+                    userPo.setProvinceName(pName);//省（I级）_2
+                    userPo.setProvinceCode(Integer.parseInt(provinceAndCityMap.get(pName)));
+                    userPo.setCityName(cityName);//地市（二级）_3
+                    userPo.setCityCode(Integer.parseInt(provinceAndCityMap.get(cityName)));
+                    userPo.setThreelevelName("");
+                    userPo.setFourLevelname("");//部门/团队/网格（四级）_1
+                    userPo.setFiveLevelphone(tel);//联系电话（五级）
+                    userPo.setSecondPhone(tel);//第二联系电话
+                    userPo.setDutyName("");//职务
+                    userPo.setGridName("");//网格名称
+                    userPo.setGridCode("");//网格代码
+                    userPo.setDataUpdatetime(new Date());//数据更新时间
+                    userPo.setQita1("");//其它信息1
+                    userPo.setQita1("");
+                    userPo.setQita2("");//其它信息2
 
-                userPo.setDataUpdatetime((String) data.get("var11"));//数据更新时间
-                admin.setDataupDate(userPo.getDataUpdatetime());
+                    admin.setUserType("00");
+                    admin.setTrueName(uname);
+                    admin.setNickname(uname);
+                    admin.setProvinceName(userPo.getProvinceName());
+                    admin.setProvinceCode(provinceAndCityMap.get(pName));
+                    admin.setCityName(userPo.getCityName());
+                    admin.setCityCode(provinceAndCityMap.get(userPo.getCityName()));
+                    admin.setBusTypename("");
+                    admin.setDeptName("");
+                    admin.setTel(tel);
+                    //导入人员账号name为tel
+                    admin.setName(tel);
+                    admin.setTel2(userPo.getSecondPhone());
+                    admin.setDutyName("");
+                    admin.setGridName("");
+                    admin.setGridCode("");
+                    admin.setDataupDate(userPo.getDataUpdatetime());
+                    admin.setQita2("");
 
-                userPo.setQita1((String) data.get("var12"));//其它信息1
-                userPo.setQita1(userPo.getQita1());
-                userPo.setQita2((String) data.get("var13"));//其它信息2
-                admin.setQita2(userPo.getQita2());
+                    admin.setRoleCode(initRoleCode);
+                    admin.setPassword(MD5.getMD5(initPassword));
 
-                admin.setRoleCode(initRoleCode);
-                admin.setNickname(userPo.getFiveLevelphone());
-                admin.setPassword(MD5.getMD5(initPassword));
-                //检查人员是否存在
-                if(!checkExist(userPo)) {
+                    //重复人员更新临表其他字段qita
+                    getQitaFlag(userPo);
                     userData.add(admin);
                     importData.add(userPo);
                 }
+                //保存数据
+                final Date now = new Date();
+                final SessionUser sessionUser = ShiroUtils.getSessionUser();
+                final int userId = sessionUser.getId();
+                final String name = sessionUser.getName();
+                importData.forEach(s -> {
+                    s.setBatchId(batchId);
+                    s.setCreateTime(now);
+                    s.setCreateUserId(userId);
+                    s.setCreateUserName(name);
+                    this.importUserMapper.insertSelective(s);
+                });
+                //生成用户与角色信息
+                userData.forEach(u -> {
+                    //生成用户信息(校验手机号是否存在)
+                    Admin qadmin = this.adminMapper.queryByLogin(u.getTel());
+                    if (qadmin == null) {
+                        this.adminMapper.insert(u);
+                        UserRole urole = new UserRole();
+                        urole.setRoleId(role.getId());
+                        urole.setUserId(u.getId());
+                        //生成角色人员信息
+                        this.roleMapper.userRoleInsert(urole);
+                    }else{
+                        Admin uadmin = new Admin();
+                        uadmin.setId(qadmin.getId());
+                        uadmin.setBlz3("此人员存在,重复导入");
+                        this.adminMapper.update(uadmin);
+                    }
+                });
             }
-            //保存数据
-            final Date now = new Date();
-            final SessionUser sessionUser = ShiroUtils.getSessionUser();
-            final int userId = sessionUser.getId();
-            final String name = sessionUser.getName();
-            importData.forEach(s -> {
-                s.setBatchId(batchId);
-                s.setCreateTime(now);
-                s.setCreateUserId(userId);
-                s.setCreateUserName(name);
-                this.importUserMapper.insertSelective(s);
-            });
-            //生成用户与角色信息
-            userData.forEach(u -> {
-                //生成用户信息
-                Admin qadmin = this.adminMapper.queryByLogin(u.getTel());
-                if (qadmin == null) {
-                    this.adminMapper.insert(u);
-                    UserRole urole = new UserRole();
-                    urole.setRoleId(role.getId());
-                    urole.setUserId(u.getId());
-                    //生成角色人员信息
-                    this.roleMapper.userRoleInsert(urole);
-                }
-            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return true;
     }
 
     /**
-     * 检查人员是否存在
+     * 重复人员更新临表其他字段qita
+     *
      * @param users
      * @return
      */
-    private boolean checkExist(BizImportUser users){
-        return false;
+    private void getQitaFlag(BizImportUser users) {
+        Admin qadmin = this.adminMapper.queryByLogin(users.getFiveLevelphone());
+        if (qadmin != null) {
+            users.setQita2("此人员已经存在");
+        }
     }
 
     /**
@@ -260,6 +295,7 @@ public class DataImpService extends BaseService {
 
     /**
      * 导入计划
+     *
      * @param multipartFile
      * @param filePath
      * @param param
@@ -279,13 +315,13 @@ public class DataImpService extends BaseService {
          */
         String minDate = (String) param.get("minDate");
         String maxDate = (String) param.get("maxDate");
-        String dateSuffix=" 00:00:00";
-        minDate=minDate+dateSuffix;
-        maxDate=maxDate+dateSuffix;
+        String dateSuffix = " 00:00:00";
+        minDate = minDate + dateSuffix;
+        maxDate = maxDate + dateSuffix;
 
-        Map<String,String> paramMap = new HashMap<String,String>();
-        String batchName=importService.createBatchId(importType.getTypeName());
-        paramMap.put("batchName",batchName);
+        Map<String, String> paramMap = new HashMap<String, String>();
+        String batchName = importService.createBatchId(importType.getTypeName());
+        paramMap.put("batchName", batchName);
         Long batchId = this.importService.save(multipartFile,
                 filePath, importType.getCode(),
                 paramMap);
@@ -304,7 +340,7 @@ public class DataImpService extends BaseService {
                     Date st = formatter.parse(minDate);
                     plan.setCheckStartDate(st);
                     plan.setCheckEndDate(end);
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
 
@@ -340,8 +376,8 @@ public class DataImpService extends BaseService {
                 plan.setStoreAddress((String) data.get("var6"));
                 plan.setStoreTypeName(importType.getTypeName());
                 plan.setCheckUserName((String) data.get("var9"));
-                plan.setChannelUserTel((String)data.get("var10"));
-                System.out.println("checkEndDate:"+plan.getCheckEndDate());
+                plan.setChannelUserTel((String) data.get("var10"));
+                System.out.println("checkEndDate:" + plan.getCheckEndDate());
                 planData.add(plan);
             }
             //保存数据
@@ -402,6 +438,7 @@ public class DataImpService extends BaseService {
         pager.setTotal(count.intValue());
         return pager;
     }
+
     public Pager<BizCheckPlan> queryPlanList(Integer start, Map<String, Object> param) {
         //limit ${start},${rows}
         int rows = Constants.PAGE_SIZE;
@@ -413,7 +450,7 @@ public class DataImpService extends BaseService {
         express.setLimit(rows);
         express.setOffset(start);
         express.setOrderByClause(" create_time desc ");
-        if(batchId!=-99) {
+        if (batchId != -99) {
             express.createCriteria().andBatchIdEqualTo(Long.parseLong(batchId.toString()));
         }
         //增加查询条件where channel_type=1 and ()效果
@@ -428,7 +465,18 @@ public class DataImpService extends BaseService {
         return this.bizStoreMapper.deleteByPrimaryKey(Long.parseLong(id.toString()));
     }
 
-    public int update(BizImportBatch bizImportBatch){
-       return this.batchMapper.updateByPrimaryKeySelective(bizImportBatch);
+    public int delXuser(Integer id) {
+        try {
+            this.importUserMapper.deleteByPrimaryKey(Long.parseLong(id.toString()));
+            this.adminMapper.delete(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+        return 1;
+    }
+
+    public int update(BizImportBatch bizImportBatch) {
+        return this.batchMapper.updateByPrimaryKeySelective(bizImportBatch);
     }
 }

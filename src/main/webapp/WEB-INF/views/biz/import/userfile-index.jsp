@@ -49,6 +49,8 @@
         <div class="text-r f-r" id="pager"></div>
     </div>
 </div>
+<form id="form" method="post">
+</form>
 <%@include file="/footer.jsp" %>
 <script type="text/x-handlebars-template" id="user-template">
     {{#each rows}}
@@ -60,7 +62,7 @@
         <td>{{remark}}</td>
         <td class="td-manage">
             <input class="btn btn-danger size-S radius" type="button" value="删除" onclick="file_del(this,{{id}});"/>
-            <input class="btn btn-link radius" type="button" onclick="javascript:alert({{id}});" value="查看"/>
+            <input class="btn btn-link radius" type="button" onclick="fileLoad({{id}});" value="查看"/>
         </td>
     </tr>
     {{/each}}
@@ -111,6 +113,13 @@
             });
         });
     }
+    function fileLoad(id){
+        var $form = $("#form");
+        var times = "?v=" + new Date().getTime();
+        $("#form").attr("action", "import/getDownFile/"+id+times);
+        $form.attr("target", "reportExcel");
+        $form.submit();
+    }
     $(function () {
         /**/
         $('.radio-box input').iCheck({
@@ -121,5 +130,6 @@
         loadData(1);
     });
 </script>
+<iframe id="reportExcel" name="reportExcel" width="0" height="0"></iframe>
 </body>
 </html>

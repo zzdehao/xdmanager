@@ -39,7 +39,6 @@
             <th scope="col" colspan="15">渠道店铺列表</th>
         </tr>
         <tr class="text-c">
-            <th width="60">渠道ID</th>
             <th width="80">渠道编码</th>
             <th width="80">渠道名称</th>
             <th width="100">店铺名称</th>
@@ -68,11 +67,10 @@
 <script type="text/x-handlebars-template" id="user-template">
     {{#each rows}}
     <tr class="text-c">
-        <td>{{channelId}}</td>
         <td>{{channelCode}}</td>
         <td>{{channelName}}</td>
         <td>{{storeName}}</td>
-        <td>{{channelType}}</td>
+        <td>{{{statusTools channelType}}}</td>
         <td>{{companyCode}}</td>
         <td>{{companyName}}</td>
         <td>{{provinceName}}</td>
@@ -91,6 +89,21 @@
 </script>
 <script type="text/javascript">
     var logTemplate = Handlebars.compile($("#user-template").html());
+    /*
+     <option value="11">自有渠道</option>
+     <option value="12">社会渠道</option>
+     <option value="13">小微渠道</option>
+    **/
+    var storeTypeMap = {
+        "11":"自有渠道",
+        "12":"社会渠道",
+        "13":"小微渠道"
+    }
+    function statusTools(key) {
+       return  storeTypeMap[key]
+    }
+
+    Handlebars.registerHelper("statusTools", statusTools);
     function loadData(page) {
         page = page || 1;
         var index = parent.layer.load();

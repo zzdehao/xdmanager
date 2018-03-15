@@ -169,7 +169,7 @@ public class UserController extends BaseController {
      * 修改密码
      * @return
      */
-    @RequestMapping(value = "/yewu/user/password" ,method = {RequestMethod.GET})
+    @RequestMapping(value = "/yewu/user/password" ,method = {RequestMethod.GET,RequestMethod.POST})
     public ModelAndView modifypass(){
         SessionUser currentUser = this.getCurrentUser();
         ModelAndView mav = new ModelAndView() ;
@@ -185,10 +185,11 @@ public class UserController extends BaseController {
      * 修改密码
      * @return
      */
-    @RequestMapping(value = "/yewu/user/updatepw" ,method = {RequestMethod.GET , RequestMethod.POST})
-    public ModelAndView updatepw(HttpServletRequest request) {
+    @RequestMapping(value = "/yewu/user/updatepw" ,method = {RequestMethod.GET,RequestMethod.POST })
+    @ResponseBody
+    public Map<String,String> updatepw(HttpServletRequest request) {
+        Map<String,String>  param = new HashMap<String,String>();
         SessionUser currentUser = this.getCurrentUser();
-        //HttpServletRequest request = this.getRequest();
         String oldPw = request.getParameter("oldPw");
         String newPw = request.getParameter("newPw");
         String repeatPw = request.getParameter("repeatPw");
@@ -196,10 +197,9 @@ public class UserController extends BaseController {
         user.setId(currentUser.getId());
         user.setPassword(newPw);
         adminService.update(user);
+        param.put("s","true");
+        return param;
 
-        ModelAndView mav = new ModelAndView() ;
-        mav.setViewName(pageDir+"/user-password");
-        return mav;
     }
     /**
      * 账号添加

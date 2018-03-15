@@ -35,7 +35,6 @@
             <th width="80">手机号</th>
             <th width="80">省</th>
             <th width="80">城市</th>
-            <th width="80">职务</th>
             <th width="80">导入时间</th>
             <th width="146">操作</th>
         </tr>
@@ -57,7 +56,6 @@
         <td>{{tel}}</td>
         <td>{{provinceName}}</td>
         <td>{{cityName}}</td>
-        <td>{{dutyName}}</td>
         <td>{{create_time}}</td>
         <td class="td-manage">
             <input class="btn btn-danger size-S radius" type="button" value="删除" onclick="javascript:xuser_del(this,{{id}});"/>
@@ -107,7 +105,7 @@
     function xuser_del(obj,id){
         parent.layer.confirm('确认要删除吗？',function(index){
             $.ajax({
-                url:"import/delxuser/" + id,
+                url:"import/delxuser/"+ id,
                 type:'post',
                 async:true ,
                 cache:false ,

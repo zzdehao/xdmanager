@@ -23,25 +23,25 @@
 	<script type="text/javascript" src="lib/PIE_IE678.js"></script>
 	<![endif]-->
 	<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
-	<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+	<link href="css/H-ui.xuser.css" rel="stylesheet" type="text/css" />
 	<link href="lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
 	<link href="lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="pd-20">
-	<form action="" method="post" class="form form-horizontal" id="form-admin-add">
-		<input type="hidden" name="id" id = "id"  value="${admin.id}">
+	<form action="" method="post" class="form form-horizontal" id="form-xuser-add">
+		<input type="hidden" name="id" id = "id"  value="${xuser.id}">
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>姓名：</label>
 			<div class="formControls col-5">
-				<input type="text" class="input-text" readonly value="${admin.trueName}" placeholder="" id="trueName" name="trueName" datatype="*2-16" nullmsg="姓名不能为空">
+				<input type="text" class="input-text" readonly value="${xuser.trueName}" placeholder="" id="trueName" name="trueName" datatype="*2-16" nullmsg="姓名不能为空">
 			</div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>账号：</label>
 			<div class="formControls col-5">
-				<input type="text" class="input-text" readonly value="${admin.name}" placeholder="" id="name" name="name" datatype="*5-16" nullmsg="账号不能为空">
+				<input type="text" class="input-text" readonly value="${xuser.name}" placeholder="" id="name" name="name" datatype="*5-16" nullmsg="账号不能为空">
 			</div>
 			<div class="col-4"> </div>
 		</div>
@@ -55,14 +55,14 @@
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>手机：</label>
 			<div class="formControls col-5">
-				<input type="text" class="input-text" value="${admin.tel}" placeholder="请输入手机号码 " id="tel" name="tel"  datatype="m" nullmsg="手机不能为空">
+				<input type="text" class="input-text" value="${xuser.tel}" placeholder="请输入手机号码 " id="tel" name="tel"  datatype="m" nullmsg="手机不能为空">
 			</div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red"></span>邮箱：</label>
 			<div class="formControls col-5">
-				<input type="text" class="input-text" placeholder="@" value="${admin.email}" name="email" id="email"  datatype="e">
+				<input type="text" class="input-text" placeholder="@" value="${xuser.email}" name="email" id="email"  datatype="e" >
 			</div>
 			<div class="col-4"> </div>
 		</div>
@@ -87,7 +87,7 @@
 		<div class="row cl">
 			<label class="form-label col-3">备注：</label>
 			<div class="formControls col-5">
-				<textarea name="remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="textarealength(this,100)">${admin.remark}</textarea>
+				<textarea name="remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="textarealength(this,100)">${xuser.remark}</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 			<div class="col-4"></div>
@@ -179,7 +179,7 @@
 		});
 	}
 	$(function(){
-		var status = '${admin.status}' ;
+		var status = '${xuser.status}' ;
 		var id = $("#id").val();
 		if(id){
 			$(".prow").remove();
@@ -194,15 +194,15 @@
 			}) ;
 
 		}
-		loadP('${admin.provinceCode}');
-		loadC('${admin.cityCode}','${admin.provinceCode}');
+		loadP('${xuser.provinceCode}');
+		loadC('${xuser.cityCode}','${xuser.provinceCode}');
 		$("#provinceCode").change(function(){
 			var pcode = $("#provinceCode").val();
 			//$("#cityCode").empty();
 			loadC('',pcode);
 		});
 
-		$("#form-admin-add").Validform({
+		$("#form-xuser-add").Validform({
 			tiptype:2,
 			callback:function(form){
 				var index = parent.layer.load();

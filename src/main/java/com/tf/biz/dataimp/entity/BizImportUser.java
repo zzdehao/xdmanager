@@ -189,8 +189,8 @@ public class BizImportUser {
         return dataUpdatetime;
     }
 
-    public void setDataUpdatetime(String dataUpdatetime) {
-        this.dataUpdatetime = dataUpdatetime == null ? null : dataUpdatetime.trim();
+    public void setDataUpdatetime(Date dataUpdatetime) {
+        this.dataUpdatetime = dataUpdatetime == null ? null : dataUpdatetime.toString().trim();
     }
 
     public String getQita1() {

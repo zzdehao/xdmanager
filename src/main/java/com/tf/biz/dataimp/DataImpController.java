@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -139,9 +138,7 @@ public class DataImpController extends BaseController {
                                    HttpServletRequest req,
                                    @RequestParam(value = "importType") Integer importType) throws Exception {
         ModelAndView mav = new ModelAndView();
-        String realPath = req.getSession().getServletContext().getRealPath(this.uploadDir);
-        String webPath = req.getContextPath() + this.uploadDir;
-        FilePath filePath = new FilePath(realPath, webPath);
+        FilePath filePath = getUploadFilePath("");
         try {
             this.impService.saveImpUserData(multipartFile, filePath, null);
             this.setBizView(mav, "import/userfile-index");
@@ -258,8 +255,7 @@ public class DataImpController extends BaseController {
                                     HttpServletRequest req,
                                     @RequestParam(value = "importType") Integer importType) throws Exception {
         ModelAndView mav = new ModelAndView();
-        String realPath = req.getSession().getServletContext().getRealPath(this.uploadDir);
-        String webPath = req.getContextPath() + this.uploadDir;
+        FilePath filePath = getUploadFilePath("");
         try {
             /**
              * 11, "自有渠道","店铺",
@@ -267,7 +263,7 @@ public class DataImpController extends BaseController {
                13, "小微渠道","店铺",
              */
             this.storeService.saveMultipartFile(multipartFile,
-                    new FilePath(realPath, webPath),
+                    filePath,
                     ImportEnum.ImportType.getByCode(importType));
             this.setBizView(mav, "import/storefile-index");
         } catch (Exception ex) {
@@ -527,11 +523,21 @@ public class DataImpController extends BaseController {
     @RequestMapping(value = "/xuserEdit")
     public ModelAndView xuserEdit(@RequestParam(required = false) Integer id) {
         ModelAndView mav = new ModelAndView();
+
         if (id != null) {
-            mav.addObject("xuser", this.adminService.get(id));
+            Admin admin = this.adminService.get(id);
+            mav.addObject("xuser",admin);
         }
         this.setBizView(mav, "import/xuser-edit");
         return mav;
+    }
+    @RequestMapping(value = "/delxuser/{id}" , method = {RequestMethod.POST})
+    public @ResponseBody Message delxuser(@PathVariable Integer id){
+        Integer state = impService.delXuser(id);
+        if(state== -1){
+            return new Message(false) ;
+        }
+        return new Message(state) ;
     }
     /**
      * 下载文件

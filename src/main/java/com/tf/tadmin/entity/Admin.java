@@ -38,8 +38,8 @@ public class Admin extends BaseEntity{
 	private Integer storeId=-99;
 	private String storeName="";
 	private String userType="00";
-	private String cityCode= Constants.ALL_PROVICECITY;
-	private String provinceCode=Constants.ALL_PROVICECITY;
+	private String cityCode= "";
+	private String provinceCode="";
 	private String roleCode="";
 	private String trueName;
 

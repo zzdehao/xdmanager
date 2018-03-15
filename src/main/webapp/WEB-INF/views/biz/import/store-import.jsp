@@ -56,15 +56,15 @@
                 <div style="border: 1px;">
                     <div class="form-group" style="margin-top: 5px;">
                         <c:if test="${importType==11}">
-                            <a href="<%=request.getContextPath()%>/template/bak/2-selfchannel.xlsx"
+                            <a href="<%=request.getContextPath()%>/template/2-selfchannel.xlsx"
                                style="color: red;">下载导入${importTypeName}模版</a>
                         </c:if>
                         <c:if test="${importType==12}">
-                            <a href="<%=request.getContextPath()%>/template/bak/3-worldchannel.xlsx"
+                            <a href="<%=request.getContextPath()%>/template/3-worldchannel.xlsx"
                                style="color: red;">下载导入${importTypeName}模版</a>
                         </c:if>
                         <c:if test="${importType==13}">
-                            <a href="<%=request.getContextPath()%>/template/bak/4-smallchannel.xlsx"
+                            <a href="<%=request.getContextPath()%>/template/4-smallchannel.xlsx"
                                style="color: red;">下载导入${importTypeName}模版</a>
                         </c:if>
                     </div>

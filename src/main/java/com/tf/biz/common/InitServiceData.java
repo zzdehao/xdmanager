@@ -23,10 +23,10 @@ public class InitServiceData {
         StaticDataMap.provinceAndCityNameToCodeMapping.clear();
         List<ProvinceCity> dataList = provinceCityService.getAllProvinces();
         dataList.forEach(data->{
-            StaticDataMap.provinceAndCityCodeToNameMapping.put(data.getCode(),data.getName()) ;
-            StaticDataMap.provinceAndCityNameToCodeMapping.put(data.getName(),data.getCode()) ;
+            StaticDataMap.provinceAndCityCodeToNameMapping.put(data.getCode().trim(),data.getName().trim()) ;
+            StaticDataMap.provinceAndCityNameToCodeMapping.put(data.getName().trim(),data.getCode().trim()) ;
         });
-        //System.out.println("nameToNode:"+StaticDataMap.provinceAndCityNameToCodeMapping.toString());
+        System.out.println("nameToNode:"+StaticDataMap.provinceAndCityNameToCodeMapping.toString());
     }
 
 }

@@ -65,34 +65,19 @@
         $("#form-pass-modify").Validform({
             tiptype:2,
             callback:function(form){
-                var index = parent.layer.load();
                 $.ajax({
-                    url:"yewu/user/updatepw" ,
-                    type:'get',
+                    url:"<%=request.getContextPath()%>/yewu/user/updatepw" ,
+                    type:'post',
                     async:true ,
                     cache:false ,
                     data:{'oldPw': MD5($("#oldPw").val()),'newPw': MD5($("#newPw").val()),'repeatPw': MD5($("#repeatPw").val())},
                     dataType:"json",
                     success:function(data){
-                        parent.layer.close(index);
-                        if(data.s == true){
-                            index = parent.layer.getFrameIndex(window.name);
-                            //alert(parent.$(".show_iframe:visible > iframe")[0].window);
-                            //parent.$(".show_iframe:visible > iframe").attr("src" ,parent.$(".show_iframe:visible > iframe")[0].src );
-                            parent.layer.msg("保存成功,正在刷新数据请稍后……",{icon:1,time: 2000,shade: [0.1,'#fff']},function(){
-                                parent.$(".show_iframe:visible > iframe").contents().find("#search").click() ;
-                                parent.layer.close(index);
-                            }) ;
-
-                        }else{
-                            parent.layer.alert(data.m , {icon: 2,title:"系统提示"});
-                        }
-                    },
+                    }
                 }) ;
                 return false ;
             }
         });
-
     });
 </script>
 </body>

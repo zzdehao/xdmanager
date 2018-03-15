@@ -155,7 +155,7 @@
             <if test="remark != null" >
                 remark = #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="roleCode != null" >
+            <if test="roleCode != null and roleCode!=''" >
                 role_code = #{roleCode,jdbcType=VARCHAR},
             </if>
             <if test="blz1 != null" >

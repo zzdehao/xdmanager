@@ -1,4 +1,5 @@
 package com.tf.biz.store;
+import com.tf.biz.common.StaticDataMap;
 import com.tf.biz.imp.ImportService;
 import com.tf.biz.imp.constant.ImportEnum;
 import com.tf.biz.imp.pojo.FilePath;
@@ -72,9 +73,21 @@ public class StoreService {
         }
 
     }
+    private Integer  getCityOrProvinceCode(String name){
+        Map<String,String>  provinceCityeMapping = StaticDataMap.provinceAndCityNameToCodeMapping;
+        try {
+            if (!StringUtils.isEmpty(name)) {
+                return Integer.parseInt(provinceCityeMapping.get(name.trim()));
 
+            } else {
+                return null;
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
     private List<BizStore> buildStoreList(Sheet sheet,ImportEnum.ImportType importType) {
-
         List<BizStore> bizStoreList = new ArrayList<>(sheet.getLastRowNum() + 1);
         for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
             Row row = sheet.getRow(rowNum);
@@ -104,12 +117,14 @@ public class StoreService {
                  */
                 String ccode = ExcelUtil.getFromCell(row.getCell(i++));
                 if(!StringUtils.isEmpty(ccode)) {
-                    bizStore.setChannelId(0); //渠道ID
+                    bizStore.setChannelId(0); //渠道ID,暂时去掉
                     bizStore.setChannelCode(ccode); //渠道编码
-                    bizStore.setProvinceCode(null);//省
+
                     bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++)));
-                    bizStore.setCityCode(null);
+                    bizStore.setProvinceCode(getCityOrProvinceCode(bizStore.getProvinceName()));
                     bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //市
+                    bizStore.setCityCode(getCityOrProvinceCode(bizStore.getCityName()));
+
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
@@ -169,10 +184,12 @@ public class StoreService {
                 if(!StringUtils.isEmpty(ccode)) {
                     bizStore.setChannelId(0); //渠道ID
                     bizStore.setChannelCode(ccode); //渠道编码
-                    bizStore.setProvinceCode(null); //省ID
-                    bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++))); //省名称
-                    bizStore.setCityCode(null); //地市id
+
+                    bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++)));
+                    bizStore.setProvinceCode(getCityOrProvinceCode(bizStore.getProvinceName()));
                     bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //市
+                    bizStore.setCityCode(getCityOrProvinceCode(bizStore.getCityName()));
+
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
@@ -237,10 +254,12 @@ public class StoreService {
                     //diff
                     bizStore.setPlatformName(ExcelUtil.getFromCell(row.getCell(i++)));//平台商名称
                     bizStore.setPlatformCode(ExcelUtil.getFromCell(row.getCell(i++)));//平台商编码
-                    bizStore.setProvinceCode(null); //省ID
-                    bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++))); //省名称
-                    bizStore.setCityCode(null); //地市
-                    bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //地市
+
+                    bizStore.setProvinceName(ExcelUtil.getFromCell(row.getCell(i++)));
+                    bizStore.setProvinceCode(getCityOrProvinceCode(bizStore.getProvinceName()));
+                    bizStore.setCityName(ExcelUtil.getFromCell(row.getCell(i++))); //市
+                    bizStore.setCityCode(getCityOrProvinceCode(bizStore.getCityName()));
+
                     bizStore.setCompanyName(ExcelUtil.getFromCell(row.getCell(i++)));  //区县分公司名称
                     bizStore.setCompanyCode(ExcelUtil.getFromCell(row.getCell(i++)));  // 区县分公司编码
                     bizStore.setChannelName(ExcelUtil.getFromCell(row.getCell(i++))); //渠道名称
