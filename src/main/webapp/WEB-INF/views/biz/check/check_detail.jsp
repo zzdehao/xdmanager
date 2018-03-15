@@ -108,7 +108,7 @@
 		window.location.href="import/toXuserList";
 	}
 	function getCheckDetail() {
-
+		var id = "${id}";
 		$.ajax({
 			type : "get",
 			url : "check/detail/query/",
