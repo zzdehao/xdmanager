@@ -63,7 +63,6 @@ public class CheckController extends BaseController {
     @RequestMapping(value = "/check/list/query", method = {RequestMethod.GET})
     @ResponseBody
     public Pager<BizCheckDetailResponse> checkListPageQuery(@RequestParam Map<String, String> param, @RequestHeader Integer limit, @RequestHeader Integer offset) throws Exception {
-
         Pager<BizCheckDetailResponse> pager = this.checkService.findList(param, limit, offset);
         return pager;
     }
@@ -144,6 +143,21 @@ public class CheckController extends BaseController {
 
         });
         return reList;
+    }
+
+    @RequestMapping(value = "/check/detail/page/{id}", method = {RequestMethod.GET})
+    @ResponseBody
+    public ModelAndView checkDetailPage(@PathVariable Long id) throws Exception {
+        ModelAndView mav = new ModelAndView("biz/check/check_detail");
+        mav.addObject("id", id);
+        return mav;
+    }
+
+    @RequestMapping(value = "/check/detail/query/{id}", method = {RequestMethod.GET})
+    @ResponseBody
+    public Object checkDetailQuery(@PathVariable Long id) throws Exception {
+
+        return null;
     }
 
     private void buildCheckDetailCriteria(BizCheckDetailExample.Criteria criteria, BizCheckDetailRequest checkDetailRequest) {

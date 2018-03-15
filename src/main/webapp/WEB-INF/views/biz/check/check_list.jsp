@@ -90,7 +90,7 @@
         <table class="table table-border table-bordered table-bg" width="100%">
             <thead>
             <tr>
-                <th scope="col" colspan="56">巡店记录查询</th>
+                <th scope="col" colspan="57">巡店记录查询</th>
             </tr>
             <tr id="queryTitle" class="text-c">
                 <th width="120" nowrap>计划批次</th>
@@ -149,6 +149,7 @@
                 <th width="120" nowrap keyName="storeZq2g3gok" queryMap="okMap">是否2g,3g专柜</th>
                 <th width="120" nowrap>社会机型库存数量</th>
                 <th width="120" nowrap>自由机型库存数量</th>
+                <th width="146" nowrap>操作</th>
             </tr>
             </thead>
             <tbody id="xuser-list">
@@ -220,6 +221,9 @@
             <td></td>
             <td></td>
             <td></td>
+            <td class="td-manage">
+                <input name="goDetail" class="btn btn-success size-S radius" type="button" value="详情"/>
+            </td>
         </tr>
     </table>
 </div>
@@ -443,6 +447,9 @@
             $(tdList[k++]).html(checkOkMap(obj.bizCheckDetail.storeZq2g3gok));
             $(tdList[k++]).html(obj.bizCheckDetail.storeKccheckOutcount);
             $(tdList[k++]).html(obj.bizCheckDetail.storeKccheckSelfcount);
+            $(tdList[k++]).find("[name='goDetail']").click(function(){
+                window.location.href = "check/detail/page/" + obj.bizCheckDetail.id;
+            });
             $listBox.append($tr);
         }
     }
