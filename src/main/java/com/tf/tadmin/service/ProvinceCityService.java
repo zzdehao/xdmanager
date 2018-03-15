@@ -28,4 +28,7 @@ public class ProvinceCityService extends BaseService {
         ProvinceCity parent = this.getCityProvinceByCode(provinceCode);
         return this.provinceCityMapper.queryList(parent.getId(), "", null,null) ;
     }
+    public List<ProvinceCity> getAllProvinces() {
+        return this.provinceCityMapper.queryList(null,null,null,null) ;
+    }
 }

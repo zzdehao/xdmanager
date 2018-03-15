@@ -48,7 +48,7 @@ public class BaseController {
 
 
     protected FilePath getUploadFilePath(String flag){
-        FilePath filePath = new FilePath(this.uploadPreffix+"-"+flag,this.uploadPreffix+"-"+flag);
+        FilePath filePath = new FilePath(this.uploadDir,this.uploadPreffix);
         return filePath;
     }
 

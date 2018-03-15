@@ -319,9 +319,11 @@ public class DataImpController extends BaseController {
          SMALL_CHANNEL_PLAN(33, "小微渠道","巡检计划");
          */
         String importType = req.getParameter("importType");
+        /**
         String realPath = req.getSession().getServletContext().getRealPath(this.uploadDir);
         String webPath = req.getContextPath() + this.uploadDir;
-        FilePath filePath = new FilePath(realPath, webPath);
+         */
+        FilePath filePath = getUploadFilePath("");
 
         String minDate = req.getParameter("minDate");
         String maxDate = req.getParameter("maxDate");
