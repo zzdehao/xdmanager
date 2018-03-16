@@ -30,7 +30,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -556,7 +555,7 @@ public class DataImpController extends BaseController {
             String path = this.downLoadPreffix + batch.getFilePath();
             File file = new File(path);
             HttpHeaders headers = new HttpHeaders();
-            String fileName = new String(batch.getFileName().getBytes("UTF-8"), "iso-8859-1");//为了解决中文名称乱码问题
+            String fileName = new String(batch.getBatchName().getBytes("UTF-8"), "iso-8859-1");//为了解决中文名称乱码问题
             headers.setContentDispositionFormData("attachment", fileName);
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),

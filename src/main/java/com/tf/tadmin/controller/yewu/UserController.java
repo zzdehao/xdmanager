@@ -1,4 +1,5 @@
 package com.tf.tadmin.controller.yewu;
+import com.tf.common.utils.MD5;
 import com.tf.tadmin.controller.BaseController;
 import com.tf.tadmin.entity.*;
 import com.tf.tadmin.service.AdminService;
@@ -190,9 +191,8 @@ public class UserController extends BaseController {
     public Map<String,String> updatepw(HttpServletRequest request) {
         Map<String,String>  param = new HashMap<String,String>();
         SessionUser currentUser = this.getCurrentUser();
-        String oldPw = request.getParameter("oldPw");
         String newPw = request.getParameter("newPw");
-        String repeatPw = request.getParameter("repeatPw");
+        newPw = MD5.getMD5(newPw);
         Admin user = new Admin();
         user.setId(currentUser.getId());
         user.setPassword(newPw);

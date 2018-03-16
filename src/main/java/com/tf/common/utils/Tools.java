@@ -65,8 +65,11 @@ public class Tools {
 		return date2Str(date,"yyyy-MM-dd HH:mm:ss");
 	}
 
+	public static String getCurrentDateStrnew(){
+		return date2Str(new Date(),"yyyy-MM-ddHHmmss");
+	}
 	public static String getCurrentDateStr(){
-		return date2Str(new Date(),"yyyy-MM-ddHH:mm:ss");
+		return date2Str(new Date(),"yyyy-MM-ddHHmmss");
 	}
 	
 	/**

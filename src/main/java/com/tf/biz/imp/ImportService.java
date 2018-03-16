@@ -85,7 +85,7 @@ public class ImportService {
      */
     public  String createBatchId(String type) {
         StringBuffer batchStr = new StringBuffer();
-        batchStr.append("批-" + type + "-" + Tools.getCurrentDateStr() + "--" + Tools.getRandomNum());
+        batchStr.append("批-" + type + "-" + Tools.getCurrentDateStrnew() + "--" + Tools.getRandomNum());
         return batchStr.toString();
     }
 

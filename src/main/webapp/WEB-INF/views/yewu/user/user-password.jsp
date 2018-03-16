@@ -70,9 +70,13 @@
                     type:'post',
                     async:true ,
                     cache:false ,
-                    data:{'oldPw': MD5($("#oldPw").val()),'newPw': MD5($("#newPw").val()),'repeatPw': MD5($("#repeatPw").val())},
+                    data:$(form).serialize(),
                     dataType:"json",
                     success:function(data){
+                        $("#oldPw").val("")
+                        $("#newPw").val("")
+                        $("#repeatPw").val("")
+                        alert("修改完成");
                     }
                 }) ;
                 return false ;
