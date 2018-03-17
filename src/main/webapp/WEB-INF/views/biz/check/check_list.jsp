@@ -11,6 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>巡店记录查询</title>
     <%@include file="/header.jsp" %>
+    <script type="text/javascript" src="script/biz/checkCode.js"></script>
     <STYLE type="text/css">
         .queryItemBox{
             display: inline-block;
@@ -237,104 +238,6 @@
     </div>
 </div>
 <script type="text/javascript">
-
-    var checkMap = {
-        okMap: {
-            1: "是",
-            2: "否"
-        },
-        regionMap: {
-            1: "城区",
-            2: "城郊",
-            3: "县城",
-            4: "乡镇",
-            5: "其他"
-        },
-        mendianMap: {
-            1: "联通专营终端卖场",
-            2: "联通专营",
-            3: "开放型终端卖场",
-            4: "代理点",
-            5: "社区沃店(宽带)",
-            6: "移动排他终端卖场",
-            7: "电信排他终端卖场"
-        },
-        ytsqMap: {
-            1: "通讯商圈",
-            2: "商业区",
-            3: "学校",
-            4: "社区",
-            5: "工业园区",
-            6: "办公楼宇",
-            7: "其他"
-        },
-        mendianMap: {
-            1: "通讯商圈",
-            2: "商业区",
-            3: "学校",
-            4: "社区",
-            5: "工业园区",
-            6: "办公楼宇",
-            7: "其他"
-        },
-        areaMap: {
-            1: "20平米以下",
-            2: "20-50平米",
-            3: "50-100平米",
-            4: "100平米以上"
-        },
-        membersMap: {
-            1: "3人以下",
-            2: "4-6人",
-            3: "7-10人",
-            4: "大于10人"
-        },
-        scopMap: {
-            1: "非常熟练",
-            2: "一般熟练",
-            3: "不太熟练",
-            4: "不熟练"
-        },
-        liangMap: {
-            1: "0",
-            2: "<20",
-            3: "20-50",
-            4: "50-100",
-            5: "100以上"
-        }
-    }
-
-    function checkOkMap(key) {
-        return checkMap.okMap[key];
-    }
-
-    function checkRegionMap(key) {
-        return checkMap.regionMap[key];
-    }
-
-    function checkMendianMap(key) {
-        return checkMap.mendianMap[key];
-    }
-
-    function checkYtsqMap(key) {
-        return checkMap.ytsqMap[key];
-    }
-
-    function checkAreaMap(key) {
-        return checkMap.areaMap[key];
-    }
-
-    function checkMembersMap(key) {
-        return checkMap.membersMap[key];
-    }
-
-    function checkScopMap(key) {
-        return checkMap.scopMap[key];
-    }
-
-    function checkLiangMap(key) {
-        return checkMap.liangMap[key];
-    }
 
     function loadData(page) {
         var limit = 20;

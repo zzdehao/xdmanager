@@ -22,6 +22,7 @@
     <script type="text/javascript" src="lib/respond.min.js"></script>
     <script type="text/javascript" src="lib/PIE_IE678.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="script/biz/checkCode.js"></script>
     <link href="css/H-ui.min.css" rel="stylesheet" type="text/css"/>
     <link href="css/H-ui.admin.css" rel="stylesheet" type="text/css"/>
     <link href="lib/icheck/icheck.css" rel="stylesheet" type="text/css"/>
@@ -57,6 +58,7 @@
             display: inline-block;
             width: 80px;
             text-align: right;
+            vertical-align: top;
             /*background: paleturquoise;*/
         }
 
@@ -64,6 +66,7 @@
             display: inline-block;
             width: 160px;
             text-align: left;
+            vertical-align: top;
             /*background: bisque;*/
         }
     </style>
@@ -77,7 +80,7 @@
             <label name="title0"></label>
             <div name="content0"></div>
         </div>
-        <div class="item-div item-right">
+        <div class="item-div item-righ-t">
             <label name="title1"></label>
             <div name="content1"></div>
         </div>
@@ -85,65 +88,6 @@
 </div>
 <%@include file="/footer.jsp" %>
 <script type="text/javascript">
-
-    var keyAndValueList = [
-        {title: "计划批次", key: "bizCheckDetail.planBatchName", map: ""},
-        {title: "省份", key: "bizStore.provinceName", map: ""},
-        {title: "城市", key: "bizStore.cityName", map: ""},
-        {title: "4", key: "bizStore.channelName", map: ""},
-        {title: "5", key: "bizStore.companyName", map: ""},
-        {title: "6", key: "bizStore.storeName", map: ""},
-        {title: "7", key: "bizStore.platformName", map: ""},
-        {title: "8", key: "bizStore.addressDetail", map: ""},
-        {title: "9", key: "bizStore.channelManagerName", map: ""},
-        {title: "0", key: "bizStore.channelManagerPhone", map: ""},
-        {title: "11", key: "bizCheckDetail.checkUserName", map: ""},
-        {title: "12", key: "bizCheckDetail.checkTime", map: ""},
-        {title: "13", key: "bizCheckDetail.checkLongitude", map: ""},
-        {title: "", key: "bizCheckDetail.checkLatitude", map: ""},
-        {title: "", key: "bizCheckDetail.storeExistsok", map: ""},
-        {title: "", key: "bizCheckDetail.storeRealnameok", map: ""},
-        {title: "", key: "bizCheckDetail.storeCheckProvinceName", map: ""},
-        {title: "", key: "bizCheckDetail.storeCheckCityName", map: ""},
-        {title: "", key: "bizCheckDetail.storeAddress", map: ""},
-        {title: "", key: "bizCheckDetail.storeRegiontype", map: "checkRegionMap"},
-        {title: "", key: "bizCheckDetail.storeMendiantype", map: "checkMendianMap"},
-        {title: "", key: "bizCheckDetail.storeYtsqtype", map: "checkYtsqMap"},
-        {title: "", key: "bizCheckDetail.storeAreatype", map: "checkAreaMap"},
-        {title: "", key: "bizCheckDetail.storeMemberstype", map: "checkMembersMap"},
-        {title: "", key: "bizCheckDetail.storeNmonthChangeok", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.storeBusyUsercount", map: ""},
-        {title: "", key: "bizCheckDetail.storeFreeUsercount", map: ""},
-        {title: "", key: "bizCheckDetail.storeMemberBusscope", map: "checkScopMap"},
-        {title: "", key: "bizCheckDetail.storeMemberTaocanScope", map: "checkScopMap"},
-        {title: "", key: "bizCheckDetail.storeMemberTerminalPolicy", map: "checkScopMap"},
-        {title: "", key: "bizCheckDetail.storeMemeberActivesellok", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.store4gok", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.storeAllnetok", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.storeFirstRecdTerminal", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.storeHealthok", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.storeConductok", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.storeDonglineok", map: "checkOkMap"},
-        {title: "", key: "bizCheckDetail.storeMonthSalecount", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeDifExpandability", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeDoortouok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeDengxiangok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeBrandok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeQrcode", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeRealnameNoticeok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeBackwall", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeBartie", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZqOppok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZqJinliok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZqVivook", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZqHuaweiok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZqSamsongok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZqAppleok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZqMeizuok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeZq2g3gok", map: "checkLiangMap"},
-        {title: "", key: "bizCheckDetail.storeKccheckOutcount", map: ""},
-        {title: "", key: "bizCheckDetail.storeKccheckSelfcount", map: ""}
-    ]
 
     function backgo() {
         window.location.href = "import/toXuserList";
@@ -155,6 +99,7 @@
 
     function getCheckDetail() {
         var id = "${id}";
+        var index = parent.layer.load();
         $.ajax({
             type: "get",
             url: "check/detail/query/" + id,
@@ -163,6 +108,7 @@
             dataType: "json",
             success: function (data) {
                 console.info(data);
+                parent.layer.close(index);
                 var tempLineStr = $("#tempLine").html();
                 var wrapper = $("#wrapper");
                 var $tempLine = null;
@@ -175,7 +121,11 @@
                     }
                     $tempLine.find("[name='title"+n+"']").html(obj.title);
                     var arr = obj.key.split(".");
-                    $tempLine.find("[name='content"+n+"']").html(data[arr[0]][arr[1]]);
+                    var value = data[arr[0]][arr[1]];
+                    if(obj.map && $.trim(obj.map) != ""){
+                        value = window[obj.map](value);
+                    }
+                    $tempLine.find("[name='content"+n+"']").html(value);
                 }
             },
             error: function () {
