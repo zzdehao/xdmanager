@@ -18,6 +18,7 @@
     <result column="blz1" jdbcType="VARCHAR" property="blz1" />
     <result column="blz2" jdbcType="VARCHAR" property="blz2" />
     <result column="blz3" jdbcType="VARCHAR" property="blz3" />
+    <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -80,7 +81,7 @@
   <sql id="Base_Column_List">
     id, import_type, batch_name, file_name, file_path, create_user_id, create_user_name, 
     create_time, is_deleted, delete_user_id, delete_user_name, delete_time, remark, blz1, 
-    blz2, blz3
+    blz2, blz3, state
   </sql>
   <select id="selectByExample" parameterType="com.tf.biz.imp.entity.BizImportBatchExample" resultMap="BaseResultMap">
     select
@@ -125,12 +126,14 @@
       file_path, create_user_id, create_user_name, 
       create_time, is_deleted, delete_user_id, 
       delete_user_name, delete_time, remark, 
-      blz1, blz2, blz3)
+      blz1, blz2, blz3, state
+      )
     values (#{importType,jdbcType=INTEGER}, #{batchName,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{filePath,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, 
       #{deleteUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{blz1,jdbcType=VARCHAR}, #{blz2,jdbcType=VARCHAR}, #{blz3,jdbcType=VARCHAR})
+      #{blz1,jdbcType=VARCHAR}, #{blz2,jdbcType=VARCHAR}, #{blz3,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tf.biz.imp.entity.BizImportBatch" useGeneratedKeys="true">
     insert into biz_import_batch
@@ -180,6 +183,9 @@
       <if test="blz3 != null">
         blz3,
       </if>
+      <if test="state != null">
+        state,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="importType != null">
@@ -226,6 +232,9 @@
       </if>
       <if test="blz3 != null">
         #{blz3,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -286,6 +295,9 @@
       <if test="record.blz3 != null">
         blz3 = #{record.blz3,jdbcType=VARCHAR},
       </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -308,7 +320,8 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       blz1 = #{record.blz1,jdbcType=VARCHAR},
       blz2 = #{record.blz2,jdbcType=VARCHAR},
-      blz3 = #{record.blz3,jdbcType=VARCHAR}
+      blz3 = #{record.blz3,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -361,6 +374,9 @@
       <if test="blz3 != null">
         blz3 = #{blz3,jdbcType=VARCHAR},
       </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -380,7 +396,8 @@
       remark = #{remark,jdbcType=VARCHAR},
       blz1 = #{blz1,jdbcType=VARCHAR},
       blz2 = #{blz2,jdbcType=VARCHAR},
-      blz3 = #{blz3,jdbcType=VARCHAR}
+      blz3 = #{blz3,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

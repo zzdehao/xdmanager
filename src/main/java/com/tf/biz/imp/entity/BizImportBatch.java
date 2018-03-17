@@ -35,6 +35,8 @@ public class BizImportBatch {
 
     private String blz3;
 
+    private Integer state;
+
     public Long getId() {
         return id;
     }
@@ -161,5 +163,13 @@ public class BizImportBatch {
 
     public void setBlz3(String blz3) {
         this.blz3 = blz3 == null ? null : blz3.trim();
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }
