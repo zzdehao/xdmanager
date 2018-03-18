@@ -476,16 +476,15 @@
             }
         });
     }
-    var batchUrl = "common/batch?typeList=31,32,33";
+    var batchUrl = "common/batch/list?typeList=31,32,33";
     function getBatch(){
         $.get(batchUrl, function(data){
             console.info(data)
-            let codes = ['31', '32', '33'];
             let $batch = $("#batchId");
-            codes.forEach(function(batch){
+            data.forEach(function(batch){
                 let $option = $("<option></option>");
-                $option.val(batch[i].id);
-                $option.text(batch[i].batchName);
+                $option.val(batch.id);
+                $option.text(batch.batchName);
                 $batch.append($option);
             })
         });

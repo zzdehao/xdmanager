@@ -42,7 +42,7 @@ public class StoreController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/store/map/query", method = {RequestMethod.POST})
+    @RequestMapping(value = "/store/map/query", method = {RequestMethod.GET})
     @ResponseBody
     public Object storeQuery(@RequestParam Map<String, String> param) throws Exception {
         BizStoreExample example = new BizStoreExample();

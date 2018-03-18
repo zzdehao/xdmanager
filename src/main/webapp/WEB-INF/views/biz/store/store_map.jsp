@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
 <html>
 <head>
+    <base href="<%=basePath %>">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -149,16 +154,15 @@
         getBatch();
     }
 
-    var batchUrl = "common/batch?typeList=11,12,13";
+    var batchUrl = "common/batch/list?typeList=11,12,13";
     function getBatch(){
         $.get(batchUrl, function(data){
             console.info(data)
-            let codes = ['31', '32', '33'];
             let $batch = $("#batchId");
-            codes.forEach(function(batch){
+            data.forEach(function(batch){
                 let $option = $("<option></option>");
-                $option.val(batch[i].id);
-                $option.text(batch[i].batchName);
+                $option.val(batch.id);
+                $option.text(batch.batchName);
                 $batch.append($option);
             })
         });
@@ -216,15 +220,14 @@
             formData.endTime = endTime + " 23:59:59"
         }
 
-        let form = JSON.stringify(formData);
+//        let form = JSON.stringify(formData);
         map.clearMap();
         $.ajax({
-            cache: true,
-            type: "POST",
+            type: "GET",
             dataType: 'json',
             contentType: "application/json",
             url: url,//xd.169ol.com:8090/WeChatTest
-            data: form,//$('#searchForm').serialize(),// 你的formid
+            data: formData,//$('#searchForm').serialize(),// 你的formid
             //async: false,
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 layer.close(index);

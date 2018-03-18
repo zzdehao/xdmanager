@@ -124,7 +124,7 @@
 <script type="text/javascript">
 
     var queryUrl = "${staticPath}/check/route/query";
-    var batchUrl = "${staticPath}/common/batch?typeList=11&typeList=11";
+    var batchUrl = "${staticPath}/common/batch/list?typeList=11,12,13";
 
     var channelMap = {
         "11" : "自有渠道",
@@ -137,16 +137,16 @@
     });
 
     function init(){
+
         $.get(batchUrl, function(data){
             console.info(data)
-            let batch11 = data["11"];
-            let $batch = $("#batch");
-            for(let i = 0; i < batch11.length; i++){
+            let $batch = $("#batchId");
+            data.forEach(function(batch){
                 let $option = $("<option></option>");
-                $option.val(batch11[i].id);
-                $option.text(batch11[i].batchName);
+                $option.val(batch.id);
+                $option.text(batch.batchName);
                 $batch.append($option);
-            }
+            })
         });
     }
 
@@ -206,7 +206,6 @@
         var index = layer.load(0, {shade: [0.1, '#fff']});
         map.clearMap();
         $.ajax({
-            cache: true,
             type: "POST",
             dataType: 'json',
             contentType:"application/json",
