@@ -392,7 +392,7 @@
                 var $query = $(queryStr);
                 var $select = $query.find("select");
                 $select.attr("name", $th.attr("keyName"));
-                $query.prepend("<label>" + $th.html() + "</label>");
+                $query.prepend("<label>" + $th.html() + "：</label>");
                 var map = checkMap[queryMapKey];
                 for (var p in map) {
                     var $option = $("<option></option>");
@@ -482,18 +482,11 @@
             console.info(data)
             let codes = ['31', '32', '33'];
             let $batch = $("#batchId");
-            codes.forEach(function(b){
-                let batch = data[b];
-                console.info(batch);
-                if(!batch){
-                    return;
-                }
-                for(let i = 0; i < batch.length; i++){
-                    let $option = $("<option></option>");
-                    $option.val(batch[i].id);
-                    $option.text(batch[i].batchName);
-                    $batch.append($option);
-                }
+            codes.forEach(function(batch){
+                let $option = $("<option></option>");
+                $option.val(batch[i].id);
+                $option.text(batch[i].batchName);
+                $batch.append($option);
             })
         });
     }

@@ -26,4 +26,11 @@ public class CommonController {
         Map<Integer, List<BizImportBatch>> importBatchMap = list.stream().collect(Collectors.groupingBy(BizImportBatch::getImportType, Collectors.toList()));
         return importBatchMap;
     }
+
+    @RequestMapping(value = "/common/batch/list", method = {RequestMethod.GET})
+    @ResponseBody
+    public Object batchListQuery(@RequestParam List<Integer> typeList) throws Exception {
+        List<BizImportBatch> list = this.importService.queryBatchByTypes(typeList);
+        return list;
+    }
 }
