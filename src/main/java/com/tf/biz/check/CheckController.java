@@ -10,7 +10,10 @@ import com.tf.biz.store.StoreService;
 import com.tf.biz.store.entity.BizStore;
 import com.tf.biz.store.entity.BizStoreExample;
 import com.tf.tadmin.controller.BaseController;
+import com.tf.tadmin.entity.Admin;
 import com.tf.tadmin.entity.Pager;
+import com.tf.tadmin.service.AdminService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +53,9 @@ public class CheckController extends BaseController {
 
     @Autowired
     private StoreService storeService;
+
+    @Autowired
+    private AdminService adminService;
 
 
     @Value("${upload.dir}")
@@ -169,6 +175,12 @@ public class CheckController extends BaseController {
             criteria.andCheckTimeGreaterThanOrEqualTo(checkDetailRequest.getStartTime());
         } else if (checkDetailRequest.getEndTime() != null) {
             criteria.andCheckTimeLessThanOrEqualTo(checkDetailRequest.getEndTime());
+        }
+        if(StringUtils.isNotBlank(checkDetailRequest.getPhone())){
+            Admin admin = this.adminService.get(checkDetailRequest.getPhone());
+            if(admin != null){
+                criteria.andCheckUserIdEqualTo(Long.valueOf(admin.getId()));
+            }
         }
 
     }

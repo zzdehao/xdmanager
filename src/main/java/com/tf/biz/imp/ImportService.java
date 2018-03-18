@@ -92,7 +92,7 @@ public class ImportService {
     public List<BizImportBatch> queryBatchByTypes(List<Integer> typeIdList){
         BizImportBatchExample example = new BizImportBatchExample();
         example.createCriteria().andImportTypeIn(typeIdList);
-        example.setOrderByClause("create_time");
+        example.setOrderByClause("create_time desc");
         return this.bizImportBatchMapper.selectByExample(example);
     }
 

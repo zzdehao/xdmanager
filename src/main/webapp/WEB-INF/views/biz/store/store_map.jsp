@@ -92,41 +92,24 @@
             <form class="form-inline" id="searchForm" method="get" action="../data/allDataWithCds">
                 <li>
                     <div class="form-group">
-                        <label for="xdPhone">巡店人员(手机号)</label>
-                        <input type="text" class="form-control input-sm" id="xdPhone" name="xdPhone" value=""
-                               style="width: 100px">
-                    </div>&nbsp;
-
+                        <label for="storeName">店铺名称</label>
+                        <input type="text" class="form-control input-sm" id="storeName" name="storeName" value="" style="width: 100px">
+                    </div>
                     <div class="form-group">
-                        <label for="batch">批次</label>
-                        <select id="batch" class="form-control input-sm" name="batch">
-                            <option value="0">全部</option>
-                            <option value="1">1批次</option>
-                            <option value="2">2批次</option>
-                            <option value="3">3批次</option>
+                        <label for="channelCode">渠道类型</label>
+                        <select id="channelCode" class="form-control input-sm" name="channelCode">
+                            <option value="">全部</option>
+                            <option value="11">自有渠道</option>
+                            <option value="12">社会渠道</option>
+                            <option value="13">小微渠道</option>
                         </select>
                     </div>
-                    <%--&nbsp;--%>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="grid">网格</label>--%>
-                    <%--<select id="grid" class="form-control input-sm" name="grid" style="width: 70px;">--%>
-                    <%--<option value="all">全部</option>--%>
-                    <%--<option value="未知">未知</option>--%>
-                    <%--<option value="成华区青龙综合网格">成华区青龙综合网格</option>--%>
-                    <%--<option value="成华区新鸿综合网格">成华区新鸿综合网格</option>--%>
-                    <%--<option value="崇州市综合网格">崇州市综合网格</option>--%>
-                    <%--</select>--%>
-                    <%--</div>--%>
-                    <%--&nbsp;--%>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="city">地市</label>--%>
-                    <%--<select id="city" class="form-control input-sm" name="city">--%>
-                    <%--<option value="all">全部</option>--%>
-                    <%--<option value="乐山">乐山</option>--%>
-                    <%--<option value="内江">内江</option>--%>
-                    <%--<option value="凉山">凉山</option>--%>
-                    <%--</select>--%>
-                    <%--</div>--%>
+                    <div class="form-group">
+                        <label for="batchId">批次</label>
+                        <select id="batchId" class="form-control input-sm" name="batchId">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
                     &nbsp;
                     <div class="form-group">
                         <label for="startTime">时间段</label>
@@ -151,13 +134,34 @@
 </html>
 <script type="text/javascript">
 
-    var url = "${staticPath}/store/map/query";
-
-
     var channelMap = {
         "11" : "自有渠道",
-        "12" : "aaaa",
-        "13" : "bbbb",
+        "12" : "社会渠道",
+        "13" : "小微渠道",
+    }
+
+    $(function(){
+        init();
+    });
+
+
+    function init(){
+        getBatch();
+    }
+
+    var batchUrl = "common/batch?typeList=11,12,13";
+    function getBatch(){
+        $.get(batchUrl, function(data){
+            console.info(data)
+            let codes = ['31', '32', '33'];
+            let $batch = $("#batchId");
+            codes.forEach(function(batch){
+                let $option = $("<option></option>");
+                $option.val(batch[i].id);
+                $option.text(batch[i].batchName);
+                $batch.append($option);
+            })
+        });
     }
 
     var colors=["#FF2D2D","#600000","#900041","#FF359A","#460046","#930093","#FF00FF",
@@ -182,8 +186,37 @@
         geolocation.getCurrentPosition();
     });
 
+    var url = "${staticPath}/store/map/query";
     $("#searchBtn").bind("click", function () {
         var index = layer.load(0, {shade: [0.1, '#fff']});
+        formData = {};
+
+        let channelCode = $("#channelCode").val();
+        if(channelCode != ""){
+            formData.channelCode = channelCode;
+        }
+
+        let storeName = $("#storeName").val();
+        if(storeName != ""){
+            formData.storeName = storeName;
+        }
+
+        let batchId = $("#batchId").val();
+        if(batchId != ""){
+            formData.batchId = batchId;
+        }
+
+        let startTime = $("#startTime").val();
+        if(startTime != ""){
+            formData.startTime = startTime + " 00:00:00"
+        }
+
+        let endTime = $("#endTime").val();
+        if(endTime != ""){
+            formData.endTime = endTime + " 23:59:59"
+        }
+
+        let form = JSON.stringify(formData);
         map.clearMap();
         $.ajax({
             cache: true,
@@ -191,7 +224,7 @@
             dataType: 'json',
             contentType: "application/json",
             url: url,//xd.169ol.com:8090/WeChatTest
-            data: JSON.stringify({}),//$('#searchForm').serialize(),// 你的formid
+            data: form,//$('#searchForm').serialize(),// 你的formid
             //async: false,
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 layer.close(index);

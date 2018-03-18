@@ -91,13 +91,13 @@
             <form class="form-inline" id="searchForm" method="get" action="../data/allDataWithCds">
                 <li>
                     <div class="form-group">
-                        <label for="xdPhone">巡店人员(手机号)</label>
-                        <input type="text" class="form-control input-sm" id="xdPhone" name="xdPhone" value="" style="width: 100px">
+                        <label for="phone">巡店人员(手机号)</label>
+                        <input type="text" class="form-control input-sm" id="phone" name="phone" value="" style="width: 100px">
                     </div>
                     &nbsp;
                     <div class="form-group">
-                        <label for="batch">批次</label>
-                        <select id="batch" class="form-control input-sm" name="batch">
+                        <label for="batchId">批次</label>
+                        <select id="batchId" class="form-control input-sm" name="batchId">
                             <option value="">全部</option>
                         </select>
                     </div>
@@ -151,12 +151,6 @@
     }
 
 
-    var map = new AMap.Map('container',{
-        resizeEnable: true,
-        zoom: 10
-    });
-
-
     /***************************************
      由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。
      ***************************************/
@@ -188,14 +182,14 @@
     $("#searchBtn").bind("click", function () {
         formData = {};
 
-        let batch = $("#batch").val();
-        if(batch != ""){
-            formData.batchId = batch;
+        let batchId = $("#batchId").val();
+        if(batchId != ""){
+            formData.batchId = batchId;
         }
 
-        let xdPhone = $("#xdPhone").val();
-        if(xdPhone != ""){
-            formData.phone = xdPhone;
+        let phone = $("#phone").val();
+        if(phone != ""){
+            formData.phone = phone;
         }
 
         let startTime = $("#startTime").val();
