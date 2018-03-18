@@ -29,7 +29,7 @@
     <link href="lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
         .wrapper {
-            width: 70%;
+            width: 90%;
             padding: 100px 0;
             margin: 40px auto;
             background: #efefef;
@@ -56,7 +56,7 @@
 
         .item-div label {
             display: inline-block;
-            width: 80px;
+            width: 190px;
             text-align: right;
             vertical-align: top;
             /*background: paleturquoise;*/
@@ -64,7 +64,7 @@
 
         .item-div div {
             display: inline-block;
-            width: 160px;
+            width: 270px;
             text-align: left;
             vertical-align: top;
             /*background: bisque;*/
